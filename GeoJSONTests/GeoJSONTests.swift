@@ -8,6 +8,8 @@
 
 import UIKit
 import XCTest
+import GeoJSON
+
 
 class GeoJSONTests: XCTestCase {
     
@@ -23,6 +25,13 @@ class GeoJSONTests: XCTestCase {
     
     func testExample() {
         // This is an example of a functional test case.
+        
+        let string = NSString(string:"{ \"type\": \"Point\", \"coordinates\": [100.0, 0.0] }")
+        let data = string.dataUsingEncoding(NSUTF8StringEncoding)!
+        let json = JSON(data:data)
+        
+        let geoJSON = GeoJSON(json:json)
+        
         XCTAssert(true, "Pass")
     }
     
