@@ -13,33 +13,37 @@ import GeoJSON
 
 class GeoJSONTests: XCTestCase {
     
+    var geoJSON :GeoJSON!
+    
+    
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    func testExample() {
-        // This is an example of a functional test case.
         
-        let string = NSString(string:"{ \"type\": \"Point\", \"coordinates\": [100.0, 0.0] }")
+        let string = NSString(string:"{ \"type\": \"Point\", \"coordinates\": [42.0, 24.0] }")
         let data = string.dataUsingEncoding(NSUTF8StringEncoding)!
         let json = JSON(data:data)
         
-        let geoJSON = GeoJSON(json:json)
-        
-        XCTAssert(true, "Pass")
+        geoJSON = GeoJSON(json:json)
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock() {
-            // Put the code you want to measure the time of here.
+    override func tearDown() {
+        geoJSON = nil
+        
+        super.tearDown()
+    }
+    
+    func testBasicPointShouldBeRecognisedAsSuch() {
+        
+        XCTAssertEqual(geoJSON.type,GeoJSONType.Point)
+    }
+    
+    func testBasicPointShouldBeParsedCorrectly() {
+        
+        if let geoPoint = geoJSON.point {
+            XCTAssertEqualWithAccuracy(geoPoint.coordinates[0], 42.0, 0.000001)
+            XCTAssertEqualWithAccuracy(geoPoint.coordinates[1], 24.0, 0.000001)
+        } else {
+            XCTFail("Point not parsed Properly")
         }
     }
-    
 }

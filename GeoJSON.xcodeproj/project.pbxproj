@@ -101,8 +101,8 @@
 			isa = PBXGroup;
 			children = (
 				64FC94841A24A59400E83F60 /* GeoJSON.h */,
-				64FC94821A24A59400E83F60 /* Supporting Files */,
 				2049007A1A275B6D0001E4AC /* GeoJSON.swift */,
+				64FC94821A24A59400E83F60 /* Supporting Files */,
 			);
 			path = GeoJSON;
 			sourceTree = "<group>";

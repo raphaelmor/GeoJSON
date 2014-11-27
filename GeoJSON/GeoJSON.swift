@@ -23,11 +23,11 @@ GeoJSON's type definitions.
 
 See http://geojson.org/geojson-spec.html
 */
-public enum GeoJSONType :Int{
+public enum GeoJSONType : String {
     
-    case Point
-    case Null
-    case Unknown
+    case Point = "Point"
+    case Null = "Null"
+    case Unknown = ""
 }
 
 // MARK: - GeoJSON Base
@@ -68,44 +68,18 @@ public class GeoJSON {
     
     public init(json: JSON) {
         
-        let jsonType = json["type"]
-        
-        if jsonType != JSON.nullJSON {
-            let type = jsonType.stringValue
-            println("json type : \(type)")
+        if let typeString = json["type"].string {
+            if let type = GeoJSONType(rawValue: typeString) {
+                switch type {
+                case .Point :
+                    if let point = Point(json: json) {
+                        self.object = point
+                    }
+                default :
+                    print("foo")
+                }
+            }
         }
-        else {
-            
-        }
-    }
-
-}
-
-// MARK: - Position Type
-
-public struct Position {
-    
-    /// Coordinates
-    private var coordinates: [Double] = [0.0,0.0,0.0]
-    
-    public var longitude: Double {
-        get { return coordinates[0] }
-        set { coordinates[0] = newValue }
-    }
-    
-    public var latitude: Double {
-        get { return coordinates[1] }
-        set { coordinates[1] = newValue }
-    }
-    
-    public var altitude: Double {
-        get { return coordinates[2] }
-        set { coordinates[2] = newValue }
-    }
-    
-    subscript(index: Int) -> Double {
-        get { return coordinates[index] }
-        set { coordinates[index] = newValue }
     }
 }
 
@@ -114,10 +88,24 @@ public struct Position {
 public class Point {
     
     /// Private coordinates
-    private var _coordinates: Position = Position()
+    private var _coordinates: [Double] = [0.0,0.0]
     
     /// Public coordinates
-    public var coordinates: Position { get { return _coordinates } }
+    public var coordinates: [Double] { get { return _coordinates } }
+    
+    public init?(json: JSON) {
+        let optCoord = json["coordinates"]
+        if let coordinates =  optCoord.array {
+        
+            if coordinates.count < 2 { return nil }
+            _coordinates = coordinates.map {
+                Double($0.doubleValue)
+            }
+        } else {
+            
+        }
+        
+    }
 }
 
 public extension GeoJSON {
