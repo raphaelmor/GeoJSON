@@ -7,28 +7,43 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20062AC11A28D22200435A5D /* GeoJSON.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 64FC947F1A24A59400E83F60 /* GeoJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2049007B1A275B6D0001E4AC /* GeoJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2049007A1A275B6D0001E4AC /* GeoJSON.swift */; };
+		204900B31A27865D0001E4AC /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 204900921A27865D0001E4AC /* SwiftyJSON.swift */; };
+		20FD3CBE1A28B30F00F54E44 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 20FD3CBC1A28B30F00F54E44 /* LICENSE */; };
+		20FD3CBF1A28B30F00F54E44 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 20FD3CBD1A28B30F00F54E44 /* README.md */; };
+		20FD3CC11A28BA6D00F54E44 /* GeoJSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FD3CC01A28BA6D00F54E44 /* GeoJSONTests.swift */; };
 		64FC94851A24A59400E83F60 /* GeoJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 64FC94841A24A59400E83F60 /* GeoJSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		64FC948B1A24A59400E83F60 /* GeoJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64FC947F1A24A59400E83F60 /* GeoJSON.framework */; };
-		64FC94921A24A59400E83F60 /* GeoJSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FC94911A24A59400E83F60 /* GeoJSONTests.swift */; };
+		64FC94921A24A59400E83F60 /* PointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FC94911A24A59400E83F60 /* PointTests.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		64FC948C1A24A59400E83F60 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 64FC94761A24A59400E83F60 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 64FC947E1A24A59400E83F60;
-			remoteInfo = GeoJSON;
+/* Begin PBXCopyFilesBuildPhase section */
+		20FD3CC21A28D1E200F54E44 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				20062AC11A28D22200435A5D /* GeoJSON.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXContainerItemProxy section */
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2049007A1A275B6D0001E4AC /* GeoJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoJSON.swift; sourceTree = "<group>"; };
+		204900921A27865D0001E4AC /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		20FD3CBC1A28B30F00F54E44 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		20FD3CBD1A28B30F00F54E44 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		20FD3CC01A28BA6D00F54E44 /* GeoJSONTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoJSONTests.swift; sourceTree = "<group>"; };
 		64FC947F1A24A59400E83F60 /* GeoJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GeoJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		64FC94831A24A59400E83F60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		64FC94841A24A59400E83F60 /* GeoJSON.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeoJSON.h; sourceTree = "<group>"; };
 		64FC948A1A24A59400E83F60 /* GeoJSONTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GeoJSONTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		64FC94901A24A59400E83F60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		64FC94911A24A59400E83F60 /* GeoJSONTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoJSONTests.swift; sourceTree = "<group>"; };
+		64FC94911A24A59400E83F60 /* PointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,11 +65,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2049007D1A27865D0001E4AC /* 3rdParty */ = {
+			isa = PBXGroup;
+			children = (
+				2049007E1A27865D0001E4AC /* SwiftyJSON */,
+			);
+			path = 3rdParty;
+			sourceTree = "<group>";
+		};
+		2049007E1A27865D0001E4AC /* SwiftyJSON */ = {
+			isa = PBXGroup;
+			children = (
+				2049008F1A27865D0001E4AC /* Source */,
+			);
+			path = SwiftyJSON;
+			sourceTree = "<group>";
+		};
+		2049008F1A27865D0001E4AC /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				204900921A27865D0001E4AC /* SwiftyJSON.swift */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
 		64FC94751A24A59400E83F60 = {
 			isa = PBXGroup;
 			children = (
+				20FD3CBC1A28B30F00F54E44 /* LICENSE */,
+				20FD3CBD1A28B30F00F54E44 /* README.md */,
 				64FC94811A24A59400E83F60 /* GeoJSON */,
 				64FC948E1A24A59400E83F60 /* GeoJSONTests */,
+				2049007D1A27865D0001E4AC /* 3rdParty */,
 				64FC94801A24A59400E83F60 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -72,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				64FC94841A24A59400E83F60 /* GeoJSON.h */,
+				2049007A1A275B6D0001E4AC /* GeoJSON.swift */,
 				64FC94821A24A59400E83F60 /* Supporting Files */,
 			);
 			path = GeoJSON;
@@ -88,7 +131,8 @@
 		64FC948E1A24A59400E83F60 /* GeoJSONTests */ = {
 			isa = PBXGroup;
 			children = (
-				64FC94911A24A59400E83F60 /* GeoJSONTests.swift */,
+				64FC94911A24A59400E83F60 /* PointTests.swift */,
+				20FD3CC01A28BA6D00F54E44 /* GeoJSONTests.swift */,
 				64FC948F1A24A59400E83F60 /* Supporting Files */,
 			);
 			path = GeoJSONTests;
@@ -141,11 +185,11 @@
 				64FC94861A24A59400E83F60 /* Sources */,
 				64FC94871A24A59400E83F60 /* Frameworks */,
 				64FC94881A24A59400E83F60 /* Resources */,
+				20FD3CC21A28D1E200F54E44 /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				64FC948D1A24A59400E83F60 /* PBXTargetDependency */,
 			);
 			name = GeoJSONTests;
 			productName = GeoJSONTests;
@@ -175,6 +219,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 64FC94751A24A59400E83F60;
 			productRefGroup = 64FC94801A24A59400E83F60 /* Products */;
@@ -192,6 +237,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20FD3CBE1A28B30F00F54E44 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +255,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20FD3CBF1A28B30F00F54E44 /* README.md in Sources */,
+				204900B31A27865D0001E4AC /* SwiftyJSON.swift in Sources */,
+				2049007B1A275B6D0001E4AC /* GeoJSON.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,19 +265,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64FC94921A24A59400E83F60 /* GeoJSONTests.swift in Sources */,
+				64FC94921A24A59400E83F60 /* PointTests.swift in Sources */,
+				20FD3CC11A28BA6D00F54E44 /* GeoJSONTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		64FC948D1A24A59400E83F60 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 64FC947E1A24A59400E83F60 /* GeoJSON */;
-			targetProxy = 64FC948C1A24A59400E83F60 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		64FC94931A24A59400E83F60 /* Debug */ = {
@@ -319,6 +361,7 @@
 		64FC94961A24A59400E83F60 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -328,12 +371,14 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		64FC94971A24A59400E83F60 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -395,6 +440,7 @@
 				64FC94971A24A59400E83F60 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		64FC94981A24A59400E83F60 /* Build configuration list for PBXNativeTarget "GeoJSONTests" */ = {
 			isa = XCConfigurationList;
@@ -403,6 +449,7 @@
 				64FC949A1A24A59400E83F60 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
