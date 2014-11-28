@@ -1,30 +1,39 @@
+// GeoJSON.swift
 //
-//  GeoJSON.swift
-//  GeoJSON
+// The MIT License (MIT)
 //
-//  Created by Raphael MOR on 27/11/2014.
-//  Copyright (c) 2014 RAMO Apps. All rights reserved.
+// Copyright (c) 2014 Raphaël Mor
 //
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
 import Foundation
 
 // MARK: - Error
 
-///Error domain
+public let GeoJSONErrorDomain: String = "GeoJSONErrorDomain"
 
-//public let ErrorDomain: String! = "GeoJSONErrorDomain"
-//
-//public let ErrorUnsupportedType: Int! = 999
+public let GeoJSONErrorUnsupportedType: Int = 999
+public let GeoJSONErrorInvalidGeoJSONObject: Int = 998
+// MARK: - GeoJSON Type definitions 
+// See http://geojson.org/geojson-spec.html
 
-// MARK: - GeoJSON Type
-
-/**
-GeoJSON's type definitions.
-
-See http://geojson.org/geojson-spec.html
-*/
-public enum GeoJSONType : String {
-    
+public enum GeoJSONType: String {
     case Point = "Point"
     case Null = "Null"
     case Unknown = ""
@@ -40,8 +49,7 @@ public class GeoJSON {
     private var _object: AnyObject = NSNull()
     /// Private error
     private var _error: NSError?
-    
-    
+	
     /// GeoJSON object type
     public var type: GeoJSONType { get { return _type } }
     
@@ -57,8 +65,8 @@ public class GeoJSON {
                 _type = .Point
             default:
                 _type = .Unknown
-                _object = NSNull()
-                _error = NSError(domain: ErrorDomain, code: ErrorUnsupportedType, userInfo: [NSLocalizedDescriptionKey: "It is a unsupported type"])
+//                _object = NSNull()
+//                _error = NSError(domain: GeoJSONErrorDomain, code: GeoJSONErrorInvalidGeoJSONObject, userInfo: [NSLocalizedDescriptionKey: "GeoJSON Object is invalid"])
             }
         }
     }
@@ -72,13 +80,21 @@ public class GeoJSON {
             if let type = GeoJSONType(rawValue: typeString) {
                 switch type {
                 case .Point :
-                    if let point = Point(json: json) {
-                        self.object = point
-                    }
+					self.object = Point(json: json) ?? NSNull()
                 default :
-                    print("foo")
+					println("foo")
                 }
+				
+				if let object = self.object as? NSNull {
+					_type = .Unknown
+					_error = NSError(domain: GeoJSONErrorDomain, code: GeoJSONErrorInvalidGeoJSONObject, userInfo: [NSLocalizedDescriptionKey: "GeoJSON Object is invalid"])
+				}
             }
+			else {
+				_type = .Unknown
+				_object = NSNull()
+				_error = NSError(domain: GeoJSONErrorDomain, code: GeoJSONErrorUnsupportedType, userInfo: [NSLocalizedDescriptionKey: "It is a unsupported type"])
+			}
         }
     }
 }
@@ -102,9 +118,8 @@ public class Point {
                 Double($0.doubleValue)
             }
         } else {
-            
+            return nil
         }
-        
     }
 }
 

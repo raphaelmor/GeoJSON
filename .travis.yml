@@ -1,0 +1,6 @@
+language: objective-c
+before_script:
+  - export LANG=en_US.UTF-8
+script:
+  - xctool -project GeoJSON.xcodeproj -scheme GeoJSON -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+  - xctool test -project GeoJSON.xcodeproj -scheme GeoJSON -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
