@@ -64,9 +64,7 @@ public class GeoJSON {
             case let point as Point:
                 _type = .Point
             default:
-                _type = .Unknown
-//                _object = NSNull()
-//                _error = NSError(domain: GeoJSONErrorDomain, code: GeoJSONErrorInvalidGeoJSONObject, userInfo: [NSLocalizedDescriptionKey: "GeoJSON Object is invalid"])
+				_object = NSNull()
             }
         }
     }
@@ -112,8 +110,8 @@ public class Point {
     public init?(json: JSON) {
         let optCoord = json["coordinates"]
         if let coordinates =  optCoord.array {
-        
             if coordinates.count < 2 { return nil }
+			
             _coordinates = coordinates.map {
                 Double($0.doubleValue)
             }
@@ -125,7 +123,7 @@ public class Point {
 
 public extension GeoJSON {
     
-    //Optional string
+    /// Optional Point
     public var point: Point? {
         get {
             switch self.type {

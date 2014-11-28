@@ -74,6 +74,20 @@ class PointTests: XCTestCase {
 	}
 	
 	// MARK: Error cases
+	
+	func testPointWithoutCoordinatesShouldRaiseAnError() {
+		geoJSON = geoJSONfromString("{ \"type\": \"Point\" }")
+		
+		if let error = geoJSON.error {
+			XCTAssertEqual(error.domain, GeoJSONErrorDomain)
+			XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
+		}
+		else {
+			XCTFail("Invalid Point should raise an error")
+		}
+	}
+
+	
 	func testPointWithLessThanTwoCoordinatesShouldRaiseAnError() {
 		geoJSON = geoJSONfromString("{ \"type\": \"Point\", \"coordinates\": [0.0] }")
 		
