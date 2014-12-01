@@ -1,3 +1,0 @@
-[submodule "3rdParty/SwiftyJSON"]
-	path = 3rdParty/SwiftyJSON
-	url = https://github.com/SwiftyJSON/SwiftyJSON.git
