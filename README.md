@@ -1,5 +1,6 @@
-GeoJSON
-=======
+<p align="center" >
+  <img src="https://raw.githubusercontent.com/raphaelmor/GeoJSON/assets/GeoJSON.png" title="GeoJSON logo" float=left>
+</p>
 [![Build Status](https://travis-ci.org/raphaelmor/GeoJSON.svg?branch=master)](https://travis-ci.org/raphaelmor/GeoJSON)
 [![Release](https://img.shields.io/github/release/raphaelmor/GeoJSON.svg)]()
 [![Licence](http://img.shields.io/badge/Licence-MIT-lightgrey.svg)](https://github.com/raphaelmor/GeoJSON/blob/master/LICENCE)
