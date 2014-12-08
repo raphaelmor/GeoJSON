@@ -35,6 +35,7 @@ public let GeoJSONErrorInvalidGeoJSONObject: Int = 998
 
 public enum GeoJSONType: String {
     case Point = "Point"
+	case MultiPoint = "MultiPoint"
     case Null = "Null"
     case Unknown = ""
 }
@@ -63,6 +64,8 @@ public class GeoJSON {
             switch newValue {
             case let point as Point:
                 _type = .Point
+			case let multiPoint as MultiPoint:
+				_type = .MultiPoint
             default:
 				_object = NSNull()
             }
@@ -79,6 +82,8 @@ public class GeoJSON {
                 switch type {
                 case .Point :
 					self.object = Point(json: json) ?? NSNull()
+				case .MultiPoint :
+					self.object = MultiPoint(json: json) ?? NSNull()
                 default :
 					println("foo")
                 }
@@ -141,4 +146,65 @@ public extension GeoJSON {
             }
         }
     }
+}
+
+// MARK: - MultiPoint Type
+
+public class MultiPoint {
+	
+	/// Private coordinates
+	private var _coordinates: [[Double]] = []
+	
+	/// Public coordinates
+	public var coordinates: [[Double]] { get { return _coordinates } }
+	
+	public init?(json: JSON) {
+		let optCoord = json["coordinates"]
+		if let coordinatesArray =  optCoord.array {
+			let validCoordinates = coordinatesArray.filter {
+				if let coordinatesArray = $0.array {
+					return coordinatesArray.count >= 2
+				}
+				else {
+					return false
+				}
+			}
+			
+			if validCoordinates.count != coordinatesArray.count { return nil }
+			
+			_coordinates = validCoordinates.map {
+				if let coordinatesArray = $0.array {
+					return coordinatesArray.map { Double($0.doubleValue) }
+				}
+				else {
+					return []
+				}
+			}
+		}
+		else{
+			return nil
+		}
+	}
+}
+
+public extension GeoJSON {
+	
+	/// Optional Point
+	public var multiPoint: MultiPoint? {
+		get {
+			switch self.type {
+			case .MultiPoint:
+				return self.object as? MultiPoint
+			default:
+				return nil
+			}
+		}
+		set {
+			if newValue != nil {
+				self._object = newValue!
+			} else {
+				self._object = NSNull()
+			}
+		}
+	}
 }

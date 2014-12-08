@@ -45,7 +45,7 @@ class PointTests: XCTestCase {
 	// MARK: Nominal cases
     
     func testBasicPointShouldBeRecognisedAsSuch() {
-        XCTAssertEqual(geoJSON.type,GeoJSONType.Point)
+        XCTAssertEqual(geoJSON.type, GeoJSONType.Point)
     }
     
     func testBasicPointShouldBeParsedCorrectly() {  
