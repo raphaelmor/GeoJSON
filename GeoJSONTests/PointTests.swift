@@ -27,35 +27,35 @@ import XCTest
 import GeoJSON
 
 class PointTests: XCTestCase {
-    
-    var geoJSON :GeoJSON!
 	
-    override func setUp() {
-        super.setUp()
-        
-        geoJSON = geoJSONfromString("{ \"type\": \"Point\", \"coordinates\": [42.0, 24.0] }")
-    }
-    
-    override func tearDown() {
-        geoJSON = nil
-        
-        super.tearDown()
-    }
+	var geoJSON :GeoJSON!
+	
+	override func setUp() {
+		super.setUp()
+		
+		geoJSON = geoJSONfromString("{ \"type\": \"Point\", \"coordinates\": [42.0, 24.0] }")
+	}
+	
+	override func tearDown() {
+		geoJSON = nil
+		
+		super.tearDown()
+	}
 	
 	// MARK: Nominal cases
-    
-    func testBasicPointShouldBeRecognisedAsSuch() {
-        XCTAssertEqual(geoJSON.type,GeoJSONType.Point)
-    }
-    
-    func testBasicPointShouldBeParsedCorrectly() {  
-        if let geoPoint = geoJSON.point {
-            XCTAssertEqualWithAccuracy(geoPoint.coordinates[0], 42.0, 0.000001)
-            XCTAssertEqualWithAccuracy(geoPoint.coordinates[1], 24.0, 0.000001)
-        } else {
-            XCTFail("Point not parsed Properly")
-        }
-    }
+	
+	func testBasicPointShouldBeRecognisedAsSuch() {
+		XCTAssertEqual(geoJSON.type, GeoJSONType.Point)
+	}
+	
+	func testBasicPointShouldBeParsedCorrectly() {
+		if let geoPoint = geoJSON.point {
+			XCTAssertEqualWithAccuracy(geoPoint.coordinates[0], 42.0, 0.000001)
+			XCTAssertEqualWithAccuracy(geoPoint.coordinates[1], 24.0, 0.000001)
+		} else {
+			XCTFail("Point not parsed Properly")
+		}
+	}
 	
 	func testComplexPointShouldBeParsedCorrectly() {
 		geoJSON = geoJSONfromString("{ \"type\": \"Point\", \"coordinates\": [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0] }")
@@ -83,10 +83,10 @@ class PointTests: XCTestCase {
 			XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
 		}
 		else {
-			XCTFail("Invalid Point should raise an error")
+			XCTFail("Invalid Point should raise an invalid object error")
 		}
 	}
-
+	
 	
 	func testPointWithLessThanTwoCoordinatesShouldRaiseAnError() {
 		geoJSON = geoJSONfromString("{ \"type\": \"Point\", \"coordinates\": [0.0] }")
@@ -96,7 +96,7 @@ class PointTests: XCTestCase {
 			XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
 		}
 		else {
-			XCTFail("Invalid Point should raise an error")
+			XCTFail("Invalid Point should raise an invalid object error")
 		}
 	}
 }

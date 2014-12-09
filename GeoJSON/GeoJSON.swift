@@ -30,115 +30,167 @@ public let GeoJSONErrorDomain: String = "GeoJSONErrorDomain"
 
 public let GeoJSONErrorUnsupportedType: Int = 999
 public let GeoJSONErrorInvalidGeoJSONObject: Int = 998
-// MARK: - GeoJSON Type definitions 
+// MARK: - GeoJSON Type definitions
 // See http://geojson.org/geojson-spec.html
 
 public enum GeoJSONType: String {
-    case Point = "Point"
-    case Null = "Null"
-    case Unknown = ""
+	case Point = "Point"
+	case MultiPoint = "MultiPoint"
+	case Null = "Null"
+	case Unknown = ""
 }
+
+public typealias Position = [Double]
 
 // MARK: - GeoJSON Base
 
-public class GeoJSON {
-    
-    /// Private type
-    private var _type: GeoJSONType = .Null
-    /// Private object
-    private var _object: AnyObject = NSNull()
-    /// Private error
-    private var _error: NSError?
+public final class GeoJSON {
 	
-    /// GeoJSON object type
-    public var type: GeoJSONType { get { return _type } }
-    
-    /// GeoJSON Object
-    public var object: AnyObject {
-        get {
-            return _object
-        }
-        set {
-            _object = newValue
-            switch newValue {
-            case let point as Point:
-                _type = .Point
-            default:
+	/// Private type
+	private var _type: GeoJSONType = .Null
+	/// Private object
+	private var _object: AnyObject = NSNull()
+	/// Private error
+	private var _error: NSError?
+	
+	/// GeoJSON object type
+	public var type: GeoJSONType { return _type }
+	
+	/// GeoJSON Object
+	public var object: AnyObject {
+		get {
+			return _object
+		}
+		set {
+			_object = newValue
+			switch newValue {
+			case let point as Point:
+				_type = .Point
+			case let multiPoint as MultiPoint:
+				_type = .MultiPoint
+			default:
 				_object = NSNull()
-            }
-        }
-    }
-    
-    /// Error in GeoJSON
-    public var error: NSError? { get { return self._error } }
-    
-    public init(json: JSON) {
-        
-        if let typeString = json["type"].string {
-            if let type = GeoJSONType(rawValue: typeString) {
-                switch type {
-                case .Point :
-					self.object = Point(json: json) ?? NSNull()
-                default :
+			}
+		}
+	}
+	
+	/// Error in GeoJSON
+	public var error: NSError? { return _error }
+	
+	public init(json: JSON) {
+		
+		if let typeString = json["type"].string {
+			if let type = GeoJSONType(rawValue: typeString) {
+				switch type {
+				case .Point :
+					object = Point(json: json) ?? NSNull()
+				case .MultiPoint :
+					object = MultiPoint(json: json) ?? NSNull()
+				default :
 					println("foo")
-                }
+				}
 				
-				if let object = self.object as? NSNull {
+				if let _ = object as? NSNull {
 					_type = .Unknown
 					_error = NSError(domain: GeoJSONErrorDomain, code: GeoJSONErrorInvalidGeoJSONObject, userInfo: [NSLocalizedDescriptionKey: "GeoJSON Object is invalid"])
 				}
-            }
+			}
 			else {
 				_type = .Unknown
 				_object = NSNull()
 				_error = NSError(domain: GeoJSONErrorDomain, code: GeoJSONErrorUnsupportedType, userInfo: [NSLocalizedDescriptionKey: "It is a unsupported type"])
 			}
-        }
-    }
+		}
+	}
 }
 
 // MARK: - Point Type
 
-public class Point {
-    
-    /// Private coordinates
-    private var _coordinates: [Double] = [0.0,0.0]
-    
-    /// Public coordinates
-    public var coordinates: [Double] { get { return _coordinates } }
-    
-    public init?(json: JSON) {
-        let optCoord = json["coordinates"]
-        if let coordinates =  optCoord.array {
-            if coordinates.count < 2 { return nil }
+public final class Point {
+	
+	/// Private coordinates
+	private var _coordinates: Position = [0.0,0.0]
+	
+	/// Public coordinates
+	public var coordinates: Position { return _coordinates }
+	
+	public init?(json: JSON) {
+		let optCoord = json["coordinates"]
+		if let coordinates =  optCoord.array {
+			if coordinates.count < 2 { return nil }
 			
-            _coordinates = coordinates.map {
-                Double($0.doubleValue)
-            }
-        } else {
-            return nil
-        }
-    }
+			_coordinates = coordinates.map {
+				Double($0.doubleValue)
+			}
+		} else {
+			return nil
+		}
+	}
 }
 
 public extension GeoJSON {
-    
-    /// Optional Point
-    public var point: Point? {
-        get {
-            switch self.type {
-            case .Point:
-                return self.object as? Point
-            default:
-                return nil
-            }
-        }
-        set {
-            if newValue != nil {
-                self._object = newValue!
-            } else {
-                self._object = NSNull()
-            }
-        }
-    }
+	
+	/// Optional Point
+	public var point: Point? {
+		get {
+			switch type {
+			case .Point:
+				return object as? Point
+			default:
+				return nil
+			}
+		}
+		set {
+			_object = newValue ?? NSNull()
+		}
+	}
+}
+
+// MARK: - MultiPoint Type
+
+public final class MultiPoint {
+	
+	/// Private coordinates
+	private var _coordinates: [Position] = []
+	
+	/// Public coordinates
+	public var coordinates: [Position] { return _coordinates }
+	
+	public init?(json: JSON) {
+		let optCoord = json["coordinates"]
+		if let coordinatesArray =  optCoord.array {
+			let validCoordinates = coordinatesArray.filter {
+				let count = $0.array?.count ?? 0
+				return count >= 2
+			}
+			
+			if validCoordinates.count != coordinatesArray.count { return nil }
+			
+			_coordinates = validCoordinates.map {
+				let coordinatesArray = $0.array?.map { Double($0.doubleValue) } ?? []
+				return coordinatesArray
+			}
+		}
+		else{
+			return nil
+		}
+	}
+}
+
+public extension GeoJSON {
+	
+	/// Optional Point
+	public var multiPoint: MultiPoint? {
+		get {
+			switch type {
+			case .MultiPoint:
+				return object as? MultiPoint
+			default:
+				return nil
+			}
+		}
+		set {
+			_object = newValue ?? NSNull()
+		}
+	}
 }
