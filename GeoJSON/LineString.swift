@@ -24,30 +24,10 @@
 
 import Foundation
 
-public final class LineString {
-	
-	/// Private coordinates
-	private var _coordinates: [Position] = []
-	
-	/// Public coordinates
-	public var coordinates: [Position] { return _coordinates }
-	
-	public init?(json: JSON) {
-		let optCoord = json["coordinates"]
-		if let coordinates =  optCoord.array {
-			if validateCoordinates(coordinates) {
-				_coordinates = coordinates.map {
-					let doubleArray = $0.array?.map { Double($0.doubleValue) } ?? []
-					return doubleArray
-				}
-				return
-			}
-		}
-		return nil
-	}
-	
-	// MARK: - Private methods
-	private func validateCoordinates(coordinates: [JSON]) -> Bool {
+public final class LineString : MultiPoint {
+		
+	// MARK: - Internal methods
+	override func validateCoordinates(coordinates: [JSON]) -> Bool {
 		
 		let validCoordinates = coordinates.filter {
 			let count = $0.array?.count ?? 0

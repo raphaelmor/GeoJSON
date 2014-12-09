@@ -67,10 +67,10 @@ public final class GeoJSON {
 			switch newValue {
 			case let point as Point:
 				_type = .Point
-			case let multiPoint as MultiPoint:
-				_type = .MultiPoint
 			case let lineString as LineString:
 				_type = .LineString
+			case let multiPoint as MultiPoint:
+				_type = .MultiPoint
 			default:
 				_object = NSNull()
 			}

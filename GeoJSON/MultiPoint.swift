@@ -24,7 +24,7 @@
 
 import Foundation
 
-public final class MultiPoint {
+public class MultiPoint {
 	
 	/// Private coordinates
 	private var _coordinates: [Position] = []
@@ -46,8 +46,8 @@ public final class MultiPoint {
 		return nil
 	}
 	
-	// MARK: - Private methods
-	private func validateCoordinates(coordinates: [JSON]) -> Bool {
+	// MARK: - Internal methods
+	func validateCoordinates(coordinates: [JSON]) -> Bool {
 		
 		let validCoordinates = coordinates.filter {
 			let count = $0.array?.count ?? 0
