@@ -34,22 +34,28 @@ public final class MultiPoint {
 	
 	public init?(json: JSON) {
 		let optCoord = json["coordinates"]
-		if let coordinatesArray =  optCoord.array {
-			let validCoordinates = coordinatesArray.filter {
-				let count = $0.array?.count ?? 0
-				return count >= 2
-			}
-			
-			if validCoordinates.count != coordinatesArray.count { return nil }
-			
-			_coordinates = validCoordinates.map {
-				let coordinatesArray = $0.array?.map { Double($0.doubleValue) } ?? []
-				return coordinatesArray
+		if let coordinates =  optCoord.array {
+			if validateCoordinates(coordinates) {
+				_coordinates = coordinates.map {
+					let doubleArray = $0.array?.map { Double($0.doubleValue) } ?? []
+					return doubleArray
+				}
+				return
 			}
 		}
-		else{
-			return nil
+		return nil
+	}
+	
+	// MARK: - Private methods
+	private func validateCoordinates(coordinates: [JSON]) -> Bool {
+		
+		let validCoordinates = coordinates.filter {
+			let count = $0.array?.count ?? 0
+			return count >= 2
 		}
+		
+		if validCoordinates.count != coordinates.count { return false }
+		return true
 	}
 }
 
