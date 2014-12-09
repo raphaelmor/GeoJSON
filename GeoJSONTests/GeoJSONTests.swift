@@ -36,7 +36,7 @@ class GeoJSONTests: XCTestCase {
 	override func tearDown() {
 		super.tearDown()
 	}
-	
+
 	func testInvalidTypeShouldNotBeParsedCorrectly() {
 		let geoJSON = geoJSONfromString("{ \"type\": \"InvalidType\" }")
 		

@@ -29,7 +29,7 @@ import GeoJSON
 class MultiPointTests: XCTestCase {
 	
 	var geoJSON :GeoJSON!
-
+	
 	override func setUp() {
 		super.setUp()
 		
@@ -43,11 +43,11 @@ class MultiPointTests: XCTestCase {
 	}
 	
 	// MARK: Nominal cases
-
+	
 	func testBasicMultiPointShouldBeRecognisedAsSuch() {
 		XCTAssertEqual(geoJSON.type, GeoJSONType.MultiPoint)
 	}
-
+	
 	func testEmptyMultiPointShouldBeParsedCorrectly() {
 		if let geoMultiPoint = geoJSON.multiPoint {
 			XCTAssertEqual(geoMultiPoint.coordinates.count, 0)
@@ -87,6 +87,18 @@ class MultiPointTests: XCTestCase {
 	
 	func testMultiPointWithAPointWithLessThanTwoCoordinatesShouldRaiseAnError() {
 		geoJSON = geoJSONfromString("{ \"type\": \"MultiPoint\", \"coordinates\": [ [0.0, 1.0], [2.0] ] }")
+		
+		if let error = geoJSON.error {
+			XCTAssertEqual(error.domain, GeoJSONErrorDomain)
+			XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
+		}
+		else {
+			XCTFail("Invalid MultiPoint should raise an invalid object error")
+		}
+	}
+	
+	func testIllFormedMultiPointShouldRaiseAnError() {
+		geoJSON = geoJSONfromString("{ \"type\": \"MultiPoint\", \"coordinates\": [ [0.0, 1.0], {\"invalid\" : 2.0} ] }")
 		
 		if let error = geoJSON.error {
 			XCTAssertEqual(error.domain, GeoJSONErrorDomain)
