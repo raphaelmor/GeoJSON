@@ -81,7 +81,7 @@ class MultiPointTests: XCTestCase {
 			XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
 		}
 		else {
-			XCTFail("Invalid MultiPoint should raise an error")
+			XCTFail("Invalid MultiPoint should raise an invalid object error")
 		}
 	}
 	
@@ -93,7 +93,7 @@ class MultiPointTests: XCTestCase {
 			XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
 		}
 		else {
-			XCTFail("Invalid MultiPoint should raise an error")
+			XCTFail("Invalid MultiPoint should raise an invalid object error")
 		}
 	}
 }

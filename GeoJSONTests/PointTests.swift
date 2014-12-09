@@ -83,7 +83,7 @@ class PointTests: XCTestCase {
 			XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
 		}
 		else {
-			XCTFail("Invalid Point should raise an error")
+			XCTFail("Invalid Point should raise an invalid object error")
 		}
 	}
 
@@ -96,7 +96,7 @@ class PointTests: XCTestCase {
 			XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
 		}
 		else {
-			XCTFail("Invalid Point should raise an error")
+			XCTFail("Invalid Point should raise an invalid object error")
 		}
 	}
 }

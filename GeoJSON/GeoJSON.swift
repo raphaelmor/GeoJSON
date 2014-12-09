@@ -40,6 +40,8 @@ public enum GeoJSONType: String {
     case Unknown = ""
 }
 
+public typealias Position = [Double]
+
 // MARK: - GeoJSON Base
 
 public class GeoJSON {
@@ -107,10 +109,10 @@ public class GeoJSON {
 public class Point {
     
     /// Private coordinates
-    private var _coordinates: [Double] = [0.0,0.0]
+    private var _coordinates: Position = [0.0,0.0]
     
     /// Public coordinates
-    public var coordinates: [Double] { get { return _coordinates } }
+    public var coordinates: Position { get { return _coordinates } }
     
     public init?(json: JSON) {
         let optCoord = json["coordinates"]
@@ -153,10 +155,10 @@ public extension GeoJSON {
 public class MultiPoint {
 	
 	/// Private coordinates
-	private var _coordinates: [[Double]] = []
+	private var _coordinates: [Position] = []
 	
 	/// Public coordinates
-	public var coordinates: [[Double]] { get { return _coordinates } }
+	public var coordinates: [Position] { get { return _coordinates } }
 	
 	public init?(json: JSON) {
 		let optCoord = json["coordinates"]
