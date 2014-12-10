@@ -1,4 +1,4 @@
-// GeoJSONTests.swift
+// Point.swift
 //
 // The MIT License (MIT)
 //
@@ -23,37 +23,43 @@
 // SOFTWARE.
 
 import Foundation
-import XCTest
-import GeoJSON
 
-
-class GeoJSONTests: XCTestCase {
+public final class Point {
 	
-	override func setUp() {
-		super.setUp()
-	}
+	/// Private coordinates
+	private var _coordinates: Position = [0.0,0.0]
 	
-	override func tearDown() {
-		super.tearDown()
-	}
+	/// Public coordinates
+	public var coordinates: Position { return _coordinates }
 	
-	func testInvalidTypeShouldNotBeParsedCorrectly() {
-		let geoJSON = geoJSONfromString("{ \"type\": \"InvalidType\" }")
-		
-		if let error = geoJSON.error {
-			XCTAssertEqual(error.domain, GeoJSONErrorDomain)
-			XCTAssertEqual(error.code, GeoJSONErrorUnsupportedType)
-		}
-		else {
-			XCTFail("Invalid Type should raise an unsupported type error")
+	public init?(json: JSON) {
+		let optCoord = json["coordinates"]
+		if let coordinates =  optCoord.array {
+			if coordinates.count < 2 { return nil }
+			
+			_coordinates = coordinates.map {
+				Double($0.doubleValue)
+			}
+		} else {
+			return nil
 		}
 	}
 }
 
-func geoJSONfromString(string: String) -> GeoJSON {
-	let nsString = NSString(string:string)
-	let data = nsString.dataUsingEncoding(NSUTF8StringEncoding)!
-	let json = JSON(data:data)
+public extension GeoJSON {
 	
-	return GeoJSON(json:json)
+	/// Optional Point
+	public var point: Point? {
+		get {
+			switch type {
+			case .Point:
+				return object as? Point
+			default:
+				return nil
+			}
+		}
+		set {
+			_object = newValue ?? NSNull()
+		}
+	}
 }
