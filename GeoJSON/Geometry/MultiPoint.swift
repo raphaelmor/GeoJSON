@@ -27,10 +27,10 @@ import Foundation
 public class MultiPoint {
 	
 	/// Private coordinates
-	private var _coordinates: [Position] = []
+	private var _coordinates: PositionList = []
 	
 	/// Public coordinates
-	public var coordinates: [Position] { return _coordinates }
+	public var coordinates: PositionList { return _coordinates }
 	
 	public init?(json: JSON) {
 		let optCoord = json["coordinates"]

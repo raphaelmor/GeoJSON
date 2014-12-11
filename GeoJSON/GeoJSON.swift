@@ -42,6 +42,7 @@ public enum GeoJSONType: String {
 }
 
 public typealias Position = [Double]
+public typealias PositionList = [Position]
 
 // MARK: - GeoJSON Base
 
