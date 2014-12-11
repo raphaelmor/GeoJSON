@@ -22,93 +22,93 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import Foundation
-import XCTest
-import GeoJSON
-
-class LineStringTests: XCTestCase {
-	
-	var geoJSON :GeoJSON!
-	
-	override func setUp() {
-		super.setUp()
-		
-		geoJSON = geoJSONfromString("{ \"type\": \"LineString\", \"coordinates\": [ [1.0 , 2.0], [3.0 , 4.0] ] }")
-	}
-	
-	override func tearDown() {
-		geoJSON = nil
-		
-		super.tearDown()
-	}
-	
-	// MARK: Nominal cases
-	
-	func testBasicLineStringShouldBeRecognisedAsSuch() {
-		XCTAssertEqual(geoJSON.type, GeoJSONType.LineString)
-	}
-	
-	func testBasicLineStringShouldBeParsedCorrectly() {
-		
-		if let lineString = geoJSON.lineString {
-			XCTAssertEqual(lineString.coordinates.count, 2)
-			XCTAssertEqualWithAccuracy(lineString.coordinates[0][0], 1.0, 0.000001)
-			XCTAssertEqualWithAccuracy(lineString.coordinates[0][1], 2.0, 0.000001)
-			XCTAssertEqualWithAccuracy(lineString.coordinates[1][0], 3.0, 0.000001)
-			XCTAssertEqualWithAccuracy(lineString.coordinates[1][1], 4.0, 0.000001)
-		} else {
-			XCTFail("LineString not parsed Properly")
-		}
-	}
-	
-	// MARK: Error cases
-	
-	func testLineStringWithoutCoordinatesShouldRaiseAnError() {
-		geoJSON = geoJSONfromString("{ \"type\": \"LineString\" }")
-		
-		if let error = geoJSON.error {
-			XCTAssertEqual(error.domain, GeoJSONErrorDomain)
-			XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
-		}
-		else {
-			XCTFail("Invalid LineString should raise an invalid object error")
-		}
-	}
-	
-	
-	func testLineStringWithOnePointShouldRaiseAnError() {
-		geoJSON = geoJSONfromString("{ \"type\": \"LineString\", \"coordinates\": [ [0.0, 1.0] ] }")
-		
-		if let error = geoJSON.error {
-			XCTAssertEqual(error.domain, GeoJSONErrorDomain)
-			XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
-		}
-		else {
-			XCTFail("Invalid LineString should raise an invalid object error")
-		}
-	}
-	
-	func testLineStringWithAPointWithLessThanTwoCoordinatesShouldRaiseAnError() {
-		geoJSON = geoJSONfromString("{ \"type\": \"LineString\", \"coordinates\": [ [0.0, 1.0], [2.0] ] }")
-		
-		if let error = geoJSON.error {
-			XCTAssertEqual(error.domain, GeoJSONErrorDomain)
-			XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
-		}
-		else {
-			XCTFail("Invalid LineString should raise an invalid object error")
-		}
-	}
-	
-	func testIllFormedLineStringShouldRaiseAnError() {
-		geoJSON = geoJSONfromString("{ \"type\": \"LineString\", \"coordinates\": [ [0.0, 1.0], {\"invalid\" : 2.0} ] }")
-		
-		if let error = geoJSON.error {
-			XCTAssertEqual(error.domain, GeoJSONErrorDomain)
-			XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
-		}
-		else {
-			XCTFail("Invalid LineString should raise an invalid object error")
-		}
-	}
-}
+//import Foundation
+//import XCTest
+//import GeoJSON
+//
+//class LineStringTests: XCTestCase {
+//	
+//	var geoJSON :GeoJSON!
+//	
+//	override func setUp() {
+//		super.setUp()
+//		
+//		geoJSON = geoJSONfromString("{ \"type\": \"LineString\", \"coordinates\": [ [1.0 , 2.0], [3.0 , 4.0] ] }")
+//	}
+//	
+//	override func tearDown() {
+//		geoJSON = nil
+//		
+//		super.tearDown()
+//	}
+//	
+//	// MARK: Nominal cases
+//	
+//	func testBasicLineStringShouldBeRecognisedAsSuch() {
+//		XCTAssertEqual(geoJSON.type, GeoJSONType.LineString)
+//	}
+//	
+//	func testBasicLineStringShouldBeParsedCorrectly() {
+//		
+//		if let lineString = geoJSON.lineString {
+//			XCTAssertEqual(lineString.coordinates.count, 2)
+//			XCTAssertEqualWithAccuracy(lineString.coordinates[0][0], 1.0, 0.000001)
+//			XCTAssertEqualWithAccuracy(lineString.coordinates[0][1], 2.0, 0.000001)
+//			XCTAssertEqualWithAccuracy(lineString.coordinates[1][0], 3.0, 0.000001)
+//			XCTAssertEqualWithAccuracy(lineString.coordinates[1][1], 4.0, 0.000001)
+//		} else {
+//			XCTFail("LineString not parsed Properly")
+//		}
+//	}
+//	
+//	// MARK: Error cases
+//	
+//	func testLineStringWithoutCoordinatesShouldRaiseAnError() {
+//		geoJSON = geoJSONfromString("{ \"type\": \"LineString\" }")
+//		
+//		if let error = geoJSON.error {
+//			XCTAssertEqual(error.domain, GeoJSONErrorDomain)
+//			XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
+//		}
+//		else {
+//			XCTFail("Invalid LineString should raise an invalid object error")
+//		}
+//	}
+//	
+//	
+//	func testLineStringWithOnePointShouldRaiseAnError() {
+//		geoJSON = geoJSONfromString("{ \"type\": \"LineString\", \"coordinates\": [ [0.0, 1.0] ] }")
+//		
+//		if let error = geoJSON.error {
+//			XCTAssertEqual(error.domain, GeoJSONErrorDomain)
+//			XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
+//		}
+//		else {
+//			XCTFail("Invalid LineString should raise an invalid object error")
+//		}
+//	}
+//	
+//	func testLineStringWithAPointWithLessThanTwoCoordinatesShouldRaiseAnError() {
+//		geoJSON = geoJSONfromString("{ \"type\": \"LineString\", \"coordinates\": [ [0.0, 1.0], [2.0] ] }")
+//		
+//		if let error = geoJSON.error {
+//			XCTAssertEqual(error.domain, GeoJSONErrorDomain)
+//			XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
+//		}
+//		else {
+//			XCTFail("Invalid LineString should raise an invalid object error")
+//		}
+//	}
+//	
+//	func testIllFormedLineStringShouldRaiseAnError() {
+//		geoJSON = geoJSONfromString("{ \"type\": \"LineString\", \"coordinates\": [ [0.0, 1.0], {\"invalid\" : 2.0} ] }")
+//		
+//		if let error = geoJSON.error {
+//			XCTAssertEqual(error.domain, GeoJSONErrorDomain)
+//			XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
+//		}
+//		else {
+//			XCTFail("Invalid LineString should raise an invalid object error")
+//		}
+//	}
+//}

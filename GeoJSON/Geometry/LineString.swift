@@ -22,40 +22,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import Foundation
-
-public final class LineString : MultiPoint {
-		
-	// MARK: - Internal methods
-	override func validateCoordinates(coordinates: [JSON]) -> Bool {
-		
-		let validCoordinates = coordinates.filter {
-			let count = $0.array?.count ?? 0
-			return count >= 2
-		}
-		
-		if validCoordinates.count != coordinates.count || coordinates.count < 2 {
-			return false
-		}
-		
-		return true
-	}
-}
-
-public extension GeoJSON {
-	
-	/// Optional Point
-	public var lineString: LineString? {
-		get {
-			switch type {
-			case .LineString:
-				return object as? LineString
-			default:
-				return nil
-			}
-		}
-		set {
-			_object = newValue ?? NSNull()
-		}
-	}
-}
+//import Foundation
+//
+//public final class LineString : MultiPoint {
+//		
+//	// MARK: - Internal methods
+//	override func validateCoordinates(coordinates: [JSON]) -> Bool {
+//		
+//		let validCoordinates = coordinates.filter {
+//			let count = $0.array?.count ?? 0
+//			return count >= 2
+//		}
+//		
+//		if validCoordinates.count != coordinates.count || coordinates.count < 2 {
+//			return false
+//		}
+//		
+//		return true
+//	}
+//}
+//
+//public extension GeoJSON {
+//	
+//	/// Optional Point
+//	public var lineString: LineString? {
+//		get {
+//			switch type {
+//			case .LineString:
+//				return object as? LineString
+//			default:
+//				return nil
+//			}
+//		}
+//		set {
+//			_object = newValue ?? NSNull()
+//		}
+//	}
+//}

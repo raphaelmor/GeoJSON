@@ -33,29 +33,26 @@ public class MultiPoint {
 	public var coordinates: PositionList { return _coordinates }
 	
 	public init?(json: JSON) {
-		let optCoord = json["coordinates"]
-		if let coordinates =  optCoord.array {
-			if validateCoordinates(coordinates) {
-				_coordinates = coordinates.map {
-					let doubleArray = $0.array?.map { Double($0.doubleValue) } ?? []
-					return Position(doubleArray: doubleArray) ?? []
+		
+		if let coordinates =  json["coordinates"].array {
+	
+			var failedToCreatePosition = false
+		
+			_coordinates = coordinates.map { jsonPosition in
+				if let position = Position(jsonArray: jsonPosition) {
+					return position
 				}
-				return
+				else {
+					failedToCreatePosition = true
+					return []
+				}
 			}
+			
+			if !failedToCreatePosition {
+				return
+			}	
 		}
 		return nil
-	}
-	
-	// MARK: - Internal methods
-	func validateCoordinates(coordinates: [JSON]) -> Bool {
-		
-		let validCoordinates = coordinates.filter {
-			let count = $0.array?.count ?? 0
-			return count >= 2
-		}
-		
-		if validCoordinates.count != coordinates.count { return false }
-		return true
 	}
 }
 
