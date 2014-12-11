@@ -47,6 +47,34 @@ class MultiLineStringTests: XCTestCase {
 	func testBasicMultiLineStringShouldBeRecognisedAsSuch() {
 		XCTAssertEqual(geoJSON.type, GeoJSONType.MultiLineString)
 	}
+	
+	func testEmptyMultiLineStringShouldBeParsedCorrectly() {
+		
+		geoJSON = geoJSONfromString("{ \"type\": \"MultiLineString\", \"coordinates\": [] }")
+		
+		if let geoMultiLineString = geoJSON.multiLineString {
+			XCTAssertEqual(geoMultiLineString.lineStrings.count, 0)
+		} else {
+			XCTFail("MultiLineString not parsed Properly")
+		}
+	}
+	
+	func testBasicMultiLineStringShouldBeParsedCorrectly() {
+		
+		if let geoMultiLineString = geoJSON.multiLineString {
+			XCTAssertEqual(geoMultiLineString.lineStrings.count, 2)
+			XCTAssertEqualWithAccuracy(geoMultiLineString.lineStrings[0][0][0], 0.0, 0.000001)
+			XCTAssertEqualWithAccuracy(geoMultiLineString.lineStrings[0][0][1], 0.0, 0.000001)
+			XCTAssertEqualWithAccuracy(geoMultiLineString.lineStrings[0][1][0], 0.0, 0.000001)
+			XCTAssertEqualWithAccuracy(geoMultiLineString.lineStrings[0][1][1], 1.0, 0.000001)
+			XCTAssertEqualWithAccuracy(geoMultiLineString.lineStrings[1][0][0], 1.0, 0.000001)
+			XCTAssertEqualWithAccuracy(geoMultiLineString.lineStrings[1][0][1], 0.0, 0.000001)
+			XCTAssertEqualWithAccuracy(geoMultiLineString.lineStrings[1][1][0], 1.0, 0.000001)
+			XCTAssertEqualWithAccuracy(geoMultiLineString.lineStrings[1][1][1], 1.0, 0.000001)
+		} else {
+			XCTFail("MultiPoint not parsed Properly")
+		}
+	}
 
 	
 }

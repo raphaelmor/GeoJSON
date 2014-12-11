@@ -26,13 +26,42 @@ import Foundation
 
 public final class MultiLineString {
 	
-	/// Private coordinates
-	private var _coordinates: [PositionList] = []
+	/// Private lineStrings
+	private var _lineStrings: [PositionList] = []
 	
-	/// Public coordinates
-	public var coordinates: [PositionList] { return _coordinates }
+	/// Public lineStrings
+	public var lineStrings: [PositionList] { return _lineStrings }
 	
 	public init?(json: JSON) {
+		let optCoord = json["coordinates"]
+		
+		let opt = optCoord.array?.map { jsonLineString in
+			jsonLineString.array?.map { jsonPosition in
+				jsonPosition.array?.map {
+					Double($0.doubleValue)
+				} ?? []
+			} ?? []
+		}
+		_lineStrings = opt ?? []
 	}
 
+
+}
+
+public extension GeoJSON {
+	
+	/// Optional MultiLineString
+	public var multiLineString: MultiLineString? {
+		get {
+			switch type {
+			case .MultiLineString:
+				return object as? MultiLineString
+			default:
+				return nil
+			}
+		}
+		set {
+			_object = newValue ?? NSNull()
+		}
+	}
 }
