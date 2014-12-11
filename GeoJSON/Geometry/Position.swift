@@ -1,4 +1,4 @@
-// Point.swift
+// Position.swift
 //
 // The MIT License (MIT)
 //
@@ -24,33 +24,53 @@
 
 import Foundation
 
-public final class Point {
+public struct Position {
 	
-	/// Private coordinates
-	private var _coordinates: Position = [0.0,0.0]
+	public var coordinates = [Double]()
 	
-	/// Public coordinates
-	public var coordinates: Position { return _coordinates }
+	public var latitude: Double { return coordinates[1] }
+	public var longitude: Double { return coordinates[0] }
+	public var altitude: Double { return coordinates[2] }
 	
-	public init?(json: JSON) {
-		if let position = Position(jsonArray: json["coordinates"]) {
-			_coordinates = position
+	public var count : Int { return coordinates.count }
+	
+	public init?(doubleArray: [Double]) {
+		if doubleArray.count < 2 { return nil }
+		coordinates = doubleArray
+	}
+	
+	public init?(jsonArray: JSON) {
+		
+		if let jsonCoordinates =  jsonArray.array {
+			if jsonCoordinates.count < 2 { return nil }
+			
+			coordinates = jsonCoordinates.map {
+				Double($0.doubleValue)
+			}
 		}
 		else {
 			return nil
 		}
 	}
+	
+	public subscript(index: Int) -> Double {
+		get {
+			return coordinates[index]
+		}
+		set(newValue) {
+			coordinates[index] = newValue
+		}
+	}
+	
+
 }
 
-public extension GeoJSON {
-	
-	/// Optional Point
-	public var point: Point? {
-		switch type {
-		case .Point:
-			return object as? Point
-		default:
-			return nil
+
+extension Position: ArrayLiteralConvertible {
+	public init(arrayLiteral elements: Double...) {
+		for element in elements {
+			coordinates.append(element)
 		}
 	}
 }
+

@@ -50,9 +50,10 @@ class PointTests: XCTestCase {
 	
 	func testBasicPointShouldBeParsedCorrectly() {
 		if let geoPoint = geoJSON.point {
-			XCTAssertEqualWithAccuracy(geoPoint.coordinates[0], 42.0, 0.000001)
-			XCTAssertEqualWithAccuracy(geoPoint.coordinates[1], 24.0, 0.000001)
-		} else {
+			XCTAssertEqualWithAccuracy(geoPoint.coordinates.longitude, 42.0, 0.000001)
+			XCTAssertEqualWithAccuracy(geoPoint.coordinates.latitude, 24.0, 0.000001)
+		}
+		else {
 			XCTFail("Point not parsed Properly")
 		}
 	}
@@ -61,19 +62,29 @@ class PointTests: XCTestCase {
 		geoJSON = geoJSONfromString("{ \"type\": \"Point\", \"coordinates\": [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0] }")
 		
 		if let geoPoint = geoJSON.point {
-			XCTAssertEqualWithAccuracy(geoPoint.coordinates[0], 0.0, 0.000001)
-			XCTAssertEqualWithAccuracy(geoPoint.coordinates[1], 1.0, 0.000001)
-			XCTAssertEqualWithAccuracy(geoPoint.coordinates[2], 2.0, 0.000001)
+			XCTAssertEqualWithAccuracy(geoPoint.coordinates.longitude, 0.0, 0.000001)
+			XCTAssertEqualWithAccuracy(geoPoint.coordinates.latitude, 1.0, 0.000001)
+			XCTAssertEqualWithAccuracy(geoPoint.coordinates.altitude, 2.0, 0.000001)
 			XCTAssertEqualWithAccuracy(geoPoint.coordinates[3], 3.0, 0.000001)
 			XCTAssertEqualWithAccuracy(geoPoint.coordinates[4], 4.0, 0.000001)
 			XCTAssertEqualWithAccuracy(geoPoint.coordinates[5], 5.0, 0.000001)
 			XCTAssertEqualWithAccuracy(geoPoint.coordinates[6], 6.0, 0.000001)
-		} else {
+		}
+		else {
 			XCTFail("Point not parsed Properly")
 		}
 	}
 	
 	// MARK: Error cases
+	
+	func testBasicPointShouldNotHaveAltitude() {
+		if let geoPoint = geoJSON.point {
+			XCTAssertEqual(geoPoint.coordinates.count, 2)
+		}
+		else {
+			XCTFail("Point not parsed Properly")
+		}
+	}
 	
 	func testPointWithoutCoordinatesShouldRaiseAnError() {
 		geoJSON = geoJSONfromString("{ \"type\": \"Point\" }")

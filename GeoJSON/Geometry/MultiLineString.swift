@@ -24,44 +24,47 @@
 
 import Foundation
 
-public final class MultiLineString {
-	
-	/// Private lineStrings
-	private var _lineStrings: [PositionList] = []
-	
-	/// Public lineStrings
-	public var lineStrings: [PositionList] { return _lineStrings }
-	
-	public init?(json: JSON) {
-		let optCoord = json["coordinates"]
-		
-		let opt = optCoord.array?.map { jsonLineString in
-			jsonLineString.array?.map { jsonPosition in
-				jsonPosition.array?.map {
-					Double($0.doubleValue)
-				} ?? []
-			} ?? []
-		}
-		_lineStrings = opt ?? []
-	}
-
-
-}
-
-public extension GeoJSON {
-	
-	/// Optional MultiLineString
-	public var multiLineString: MultiLineString? {
-		get {
-			switch type {
-			case .MultiLineString:
-				return object as? MultiLineString
-			default:
-				return nil
-			}
-		}
-		set {
-			_object = newValue ?? NSNull()
-		}
-	}
-}
+//public final class MultiLineString {
+//	
+//	/// Private lineStrings
+//	private var _lineStrings: [PositionList] = []
+//	
+//	/// Public lineStrings
+//	public var lineStrings: [PositionList] { return _lineStrings }
+//	
+//	public init?(json: JSON) {
+//		let optCoord = json["coordinates"]
+//		
+//		let opt = optCoord.array?.map { jsonLineString in
+//			jsonLineString.array?.map { jsonPosition in
+//				let doubleArray = jsonPosition.array?.map {
+//					Double($0.doubleValue)
+//				} ?? []
+//				
+//				Position(doubleArray: doubleArray)
+//				
+//			} ?? []
+//		}
+//		_lineStrings = opt ?? []
+//	}
+//
+//
+//}
+//
+//public extension GeoJSON {
+//	
+//	/// Optional MultiLineString
+//	public var multiLineString: MultiLineString? {
+//		get {
+//			switch type {
+//			case .MultiLineString:
+//				return object as? MultiLineString
+//			default:
+//				return nil
+//			}
+//		}
+//		set {
+//			_object = newValue ?? NSNull()
+//		}
+//	}
+//}

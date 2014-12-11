@@ -38,7 +38,7 @@ public class MultiPoint {
 			if validateCoordinates(coordinates) {
 				_coordinates = coordinates.map {
 					let doubleArray = $0.array?.map { Double($0.doubleValue) } ?? []
-					return doubleArray
+					return Position(doubleArray: doubleArray) ?? []
 				}
 				return
 			}
