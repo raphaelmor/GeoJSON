@@ -22,40 +22,59 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-//import Foundation
-//
-//public final class LineString : MultiPoint {
-//		
-//	// MARK: - Internal methods
-//	override func validateCoordinates(coordinates: [JSON]) -> Bool {
-//		
-//		let validCoordinates = coordinates.filter {
-//			let count = $0.array?.count ?? 0
-//			return count >= 2
-//		}
-//		
-//		if validCoordinates.count != coordinates.count || coordinates.count < 2 {
-//			return false
-//		}
-//		
-//		return true
-//	}
-//}
-//
-//public extension GeoJSON {
-//	
-//	/// Optional Point
-//	public var lineString: LineString? {
-//		get {
-//			switch type {
-//			case .LineString:
-//				return object as? LineString
-//			default:
-//				return nil
-//			}
-//		}
-//		set {
-//			_object = newValue ?? NSNull()
-//		}
-//	}
-//}
+import Foundation
+
+public final class LineString {
+	
+	/// Private coordinates
+	private var _points: [Point] = []
+	
+	/// Public coordinates
+	public var points: [Point] { return _points }
+	
+	public init?(json: JSON) {
+		if let jsonPoints =  json.array {
+			if jsonPoints.count < 2 { return nil }
+			for jsonPoint in jsonPoints {
+				if let point = Point(json: jsonPoint) {
+					_points.append(point)
+				}
+				else {
+					return nil
+				}
+			}
+		}
+		else {
+			return nil
+		}
+	}
+}
+
+/// Array forwarding methods
+public extension LineString {
+	
+	public var count : Int { return points.count }
+	
+	public subscript(index: Int) -> Point {
+		get { return _points[index] }
+		set(newValue) { _points[index] = newValue }
+	}
+}
+
+public extension GeoJSON {
+	
+	/// Optional LineString
+	public var lineString: LineString? {
+		get {
+			switch type {
+			case .LineString:
+				return object as? LineString
+			default:
+				return nil
+			}
+		}
+		set {
+			_object = newValue ?? NSNull()
+		}
+	}
+}

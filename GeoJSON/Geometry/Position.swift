@@ -40,7 +40,6 @@ public struct Position {
 	}
 	
 	public init?(jsonArray: JSON) {
-		
 		if let jsonCoordinates =  jsonArray.array {
 			if jsonCoordinates.count < 2 { return nil }
 			

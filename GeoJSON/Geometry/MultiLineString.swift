@@ -24,47 +24,58 @@
 
 import Foundation
 
-//public final class MultiLineString {
-//	
-//	/// Private lineStrings
-//	private var _lineStrings: [PositionList] = []
-//	
-//	/// Public lineStrings
-//	public var lineStrings: [PositionList] { return _lineStrings }
-//	
-//	public init?(json: JSON) {
-//		let optCoord = json["coordinates"]
-//		
-//		let opt = optCoord.array?.map { jsonLineString in
-//			jsonLineString.array?.map { jsonPosition in
-//				let doubleArray = jsonPosition.array?.map {
-//					Double($0.doubleValue)
-//				} ?? []
-//				
-//				Position(doubleArray: doubleArray)
-//				
-//			} ?? []
-//		}
-//		_lineStrings = opt ?? []
-//	}
-//
-//
-//}
-//
-//public extension GeoJSON {
-//	
-//	/// Optional MultiLineString
-//	public var multiLineString: MultiLineString? {
-//		get {
-//			switch type {
-//			case .MultiLineString:
-//				return object as? MultiLineString
-//			default:
-//				return nil
-//			}
-//		}
-//		set {
-//			_object = newValue ?? NSNull()
-//		}
-//	}
-//}
+public final class MultiLineString {
+	
+	/// Private lineStrings
+	private var _lineStrings: [LineString] = []
+	
+	/// Public lineStrings
+	public var lineStrings: [LineString] { return _lineStrings }
+	
+	public init?(json: JSON) {
+		
+		if let jsonLineStrings =  json.array {
+
+			for jsonLineString in jsonLineStrings {
+				if let lineString = LineString(json: jsonLineString) {
+					_lineStrings.append(lineString)
+				}
+				else {
+					return nil
+				}
+			}
+		}
+		else {
+			return nil
+		}
+	}
+}
+
+/// Array forwarding methods
+public extension MultiLineString {
+	
+	public var count : Int { return lineStrings.count }
+	
+	public subscript(index: Int) -> LineString {
+		get { return _lineStrings[index] }
+		set(newValue) { _lineStrings[index] = newValue }
+	}
+}
+
+public extension GeoJSON {
+	
+	/// Optional LineString
+	public var multiLineString: MultiLineString? {
+		get {
+			switch type {
+			case .MultiLineString:
+				return object as? MultiLineString
+			default:
+				return nil
+			}
+		}
+		set {
+			_object = newValue ?? NSNull()
+		}
+	}
+}

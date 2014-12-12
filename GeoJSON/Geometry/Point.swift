@@ -26,19 +26,43 @@ import Foundation
 
 public final class Point {
 	
-	/// Private coordinates
-	private var _coordinates: Position = [0.0,0.0]
+	/// Private var to store coordinates
+	private var coordinates : [Double] = [0.0, 0.0]
 	
-	/// Public coordinates
-	public var coordinates: Position { return _coordinates }
+	/// Shortcut property to latitude
+	public var latitude: Double { return coordinates[1] }
+	/// Shortcut property to northing
+	public var northing: Double { return coordinates[1] }
+	/// Shortcut property to longitude
+	public var longitude: Double { return coordinates[0] }
+	/// Shortcut property to easting
+	public var easting: Double { return coordinates[0] }
+	/// Shortcut property to altitude
+	public var altitude: Double { return coordinates[2] }
+	
 	
 	public init?(json: JSON) {
-		if let position = Position(jsonArray: json["coordinates"]) {
-			_coordinates = position
+		if let jsonCoordinates =  json.array {
+			if jsonCoordinates.count < 2 { return nil }
+			
+			coordinates = jsonCoordinates.map {
+				Double($0.doubleValue)
+			}
 		}
 		else {
 			return nil
 		}
+	}
+}
+
+/// Array forwarding methods
+public extension Point {
+	
+	public var count : Int { return coordinates.count }
+	
+	public subscript(index: Int) -> Double {
+		get { return coordinates[index] }
+		set(newValue) { coordinates[index] = newValue }
 	}
 }
 

@@ -42,7 +42,7 @@ public enum GeoJSONType: String {
 	case Unknown = ""
 }
 
-public typealias PositionList = [Position]
+public typealias PositionList = [[Double]]
 
 // MARK: - GeoJSON Base
 
@@ -68,12 +68,12 @@ public final class GeoJSON {
 			switch newValue {
 			case let point as Point:
 				_type = .Point
-//			case let lineString as LineString:
-//				_type = .LineString
-//			case let multiLineString as MultiLineString:
-//				_type = .MultiLineString
 			case let multiPoint as MultiPoint:
 				_type = .MultiPoint
+			case let lineString as LineString:
+				_type = .LineString
+			case let multiLineString as MultiLineString:
+				_type = .MultiLineString
 			default:
 				_object = NSNull()
 			}
@@ -89,13 +89,13 @@ public final class GeoJSON {
 			if let type = GeoJSONType(rawValue: typeString) {
 				switch type {
 				case .Point :
-					object = Point(json: json) ?? NSNull()
+					object = Point(json: json["coordinates"]) ?? NSNull()
 				case .MultiPoint :
-					object = MultiPoint(json: json) ?? NSNull()
-//				case .LineString :
-//					object = LineString(json: json) ?? NSNull()
-//				case .MultiLineString :
-//					object = MultiLineString(json: json) ?? NSNull()
+					object = MultiPoint(json: json["coordinates"]) ?? NSNull()
+				case .LineString :
+					object = LineString(json: json["coordinates"]) ?? NSNull()
+				case .MultiLineString :
+					object = MultiLineString(json: json["coordinates"]) ?? NSNull()
 				default :
 					println("foo")
 				}

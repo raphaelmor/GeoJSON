@@ -50,7 +50,7 @@ class MultiPointTests: XCTestCase {
 	
 	func testEmptyMultiPointShouldBeParsedCorrectly() {
 		if let geoMultiPoint = geoJSON.multiPoint {
-			XCTAssertEqual(geoMultiPoint.coordinates.count, 0)
+			XCTAssertEqual(geoMultiPoint.count, 0)
 		} else {
 			XCTFail("MultiPoint not parsed Properly")
 		}
@@ -61,11 +61,11 @@ class MultiPointTests: XCTestCase {
 		geoJSON = geoJSONfromString("{ \"type\": \"MultiPoint\", \"coordinates\": [ [1.0 , 2.0], [3.0 , 4.0] ] }")
 		
 		if let geoMultiPoint = geoJSON.multiPoint {
-			XCTAssertEqual(geoMultiPoint.coordinates.count, 2)
-			XCTAssertEqualWithAccuracy(geoMultiPoint.coordinates[0][0], 1.0, 0.000001)
-			XCTAssertEqualWithAccuracy(geoMultiPoint.coordinates[0][1], 2.0, 0.000001)
-			XCTAssertEqualWithAccuracy(geoMultiPoint.coordinates[1][0], 3.0, 0.000001)
-			XCTAssertEqualWithAccuracy(geoMultiPoint.coordinates[1][1], 4.0, 0.000001)
+			XCTAssertEqual(geoMultiPoint.count, 2)
+			XCTAssertEqualWithAccuracy(geoMultiPoint.points[0].longitude, 1.0, 0.000001)
+			XCTAssertEqualWithAccuracy(geoMultiPoint.points[0].latitude, 2.0, 0.000001)
+			XCTAssertEqualWithAccuracy(geoMultiPoint.points[1].longitude, 3.0, 0.000001)
+			XCTAssertEqualWithAccuracy(geoMultiPoint.points[1].latitude, 4.0, 0.000001)
 		} else {
 			XCTFail("MultiPoint not parsed Properly")
 		}
