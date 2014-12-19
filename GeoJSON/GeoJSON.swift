@@ -34,12 +34,13 @@ public let GeoJSONErrorInvalidGeoJSONObject: Int = 998
 // See http://geojson.org/geojson-spec.html
 
 public enum GeoJSONType: String {
-	case Point = "Point"
-	case MultiPoint = "MultiPoint"
-	case LineString = "LineString"
+	case Point	 		 = "Point"
+	case MultiPoint 	 = "MultiPoint"
+	case LineString 	 = "LineString"
 	case MultiLineString = "MultiLineString"
-	case Null = "Null"
-	case Unknown = ""
+	case Polygon 		 = "Polygon"
+	case Null 			 = "Null"
+	case Unknown 		 = ""
 }
 
 public typealias PositionList = [[Double]]
@@ -74,6 +75,8 @@ public final class GeoJSON {
 				_type = .LineString
 			case let multiLineString as MultiLineString:
 				_type = .MultiLineString
+			case let polygon as Polygon:
+				_type = .Polygon
 			default:
 				_object = NSNull()
 			}
@@ -88,14 +91,16 @@ public final class GeoJSON {
 		if let typeString = json["type"].string {
 			if let type = GeoJSONType(rawValue: typeString) {
 				switch type {
-				case .Point :
+				case .Point:
 					object = Point(json: json["coordinates"]) ?? NSNull()
-				case .MultiPoint :
+				case .MultiPoint:
 					object = MultiPoint(json: json["coordinates"]) ?? NSNull()
-				case .LineString :
+				case .LineString:
 					object = LineString(json: json["coordinates"]) ?? NSNull()
-				case .MultiLineString :
+				case .MultiLineString:
 					object = MultiLineString(json: json["coordinates"]) ?? NSNull()
+				case .Polygon:
+					object = Polygon(json: json["coordinates"]) ?? NSNull()
 				default :
 					println("foo")
 				}

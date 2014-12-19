@@ -1,4 +1,4 @@
-// LineString.swift
+// Polygon.swift
 //
 // The MIT License (MIT)
 //
@@ -24,55 +24,41 @@
 
 import Foundation
 
-public final class LineString {
+public final class Polygon {
 	
-	/// Private coordinates
-	private var _points: [Point] = []
+	/// Private linearRings
+	private var _linearRings: [LineString] = []
 	
-	/// Public coordinates
-	public var points: [Point] { return _points }
-	
-	/// LinearRing
-	public var isLinearRing : Bool { return (self.count >= 4) && (self.points.first == self.points.last) }
-	
+	/// Public linearRings
+	public var linearRings: [LineString] { return _linearRings }
 	
 	public init?(json: JSON) {
-		if let jsonPoints =  json.array {
-			if jsonPoints.count < 2 { return nil }
-			for jsonPoint in jsonPoints {
-				if let point = Point(json: jsonPoint) {
-					_points.append(point)
-				}
-				else {
+		if let jsonLineStrings =  json.array {
+			for jsonLineString in jsonLineStrings {
+				if let lineString = LineString(json: jsonLineString) {
+					if lineString.isLinearRing {
+						_linearRings.append(lineString)
+					} else {
+						return nil
+					}
+				} else {
 					return nil
 				}
 			}
-		}
-		else {
+		} else {
 			return nil
 		}
 	}
 }
 
-/// Array forwarding methods
-public extension LineString {
-	
-	public var count : Int { return points.count }
-	
-	public subscript(index: Int) -> Point {
-		get { return _points[index] }
-		set(newValue) { _points[index] = newValue }
-	}
-}
-
 public extension GeoJSON {
 	
-	/// Optional LineString
-	public var lineString: LineString? {
+	/// Optional Polygon
+	public var polygon: Polygon? {
 		get {
 			switch type {
-			case .LineString:
-				return object as? LineString
+			case .Polygon:
+				return object as? Polygon
 			default:
 				return nil
 			}

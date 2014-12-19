@@ -64,7 +64,7 @@ public extension MultiLineString {
 
 public extension GeoJSON {
 	
-	/// Optional LineString
+	/// Optional MultiLineString
 	public var multiLineString: MultiLineString? {
 		get {
 			switch type {

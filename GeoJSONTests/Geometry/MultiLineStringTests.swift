@@ -123,7 +123,7 @@ class MultiLineStringTests: XCTestCase {
 			XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
 		}
 		else {
-			XCTFail("Invalid LineString should raise an invalid object error")
+			XCTFail("Invalid MultiLineString should raise an invalid object error")
 		}
 	}
 }
