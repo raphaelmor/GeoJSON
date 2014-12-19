@@ -32,6 +32,10 @@ public final class LineString {
 	/// Public coordinates
 	public var points: [Point] { return _points }
 	
+	/// LinearRing
+	public var isLinearRing : Bool { return (self.count >= 4) && (self.points.first == self.points.last) }
+	
+	
 	public init?(json: JSON) {
 		if let jsonPoints =  json.array {
 			if jsonPoints.count < 2 { return nil }

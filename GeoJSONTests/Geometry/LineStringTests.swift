@@ -61,6 +61,26 @@ class LineStringTests: XCTestCase {
 		}
 	}
 	
+	func testLinearRingShouldBeRecognized() {
+		
+		geoJSON = geoJSONfromString("{ \"type\": \"LineString\", \"coordinates\": [ [0.0 , 0.0], [1.0 , 1.0], [2.0 , 2.0], [0.0 , 0.0] ] }")
+		
+		if let lineString = geoJSON.lineString {
+			XCTAssertTrue(lineString.isLinearRing)
+		} else {
+			XCTFail("LineString not parsed Properly")
+		}
+	}
+	
+	func testNonLinearRingShouldBeRecognized() {
+		
+		if let lineString = geoJSON.lineString {
+			XCTAssertFalse(lineString.isLinearRing)
+		} else {
+			XCTFail("LineString not parsed Properly")
+		}
+	}
+	
 	// MARK: Error cases
 	
 	func testLineStringWithoutCoordinatesShouldRaiseAnError() {
