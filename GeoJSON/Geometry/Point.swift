@@ -24,7 +24,7 @@
 
 import Foundation
 
-public final class Point {
+public final class Point : Equatable {
 	
 	/// Private var to store coordinates
 	private var coordinates : [Double] = [0.0, 0.0]
@@ -64,6 +64,19 @@ public extension Point {
 		get { return coordinates[index] }
 		set(newValue) { coordinates[index] = newValue }
 	}
+}
+
+public func ==(lhs: Point, rhs: Point) -> Bool {
+
+	if lhs.count != rhs.count { return false }
+	
+	for index in 0..<lhs.count {
+		if lhs[index] != rhs[index] {
+			return false
+		}
+	}
+	
+	return true
 }
 
 public extension GeoJSON {

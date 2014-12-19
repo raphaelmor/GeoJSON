@@ -85,6 +85,29 @@ class PointTests: XCTestCase {
 		}
 	}
 	
+	// MARK: Point Equality
+	
+	func testTwoPointsWithEqualCoordinatesShouldBeEqual() {
+		let lhs = geoJSONfromString("{ \"type\": \"Point\", \"coordinates\": [0.0, 0.0] }")
+		let rhs = geoJSONfromString("{ \"type\": \"Point\", \"coordinates\": [0.0, 0.0] }")
+		
+		XCTAssertEqual(lhs.point!,rhs.point!)
+	}
+	
+	func testTwoPointsWithDifferentCoordinatesShouldNotBeEqual() {
+		let lhs = geoJSONfromString("{ \"type\": \"Point\", \"coordinates\": [0.0, 0.0] }")
+		let rhs = geoJSONfromString("{ \"type\": \"Point\", \"coordinates\": [0.0, 1.0] }")
+		
+		XCTAssertNotEqual(lhs.point!,rhs.point!)
+	}
+	
+	func testTwoPointsWithDifferentNumberOfCoordinatesShouldNotBeEqual() {
+		let lhs = geoJSONfromString("{ \"type\": \"Point\", \"coordinates\": [0.0, 0.0] }")
+		let rhs = geoJSONfromString("{ \"type\": \"Point\", \"coordinates\": [0.0, 0.0, 0.0] }")
+		
+		XCTAssertNotEqual(lhs.point!,rhs.point!)
+	}
+	
 	// MARK: Error cases
 	
 	func testBasicPointShouldNotHaveAltitude() {
