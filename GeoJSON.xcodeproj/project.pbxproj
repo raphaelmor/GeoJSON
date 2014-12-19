@@ -15,6 +15,8 @@
 		2076906D1A374FE100E17463 /* MultiPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2076906C1A374FE100E17463 /* MultiPoint.swift */; };
 		2076906F1A37505500E17463 /* LineString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2076906E1A37505500E17463 /* LineString.swift */; };
 		20B1C0B71A360DF4002B46A5 /* MultiPointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B1C0B61A360DF4002B46A5 /* MultiPointTests.swift */; };
+		20E7EF6E1A4463BF00D69CE2 /* PolygonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E7EF6D1A4463BF00D69CE2 /* PolygonTests.swift */; };
+		20E7EF701A44645700D69CE2 /* Polygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E7EF6F1A44645700D69CE2 /* Polygon.swift */; };
 		20FD3CC11A28BA6D00F54E44 /* GeoJSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FD3CC01A28BA6D00F54E44 /* GeoJSONTests.swift */; };
 		20FF4C731A39AE2400FC5F59 /* MultiLineStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF4C721A39AE2400FC5F59 /* MultiLineStringTests.swift */; };
 		20FF4C751A39AF5000FC5F59 /* MultiLineString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF4C741A39AF5000FC5F59 /* MultiLineString.swift */; };
@@ -45,6 +47,8 @@
 		2076906C1A374FE100E17463 /* MultiPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPoint.swift; sourceTree = "<group>"; };
 		2076906E1A37505500E17463 /* LineString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineString.swift; sourceTree = "<group>"; };
 		20B1C0B61A360DF4002B46A5 /* MultiPointTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPointTests.swift; sourceTree = "<group>"; };
+		20E7EF6D1A4463BF00D69CE2 /* PolygonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolygonTests.swift; sourceTree = "<group>"; };
+		20E7EF6F1A44645700D69CE2 /* Polygon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Polygon.swift; sourceTree = "<group>"; };
 		20FD3CBC1A28B30F00F54E44 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		20FD3CBD1A28B30F00F54E44 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		20FD3CC01A28BA6D00F54E44 /* GeoJSONTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoJSONTests.swift; sourceTree = "<group>"; };
@@ -104,10 +108,11 @@
 		20FF4C701A39AB9600FC5F59 /* Geometry */ = {
 			isa = PBXGroup;
 			children = (
+				2076906A1A374EF600E17463 /* Point.swift */,
+				2076906C1A374FE100E17463 /* MultiPoint.swift */,
 				2076906E1A37505500E17463 /* LineString.swift */,
 				20FF4C741A39AF5000FC5F59 /* MultiLineString.swift */,
-				2076906C1A374FE100E17463 /* MultiPoint.swift */,
-				2076906A1A374EF600E17463 /* Point.swift */,
+				20E7EF6F1A44645700D69CE2 /* Polygon.swift */,
 			);
 			path = Geometry;
 			sourceTree = "<group>";
@@ -119,6 +124,7 @@
 				20B1C0B61A360DF4002B46A5 /* MultiPointTests.swift */,
 				203262771A3724CD00EB605F /* LineStringTests.swift */,
 				20FF4C721A39AE2400FC5F59 /* MultiLineStringTests.swift */,
+				20E7EF6D1A4463BF00D69CE2 /* PolygonTests.swift */,
 			);
 			path = Geometry;
 			sourceTree = "<group>";
@@ -295,6 +301,7 @@
 				2049007B1A275B6D0001E4AC /* GeoJSON.swift in Sources */,
 				2076906B1A374EF600E17463 /* Point.swift in Sources */,
 				2076906F1A37505500E17463 /* LineString.swift in Sources */,
+				20E7EF701A44645700D69CE2 /* Polygon.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,6 +309,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20E7EF6E1A4463BF00D69CE2 /* PolygonTests.swift in Sources */,
 				64FC94921A24A59400E83F60 /* PointTests.swift in Sources */,
 				20FF4C731A39AE2400FC5F59 /* MultiLineStringTests.swift in Sources */,
 				20B1C0B71A360DF4002B46A5 /* MultiPointTests.swift in Sources */,

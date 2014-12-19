@@ -1,4 +1,4 @@
-// MultiLineString.swift
+// Polygon.swift
 //
 // The MIT License (MIT)
 //
@@ -24,52 +24,41 @@
 
 import Foundation
 
-public final class MultiLineString {
+public final class Polygon {
 	
-	/// Private lineStrings
-	private var _lineStrings: [LineString] = []
+	/// Private linearRings
+	private var _linearRings: [LineString] = []
 	
-	/// Public lineStrings
-	public var lineStrings: [LineString] { return _lineStrings }
+	/// Public linearRings
+	public var linearRings: [LineString] { return _linearRings }
 	
 	public init?(json: JSON) {
-		
 		if let jsonLineStrings =  json.array {
-
 			for jsonLineString in jsonLineStrings {
 				if let lineString = LineString(json: jsonLineString) {
-					_lineStrings.append(lineString)
-				}
-				else {
+					if lineString.isLinearRing {
+						_linearRings.append(lineString)
+					} else {
+						return nil
+					}
+				} else {
 					return nil
 				}
 			}
-		}
-		else {
+		} else {
 			return nil
 		}
 	}
 }
 
-/// Array forwarding methods
-public extension MultiLineString {
-	
-	public var count : Int { return lineStrings.count }
-	
-	public subscript(index: Int) -> LineString {
-		get { return _lineStrings[index] }
-		set(newValue) { _lineStrings[index] = newValue }
-	}
-}
-
 public extension GeoJSON {
 	
-	/// Optional MultiLineString
-	public var multiLineString: MultiLineString? {
+	/// Optional Polygon
+	public var polygon: Polygon? {
 		get {
 			switch type {
-			case .MultiLineString:
-				return object as? MultiLineString
+			case .Polygon:
+				return object as? Polygon
 			default:
 				return nil
 			}
