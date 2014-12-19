@@ -75,6 +75,55 @@ class MultiLineStringTests: XCTestCase {
 			XCTFail("MultiPoint not parsed Properly")
 		}
 	}
-
 	
+	func testNonhomogeneousMultiLineStringShouldBeParsedCorrectly() {
+		
+		geoJSON = geoJSONfromString("{ \"type\": \"MultiLineString\", \"coordinates\": [ [[0.0, 0.0], [0.0, 1.0], [0.0, 2.0]], [[1.0, 0.0], [1.0, 1.0]] ] }")
+		
+		if let geoMultiLineString = geoJSON.multiLineString {
+			XCTAssertEqual(geoMultiLineString.lineStrings.count, 2)
+			XCTAssertEqual(geoMultiLineString.lineStrings[0].count, 3)
+			XCTAssertEqual(geoMultiLineString.lineStrings[1].count, 2)
+		} else {
+			XCTFail("MultiLineString not parsed Properly")
+		}
+	}
+
+	// MARK: Error cases
+	
+	func testMultiLineStringWithoutCoordinatesShouldRaiseAnError() {
+		geoJSON = geoJSONfromString("{ \"type\": \"MultiLineString\"}")
+		
+		if let error = geoJSON.error {
+			XCTAssertEqual(error.domain, GeoJSONErrorDomain)
+			XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
+		}
+		else {
+			XCTFail("Invalid MultiLineString should raise an invalid object error")
+		}
+	}
+	
+	func testMultiLineStringWithAnInvalidLineStringShouldRaiseAnError() {
+		geoJSON = geoJSONfromString("{ \"type\": \"MultiLineString\", \"coordinates\": [ [[0.0, 0.0]] ] }")
+		
+		if let error = geoJSON.error {
+			XCTAssertEqual(error.domain, GeoJSONErrorDomain)
+			XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
+		}
+		else {
+			XCTFail("Invalid MultiLineString should raise an invalid object error")
+		}
+	}
+	
+	func testIllFormedMultiLineStringShouldRaiseAnError() {
+		geoJSON = geoJSONfromString("{ \"type\": \"MultiLineString\", \"coordinates\": [ [0.0, 1.0], {\"invalid\" : 2.0} ] }")
+		
+		if let error = geoJSON.error {
+			XCTAssertEqual(error.domain, GeoJSONErrorDomain)
+			XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
+		}
+		else {
+			XCTFail("Invalid LineString should raise an invalid object error")
+		}
+	}
 }
