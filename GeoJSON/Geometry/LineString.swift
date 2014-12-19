@@ -1,4 +1,4 @@
-// MultiPoint.swift
+// LineString.swift
 //
 // The MIT License (MIT)
 //
@@ -24,49 +24,51 @@
 
 import Foundation
 
-public class MultiPoint {
+public final class LineString {
 	
 	/// Private coordinates
-	private var _coordinates: [Position] = []
+	private var _points: [Point] = []
 	
 	/// Public coordinates
-	public var coordinates: [Position] { return _coordinates }
+	public var points: [Point] { return _points }
 	
 	public init?(json: JSON) {
-		let optCoord = json["coordinates"]
-		if let coordinates =  optCoord.array {
-			if validateCoordinates(coordinates) {
-				_coordinates = coordinates.map {
-					let doubleArray = $0.array?.map { Double($0.doubleValue) } ?? []
-					return doubleArray
+		if let jsonPoints =  json.array {
+			if jsonPoints.count < 2 { return nil }
+			for jsonPoint in jsonPoints {
+				if let point = Point(json: jsonPoint) {
+					_points.append(point)
 				}
-				return
+				else {
+					return nil
+				}
 			}
 		}
-		return nil
-	}
-	
-	// MARK: - Internal methods
-	func validateCoordinates(coordinates: [JSON]) -> Bool {
-		
-		let validCoordinates = coordinates.filter {
-			let count = $0.array?.count ?? 0
-			return count >= 2
+		else {
+			return nil
 		}
-		
-		if validCoordinates.count != coordinates.count { return false }
-		return true
+	}
+}
+
+/// Array forwarding methods
+public extension LineString {
+	
+	public var count : Int { return points.count }
+	
+	public subscript(index: Int) -> Point {
+		get { return _points[index] }
+		set(newValue) { _points[index] = newValue }
 	}
 }
 
 public extension GeoJSON {
 	
-	/// Optional MultiPoint
-	public var multiPoint: MultiPoint? {
+	/// Optional LineString
+	public var lineString: LineString? {
 		get {
 			switch type {
-			case .MultiPoint:
-				return object as? MultiPoint
+			case .LineString:
+				return object as? LineString
 			default:
 				return nil
 			}

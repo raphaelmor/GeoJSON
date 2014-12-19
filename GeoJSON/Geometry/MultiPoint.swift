@@ -1,4 +1,4 @@
-// Point.swift
+// MultiPoint.swift
 //
 // The MIT License (MIT)
 //
@@ -24,36 +24,50 @@
 
 import Foundation
 
-public final class Point {
+public final class MultiPoint {
 	
 	/// Private coordinates
-	private var _coordinates: Position = [0.0,0.0]
+	private var _points: [Point] = []
 	
 	/// Public coordinates
-	public var coordinates: Position { return _coordinates }
+	public var points: [Point] { return _points }
 	
 	public init?(json: JSON) {
-		let optCoord = json["coordinates"]
-		if let coordinates =  optCoord.array {
-			if coordinates.count < 2 { return nil }
-			
-			_coordinates = coordinates.map {
-				Double($0.doubleValue)
+		if let jsonPoints =  json.array {
+			for jsonPoint in jsonPoints {
+				if let point = Point(json: jsonPoint) {
+					_points.append(point)
+				}
+				else {
+					return nil
+				}
 			}
-		} else {
+		}
+		else {
 			return nil
 		}
 	}
 }
 
+/// Array forwarding methods
+public extension MultiPoint {
+	
+	public var count : Int { return points.count }
+	
+	public subscript(index: Int) -> Point {
+		get { return _points[index] }
+		set(newValue) { _points[index] = newValue }
+	}
+}
+
 public extension GeoJSON {
 	
-	/// Optional Point
-	public var point: Point? {
+	/// Optional MultiPoint
+	public var multiPoint: MultiPoint? {
 		get {
 			switch type {
-			case .Point:
-				return object as? Point
+			case .MultiPoint:
+				return object as? MultiPoint
 			default:
 				return nil
 			}

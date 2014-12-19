@@ -51,11 +51,11 @@ class LineStringTests: XCTestCase {
 	func testBasicLineStringShouldBeParsedCorrectly() {
 		
 		if let lineString = geoJSON.lineString {
-			XCTAssertEqual(lineString.coordinates.count, 2)
-			XCTAssertEqualWithAccuracy(lineString.coordinates[0][0], 1.0, 0.000001)
-			XCTAssertEqualWithAccuracy(lineString.coordinates[0][1], 2.0, 0.000001)
-			XCTAssertEqualWithAccuracy(lineString.coordinates[1][0], 3.0, 0.000001)
-			XCTAssertEqualWithAccuracy(lineString.coordinates[1][1], 4.0, 0.000001)
+			XCTAssertEqual(lineString.count, 2)
+			XCTAssertEqualWithAccuracy(lineString.points[0][0], 1.0, 0.000001)
+			XCTAssertEqualWithAccuracy(lineString.points[0][1], 2.0, 0.000001)
+			XCTAssertEqualWithAccuracy(lineString.points[1][0], 3.0, 0.000001)
+			XCTAssertEqualWithAccuracy(lineString.points[1][1], 4.0, 0.000001)
 		} else {
 			XCTFail("LineString not parsed Properly")
 		}

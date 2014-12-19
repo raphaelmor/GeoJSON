@@ -1,4 +1,4 @@
-// LineString.swift
+// MultiLineString.swift
 //
 // The MIT License (MIT)
 //
@@ -24,32 +24,52 @@
 
 import Foundation
 
-public final class LineString : MultiPoint {
+public final class MultiLineString {
+	
+	/// Private lineStrings
+	private var _lineStrings: [LineString] = []
+	
+	/// Public lineStrings
+	public var lineStrings: [LineString] { return _lineStrings }
+	
+	public init?(json: JSON) {
 		
-	// MARK: - Internal methods
-	override func validateCoordinates(coordinates: [JSON]) -> Bool {
-		
-		let validCoordinates = coordinates.filter {
-			let count = $0.array?.count ?? 0
-			return count >= 2
+		if let jsonLineStrings =  json.array {
+
+			for jsonLineString in jsonLineStrings {
+				if let lineString = LineString(json: jsonLineString) {
+					_lineStrings.append(lineString)
+				}
+				else {
+					return nil
+				}
+			}
 		}
-		
-		if validCoordinates.count != coordinates.count || coordinates.count < 2 {
-			return false
+		else {
+			return nil
 		}
-		
-		return true
+	}
+}
+
+/// Array forwarding methods
+public extension MultiLineString {
+	
+	public var count : Int { return lineStrings.count }
+	
+	public subscript(index: Int) -> LineString {
+		get { return _lineStrings[index] }
+		set(newValue) { _lineStrings[index] = newValue }
 	}
 }
 
 public extension GeoJSON {
 	
-	/// Optional Point
-	public var lineString: LineString? {
+	/// Optional LineString
+	public var multiLineString: MultiLineString? {
 		get {
 			switch type {
-			case .LineString:
-				return object as? LineString
+			case .MultiLineString:
+				return object as? MultiLineString
 			default:
 				return nil
 			}
