@@ -72,7 +72,7 @@ class MultiLineStringTests: XCTestCase {
 			XCTAssertEqualWithAccuracy(geoMultiLineString.lineStrings[1][1].longitude, 1.0, 0.000001)
 			XCTAssertEqualWithAccuracy(geoMultiLineString.lineStrings[1][1].latitude, 1.0, 0.000001)
 		} else {
-			XCTFail("MultiPoint not parsed Properly")
+			XCTFail("MultiLineString not parsed Properly")
 		}
 	}
 	
