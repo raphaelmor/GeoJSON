@@ -34,14 +34,14 @@ public let GeoJSONErrorInvalidGeoJSONObject: Int = 998
 // MARK: - GeoJSON Type definitions
 // See http://geojson.org/geojson-spec.html
 public enum GeoJSONType: String {
-	case Point	 		 = "Point"
-	case MultiPoint 	 = "MultiPoint"
-	case LineString 	 = "LineString"
-	case MultiLineString = "MultiLineString"
-	case Polygon 		 = "Polygon"
-	case MultiPolygon	 = "MultiPolygon"
-	case Null 			 = "Null"
-	case Unknown 		 = ""
+	case Point              = "Point"
+	case MultiPoint         = "MultiPoint"
+	case LineString         = "LineString"
+	case MultiLineString    = "MultiLineString"
+	case Polygon            = "Polygon"
+	case MultiPolygon       = "MultiPolygon"
+    case GeometryCollection = "GeometryCollection"
+	case Unknown            = ""
 }
 
 public typealias PositionList = [[Double]]
@@ -51,7 +51,7 @@ public typealias PositionList = [[Double]]
 public final class GeoJSON {
 	
 	/// Internal type
-	var _type: GeoJSONType = .Null
+	var _type: GeoJSONType = .Unknown
 	/// Internal object
 	var _object: AnyObject = NSNull()
 	/// Internal error
@@ -80,6 +80,8 @@ public final class GeoJSON {
 				_type = .Polygon
 			case let multiPolygon as MultiPolygon:
 				_type = .MultiPolygon
+            case let geometryCollection as GeometryCollection:
+                _type = .GeometryCollection
 			default:
 				_object = NSNull()
 			}
@@ -109,6 +111,8 @@ public final class GeoJSON {
 					object = Polygon(json: coordinatesField) ?? NSNull()
 				case .MultiPolygon:
 					object = MultiPolygon(json: coordinatesField) ?? NSNull()
+                case .GeometryCollection:
+                    object = GeometryCollection(json: json["geometries"]) ?? NSNull()
 				default :
 					println("foo")
 				}
