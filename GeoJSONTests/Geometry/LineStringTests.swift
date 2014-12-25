@@ -47,6 +47,10 @@ class LineStringTests: XCTestCase {
 	func testBasicLineStringShouldBeRecognisedAsSuch() {
 		XCTAssertEqual(geoJSON.type, GeoJSONType.LineString)
 	}
+    
+    func testLineStringShouldBeAGeometry() {
+        XCTAssertTrue(geoJSON.isGeometry)
+    }
 	
 	func testBasicLineStringShouldBeParsedCorrectly() {
 		

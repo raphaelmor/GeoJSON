@@ -1,4 +1,4 @@
-// GeoJSONTests.swift
+// Feature.swift
 //
 // The MIT License (MIT)
 //
@@ -23,49 +23,44 @@
 // SOFTWARE.
 
 import Foundation
-import XCTest
-import GeoJSON
 
-
-class GeoJSONTests: XCTestCase {
-	
-	override func setUp() {
-		super.setUp()
-	}
-	
-	override func tearDown() {
-		super.tearDown()
-	}
-	
-	func testInvalidTypeShouldNotBeParsedCorrectly() {
-		let geoJSON = geoJSONfromString("{ \"type\": \"InvalidType\" }")
-		
-		if let error = geoJSON.error {
-			XCTAssertEqual(error.domain, GeoJSONErrorDomain)
-			XCTAssertEqual(error.code, GeoJSONErrorUnsupportedType)
-		}
-		else {
-			XCTFail("Invalid Type should raise an unsupported type error")
-		}
-	}
+public final class Feature {
     
-    func testNoTypeShouldNotBeParsedCorrectly() {
-        let geoJSON = geoJSONfromString("{ \"coordinates\": null }")
+    /// Private geometry
+	private var _geometry: GeoJSON? = nil
+    
+    /// Public geometry
+    public var geometry: GeoJSON? { return _geometry }
+    
+     public init?(json: JSON) {
         
-        if let error = geoJSON.error {
-            XCTAssertEqual(error.domain, GeoJSONErrorDomain)
-            XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
-        }
-        else {
-            XCTFail("No Type should raise an invalid object error")
+        let jsonGeometry = json["geometry"]
+        if jsonGeometry.error != nil { return nil }
+        
+        if let _ = jsonGeometry.null {
+            _geometry = nil
+        } else {
+            _geometry = GeoJSON(json: jsonGeometry)
+            if _geometry?.error != nil { return nil }
+            if _geometry?.isGeometry == false { return nil }
         }
     }
 }
 
-func geoJSONfromString(string: String) -> GeoJSON {
-	let nsString = NSString(string:string)
-	let data = nsString.dataUsingEncoding(NSUTF8StringEncoding)!
-	let json = JSON(data:data)
-	
-	return GeoJSON(json:json)
+public extension GeoJSON {
+    
+    /// Optional Polygon
+    public var feature: Feature? {
+        get {
+            switch type {
+            case .Feature:
+                return object as? Feature
+            default:
+                return nil
+            }
+        }
+        set {
+            _object = newValue ?? NSNull()
+        }
+    }
 }

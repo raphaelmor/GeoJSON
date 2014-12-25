@@ -48,6 +48,10 @@ class GeometryCollectionTests: XCTestCase {
         XCTAssertEqual(geoJSON.type, GeoJSONType.GeometryCollection)
     }
     
+    func testGeometryCollectionShouldBeAGeometry() {
+        XCTAssertTrue(geoJSON.isGeometry)
+    }
+    
     func testBasicGeometryCollectionShouldBeParsedCorrectly() {
        
         if let geometryCollection = geoJSON.geometryCollection {
