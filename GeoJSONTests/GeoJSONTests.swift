@@ -48,6 +48,18 @@ class GeoJSONTests: XCTestCase {
 			XCTFail("Invalid Type should raise an unsupported type error")
 		}
 	}
+    
+    func testNoTypeShouldNotBeParsedCorrectly() {
+        let geoJSON = geoJSONfromString("{ \"coordinates\": null }")
+        
+        if let error = geoJSON.error {
+            XCTAssertEqual(error.domain, GeoJSONErrorDomain)
+            XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
+        }
+        else {
+            XCTFail("No Type should raise an invalid object error")
+        }
+    }
 }
 
 func geoJSONfromString(string: String) -> GeoJSON {

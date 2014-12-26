@@ -41,6 +41,7 @@ public enum GeoJSONType: String {
 	case Polygon            = "Polygon"
 	case MultiPolygon       = "MultiPolygon"
     case GeometryCollection = "GeometryCollection"
+    case Feature            = "Feature"
 	case Unknown            = ""
 }
 
@@ -82,6 +83,8 @@ public final class GeoJSON {
 				_type = .MultiPolygon
             case let geometryCollection as GeometryCollection:
                 _type = .GeometryCollection
+            case let feature as Feature:
+                _type = .Feature
 			default:
 				_object = NSNull()
 			}
@@ -90,6 +93,16 @@ public final class GeoJSON {
 	
 	/// Error in GeoJSON
 	public var error: NSError? { return _error }
+    
+    /// is Geometry
+    public var isGeometry: Bool {
+        switch type {
+        case .Point,.MultiPoint,.LineString,.MultiLineString,.Polygon,.MultiPolygon,.GeometryCollection:
+            return true
+        default :
+            return false
+        }
+    }
 	
 	public init(json: JSON) {
 		
@@ -113,6 +126,8 @@ public final class GeoJSON {
 					object = MultiPolygon(json: coordinatesField) ?? NSNull()
                 case .GeometryCollection:
                     object = GeometryCollection(json: json["geometries"]) ?? NSNull()
+                case .Feature:
+                    object = Feature(json: json) ?? NSNull()
 				default :
 					println("foo")
 				}
@@ -127,6 +142,9 @@ public final class GeoJSON {
 				_object = NSNull()
 				_error = NSError(domain: GeoJSONErrorDomain, code: GeoJSONErrorUnsupportedType, userInfo: [NSLocalizedDescriptionKey: "It is a unsupported type"])
 			}
-		}
-	}
+        } else {
+            _type = .Unknown
+            _error = NSError(domain: GeoJSONErrorDomain, code: GeoJSONErrorInvalidGeoJSONObject, userInfo: [NSLocalizedDescriptionKey: "GeoJSON Object is invalid"])
+        }
+    }
 }

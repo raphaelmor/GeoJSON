@@ -47,6 +47,10 @@ class PointTests: XCTestCase {
 	func testBasicPointShouldBeRecognisedAsSuch() {
 		XCTAssertEqual(geoJSON.type, GeoJSONType.Point)
 	}
+    
+    func testPointShouldBeAGeometry() {
+        XCTAssertTrue(geoJSON.isGeometry)
+    }
 	
 	func testBasicPointShouldBeParsedCorrectly() {
 		if let geoPoint = geoJSON.point {

@@ -24,6 +24,8 @@
 		20FF4C751A39AF5000FC5F59 /* MultiLineString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FF4C741A39AF5000FC5F59 /* MultiLineString.swift */; };
 		28D9208D1A4B645900161BFC /* GeometryCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D9208C1A4B645900161BFC /* GeometryCollection.swift */; };
 		28D9208F1A4B64C700161BFC /* GeometryCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D9208E1A4B64C700161BFC /* GeometryCollectionTests.swift */; };
+		28DD68751A4C9C7D00FD1701 /* FeatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DD68741A4C9C7D00FD1701 /* FeatureTests.swift */; };
+		28DD68771A4CA0E400FD1701 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DD68761A4CA0E400FD1701 /* Feature.swift */; };
 		64FC94851A24A59400E83F60 /* GeoJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 64FC94841A24A59400E83F60 /* GeoJSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		64FC948B1A24A59400E83F60 /* GeoJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64FC947F1A24A59400E83F60 /* GeoJSON.framework */; };
 		64FC94921A24A59400E83F60 /* PointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FC94911A24A59400E83F60 /* PointTests.swift */; };
@@ -62,6 +64,8 @@
 		20FF4C741A39AF5000FC5F59 /* MultiLineString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiLineString.swift; sourceTree = "<group>"; };
 		28D9208C1A4B645900161BFC /* GeometryCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeometryCollection.swift; sourceTree = "<group>"; };
 		28D9208E1A4B64C700161BFC /* GeometryCollectionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeometryCollectionTests.swift; sourceTree = "<group>"; };
+		28DD68741A4C9C7D00FD1701 /* FeatureTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureTests.swift; sourceTree = "<group>"; };
+		28DD68761A4CA0E400FD1701 /* Feature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
 		64FC947F1A24A59400E83F60 /* GeoJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GeoJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		64FC94831A24A59400E83F60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		64FC94841A24A59400E83F60 /* GeoJSON.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeoJSON.h; sourceTree = "<group>"; };
@@ -165,6 +169,7 @@
 		64FC94811A24A59400E83F60 /* GeoJSON */ = {
 			isa = PBXGroup;
 			children = (
+				28DD68761A4CA0E400FD1701 /* Feature.swift */,
 				20FF4C701A39AB9600FC5F59 /* Geometry */,
 				64FC94841A24A59400E83F60 /* GeoJSON.h */,
 				2049007A1A275B6D0001E4AC /* GeoJSON.swift */,
@@ -184,6 +189,7 @@
 		64FC948E1A24A59400E83F60 /* GeoJSONTests */ = {
 			isa = PBXGroup;
 			children = (
+				28DD68741A4C9C7D00FD1701 /* FeatureTests.swift */,
 				20FF4C711A39ACC400FC5F59 /* Geometry */,
 				20FD3CC01A28BA6D00F54E44 /* GeoJSONTests.swift */,
 				64FC948F1A24A59400E83F60 /* Supporting Files */,
@@ -309,6 +315,7 @@
 			files = (
 				28D9208D1A4B645900161BFC /* GeometryCollection.swift in Sources */,
 				201349561A49B37E008D117B /* MultiPolygon.swift in Sources */,
+				28DD68771A4CA0E400FD1701 /* Feature.swift in Sources */,
 				20FF4C751A39AF5000FC5F59 /* MultiLineString.swift in Sources */,
 				2076906D1A374FE100E17463 /* MultiPoint.swift in Sources */,
 				204900B31A27865D0001E4AC /* SwiftyJSON.swift in Sources */,
@@ -331,6 +338,7 @@
 				20B1C0B71A360DF4002B46A5 /* MultiPointTests.swift in Sources */,
 				203262781A3724CD00EB605F /* LineStringTests.swift in Sources */,
 				20FD3CC11A28BA6D00F54E44 /* GeoJSONTests.swift in Sources */,
+				28DD68751A4C9C7D00FD1701 /* FeatureTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

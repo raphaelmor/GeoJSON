@@ -47,6 +47,10 @@ class MultiPointTests: XCTestCase {
 	func testBasicMultiPointShouldBeRecognisedAsSuch() {
 		XCTAssertEqual(geoJSON.type, GeoJSONType.MultiPoint)
 	}
+    
+    func testMultiPointShouldBeAGeometry() {
+        XCTAssertTrue(geoJSON.isGeometry)
+    }
 	
 	func testEmptyMultiPointShouldBeParsedCorrectly() {
 		if let geoMultiPoint = geoJSON.multiPoint {

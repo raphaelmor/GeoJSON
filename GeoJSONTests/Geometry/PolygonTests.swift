@@ -47,6 +47,10 @@ class PolygonTests: XCTestCase {
 	func testBasicPolygonShouldBeRecognisedAsSuch() {
 		XCTAssertEqual(geoJSON.type, GeoJSONType.Polygon)
 	}
+    
+    func testPolygonShouldBeAGeometry() {
+        XCTAssertTrue(geoJSON.isGeometry)
+    }
 	
 	func testEmptyPolygonShouldBeParsedCorrectly() {
 		
