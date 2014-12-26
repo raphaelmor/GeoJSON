@@ -26,13 +26,9 @@ import Foundation
 import XCTest
 import GeoJSON
 
-// TODO: 
-// - id
-// - properties
-
 class FeatureTests: XCTestCase {
     
-    var geoJSON :GeoJSON!
+    var geoJSON: GeoJSON!
     
     override func setUp() {
         super.setUp()
@@ -75,9 +71,53 @@ class FeatureTests: XCTestCase {
         geoJSON = geoJSONfromString("{ \"type\": \"Feature\", \"properties\" : [], \"geometry\": null }")
         
         if let geoFeature = geoJSON.feature {
-            XCTAssertTrue(geoFeature.geometry == nil)
+            XCTAssertNil(geoFeature.geometry)
         } else {
-            XCTFail("Feature with null Geometry is a valid feature")
+            XCTFail("Feature with null Geometry should be valid feature")
+        }
+    }
+    
+    func testFeatureWithArrayPropertyShouldBeRecognised() {
+        
+        if let geoFeature = geoJSON.feature {
+            XCTAssertTrue(geoFeature.properties.type == .Array)
+        } else {
+            XCTFail("Feature with Array properties should be valid")
+        }
+    }
+    
+    func testFeatureWithDictionaryPropertyShouldBeRecognised() {
+        
+        geoJSON = geoJSONfromString("{ \"type\": \"Feature\", \"properties\" : {}, \"geometry\": null }")
+
+        if let geoFeature = geoJSON.feature {
+            XCTAssertTrue(geoFeature.properties.type == .Dictionary)
+        } else {
+            XCTFail("Feature with Dictionary properties should be valid")
+        }
+    }
+    
+    func testFeatureWithIdShouldBeRecognised() {
+        
+        geoJSON = geoJSONfromString("{ \"type\": \"Feature\", \"id\" : \"anyIdentifier\" , \"properties\" : null, \"geometry\": null }")
+        
+        if let geoFeature = geoJSON.feature {
+            if let identifier = geoFeature.identifier {
+                XCTAssertEqual(identifier, "anyIdentifier")
+            } else {
+                XCTFail("Feature identifier should be parsed correctly")
+            }
+        } else {
+            XCTFail("Feature with identifier should be parsed")
+        }
+    }
+    
+    func testFeatureWithoutIdShouldBeRecognised() {
+        
+        geoJSON = geoJSONfromString("{ \"type\": \"Feature\", \"properties\" : null, \"geometry\": null }")
+        
+        if let geoFeature = geoJSON.feature {
+            XCTAssertNil(geoFeature.identifier)
         }
     }
     
@@ -109,6 +149,19 @@ class FeatureTests: XCTestCase {
     
     func testFeatureShouldNotContainAFeature() {
         geoJSON = geoJSONfromString("{ \"type\": \"Feature\", \"properties\" : [], \"geometry\": { \"type\": \"Feature\", \"properties\" : [], \"geometry\": { \"type\": \"Point\", \"coordinates\": [0.0, 0.0] } } }")
+        
+        if let error = geoJSON.error {
+            XCTAssertEqual(error.domain, GeoJSONErrorDomain)
+            XCTAssertEqual(error.code, GeoJSONErrorInvalidGeoJSONObject)
+        }
+        else {
+            XCTFail("Invalid Feature should raise an invalid object error")
+        }
+    }
+    
+    func testFeatureWithInvalidJSONPropertiesShouldBeInvalid() {
+        
+        geoJSON = geoJSONfromString("{ \"type\": \"Feature\", \"properties\" : {invalid}, \"geometry\": null }")
         
         if let error = geoJSON.error {
             XCTAssertEqual(error.domain, GeoJSONErrorDomain)

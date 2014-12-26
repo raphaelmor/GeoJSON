@@ -32,7 +32,19 @@ public final class Feature {
     /// Public geometry
     public var geometry: GeoJSON? { return _geometry }
     
+    /// Public identifier
+    public var identifier: String? = nil
+    
+    /// Private properties
+    private var _properties: JSON
+    
+    /// Public properties
+    public var properties: JSON { return _properties }
+    
      public init?(json: JSON) {
+        
+        _properties = json["properties"]
+        if _properties.error != nil { return nil }
         
         let jsonGeometry = json["geometry"]
         if jsonGeometry.error != nil { return nil }
@@ -44,6 +56,9 @@ public final class Feature {
             if _geometry?.error != nil { return nil }
             if _geometry?.isGeometry == false { return nil }
         }
+        
+        let jsonIdentifier = json["id"]
+        identifier = jsonIdentifier.string
     }
 }
 
