@@ -15,6 +15,7 @@ GeoJSON Parser in swift
 
 ### Planned for 1.0.0 Release
 - Encode `Swift` classes to a `GeoJSON` string
+- Support for custom CRSs and BoundingBoxes
 - 100% Unit Test Coverage
 - Complete Documentation
 - Example project
