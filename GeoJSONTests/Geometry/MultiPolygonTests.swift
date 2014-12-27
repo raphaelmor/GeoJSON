@@ -28,7 +28,7 @@ import GeoJSON
 
 class MultiPolygonTests: XCTestCase {
 	
-	var geoJSON :GeoJSON!
+	var geoJSON: GeoJSON!
 	
 	override func setUp() {
 		super.setUp()
