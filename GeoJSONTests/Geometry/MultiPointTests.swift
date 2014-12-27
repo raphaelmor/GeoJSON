@@ -28,7 +28,7 @@ import GeoJSON
 
 class MultiPointTests: XCTestCase {
 	
-	var geoJSON :GeoJSON!
+	var geoJSON: GeoJSON!
 	
 	override func setUp() {
 		super.setUp()

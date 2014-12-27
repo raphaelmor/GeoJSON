@@ -42,6 +42,7 @@ public enum GeoJSONType: String {
 	case MultiPolygon       = "MultiPolygon"
     case GeometryCollection = "GeometryCollection"
     case Feature            = "Feature"
+    case FeatureCollection  = "FeatureCollection"
 	case Unknown            = ""
 }
 
@@ -85,6 +86,8 @@ public final class GeoJSON {
                 _type = .GeometryCollection
             case let feature as Feature:
                 _type = .Feature
+            case let featureCollection as FeatureCollection:
+                _type = .FeatureCollection
 			default:
 				_object = NSNull()
 			}
@@ -128,6 +131,8 @@ public final class GeoJSON {
                     object = GeometryCollection(json: json["geometries"]) ?? NSNull()
                 case .Feature:
                     object = Feature(json: json) ?? NSNull()
+                case .FeatureCollection:
+                    object = FeatureCollection(json: json["features"]) ?? NSNull()
 				default :
 					println("foo")
 				}
