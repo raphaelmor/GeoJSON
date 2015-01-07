@@ -54,6 +54,11 @@ public final class MultiPoint : GeoJSONEncodable {
 		_points = points
 	}
 
+	/**
+	Build a object that can be serialized to JSON
+	
+	:returns: Representation of the Point Object
+	*/
 	public func json() -> AnyObject {
 		return points.map { $0.json() }
 	}

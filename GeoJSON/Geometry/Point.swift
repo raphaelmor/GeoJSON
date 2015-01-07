@@ -40,6 +40,7 @@ public final class Point : Equatable, GeoJSONEncodable {
 	/// Shortcut property to altitude
 	public var altitude: Double { return _coordinates[2] }
 	
+	/// Prefix used for GeoJSON Encoding
 	public var prefix : String { return "coordinates" }
 	
 	/**
@@ -72,6 +73,11 @@ public final class Point : Equatable, GeoJSONEncodable {
 		_coordinates = coordinates
 	}
 	
+	/**
+	Build a object that can be serialized to JSON
+	
+	:returns: Representation of the Point Object
+	*/
 	public func json() -> AnyObject {
 		return _coordinates as AnyObject
 	}
@@ -80,14 +86,21 @@ public final class Point : Equatable, GeoJSONEncodable {
 /// Array forwarding methods
 public extension Point {
 	
+	/// number of coordinates
 	public var count : Int { return _coordinates.count }
-	
+
+	/// subscript to access the Nth coordinates
 	public subscript(index: Int) -> Double {
 		get { return _coordinates[index] }
 		set(newValue) { _coordinates[index] = newValue }
 	}
 }
 
+/**
+== Operator for Point objects
+
+:returns: true if the two points objects have the same number of coordinates and they are all equals
+*/
 public func ==(lhs: Point, rhs: Point) -> Bool {
 
 	if lhs.count != rhs.count { return false }
