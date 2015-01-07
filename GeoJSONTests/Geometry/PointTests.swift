@@ -50,7 +50,7 @@ class PointTests: XCTestCase {
 	}
     
     func testPointShouldBeAGeometry() {
-        XCTAssertTrue(geoJSON.isGeometry)
+        XCTAssertTrue(geoJSON.isGeometry())
     }
 	
 	func testBasicPointShouldBeParsedCorrectly() {
@@ -93,15 +93,33 @@ class PointTests: XCTestCase {
 	// MARK: Encoding 
 	func testBasicPointShouldBeEncoded() {
 		
-		if let point = Point(coordinates:[0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
-		{
-			if let jsonString = stringFromJSON(point.json()) {
-				XCTAssertEqual(jsonString, "{\"coordinates\":[0,1,2,3,4,5,6],\"type\":\"Point\"}")
-			} else {
-				XCTFail("Valid Point should be encoded properly")
-			}
+		let point = Point(coordinates:[0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
+
+		XCTAssertNotNil(point,"Valid Point should be encoded properly")
+		
+		if let jsonString = stringFromJSON(point!.json()) {
+			XCTAssertEqual(jsonString, "[0,1,2,3,4,5,6]")
 		} else {
 			XCTFail("Valid Point should be encoded properly")
+		}
+	}
+	
+	func testPointShouldHaveTheRightPrefix() {
+		
+		let point = Point(coordinates:[0.0,0.0])!
+		
+		XCTAssertEqual(point.prefix,"coordinates")
+	}
+	
+	func testBasicPointInGeoJSONShouldBeEncoded() {
+		
+		let point = Point(coordinates:[0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
+		let geoJSON = GeoJSON(point: point!)
+		
+		if let jsonString = stringFromJSON(geoJSON.json()) {
+			XCTAssertEqual(jsonString, "{\"coordinates\":[0,1,2,3,4,5,6],\"type\":\"Point\"}")
+		} else {
+			XCTFail("Valid Point in GeoJSON  should be encoded properly")
 		}
 	}
 	

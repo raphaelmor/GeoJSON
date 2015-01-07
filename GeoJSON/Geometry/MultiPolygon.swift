@@ -24,7 +24,7 @@
 
 import Foundation
 
-public final class MultiPolygon {
+public final class MultiPolygon : GeoJSONEncodable {
 	
 	/// Private polygons
 	private var _polygons: [Polygon] = []
@@ -47,8 +47,9 @@ public final class MultiPolygon {
 		else {
 			return nil
 		}
-
 	}
+	public var prefix : String { return "" }
+	public func json() -> AnyObject { return "" }
 }
 
 /// Array forwarding methods

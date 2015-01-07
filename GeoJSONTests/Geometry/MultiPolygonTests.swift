@@ -49,7 +49,7 @@ class MultiPolygonTests: XCTestCase {
 	}
     
     func testMultiPolygonShouldBeAGeometry() {
-        XCTAssertTrue(geoJSON.isGeometry)
+        XCTAssertTrue(geoJSON.isGeometry())
     }
 	
 	func testEmptyMultiPolygonShouldBeParsedCorrectly() {

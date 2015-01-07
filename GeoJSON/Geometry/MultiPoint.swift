@@ -24,13 +24,15 @@
 
 import Foundation
 
-public final class MultiPoint {
-	
-	/// Private coordinates
-	private var _points: [Point] = []
+public final class MultiPoint : GeoJSONEncodable {
 	
 	/// Public coordinates
 	public var points: [Point] { return _points }
+	
+	public var prefix : String { return "coordinates" }
+	
+	/// Private coordinates
+	private var _points: [Point] = []
 	
 	public init?(json: JSON) {
 		if let jsonPoints =  json.array {
@@ -46,6 +48,19 @@ public final class MultiPoint {
 		else {
 			return nil
 		}
+	}
+	
+	public init?(points: [Point]) {
+		_points = points
+	}
+
+	/**
+	Build a object that can be serialized to JSON
+	
+	:returns: Representation of the Point Object
+	*/
+	public func json() -> AnyObject {
+		return points.map { $0.json() }
 	}
 }
 
@@ -75,5 +90,10 @@ public extension GeoJSON {
 		set {
 			_object = newValue ?? NSNull()
 		}
+	}
+	
+	convenience public init(multiPoint: MultiPoint) {
+		self.init()
+		object = multiPoint
 	}
 }

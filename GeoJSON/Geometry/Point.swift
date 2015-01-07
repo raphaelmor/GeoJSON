@@ -24,7 +24,7 @@
 
 import Foundation
 
-public final class Point : Equatable {
+public final class Point : Equatable, GeoJSONEncodable {
 	
 	/// Private var to store coordinates
 	private var _coordinates: [Double] = [0.0, 0.0]
@@ -39,6 +39,9 @@ public final class Point : Equatable {
 	public var easting: Double { return _coordinates[0] }
 	/// Shortcut property to altitude
 	public var altitude: Double { return _coordinates[2] }
+	
+	/// Prefix used for GeoJSON Encoding
+	public var prefix : String { return "coordinates" }
 	
 	/**
 	Designated initializer for creating a Point from a SwiftyJSON object
@@ -70,27 +73,34 @@ public final class Point : Equatable {
 		_coordinates = coordinates
 	}
 	
-	public func json() -> [String:AnyObject] {
-		let json = [
-			"type" : GeoJSONType.Point.rawValue,
-			"coordinates" : _coordinates as AnyObject
-		]
-		
-		return json
+	/**
+	Build a object that can be serialized to JSON
+	
+	:returns: Representation of the Point Object
+	*/
+	public func json() -> AnyObject {
+		return _coordinates as AnyObject
 	}
 }
 
 /// Array forwarding methods
 public extension Point {
 	
+	/// number of coordinates
 	public var count : Int { return _coordinates.count }
-	
+
+	/// subscript to access the Nth coordinates
 	public subscript(index: Int) -> Double {
 		get { return _coordinates[index] }
 		set(newValue) { _coordinates[index] = newValue }
 	}
 }
 
+/**
+== Operator for Point objects
+
+:returns: true if the two points objects have the same number of coordinates and they are all equals
+*/
 public func ==(lhs: Point, rhs: Point) -> Bool {
 
 	if lhs.count != rhs.count { return false }

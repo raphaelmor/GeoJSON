@@ -16,6 +16,7 @@
 		2076906B1A374EF600E17463 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2076906A1A374EF600E17463 /* Point.swift */; };
 		2076906D1A374FE100E17463 /* MultiPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2076906C1A374FE100E17463 /* MultiPoint.swift */; };
 		2076906F1A37505500E17463 /* LineString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2076906E1A37505500E17463 /* LineString.swift */; };
+		208DDDDE1A5D9A86002B0A57 /* GeoJSONEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 208DDDDD1A5D9A86002B0A57 /* GeoJSONEncodable.swift */; };
 		20B1C0B71A360DF4002B46A5 /* MultiPointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B1C0B61A360DF4002B46A5 /* MultiPointTests.swift */; };
 		20E7EF6E1A4463BF00D69CE2 /* PolygonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E7EF6D1A4463BF00D69CE2 /* PolygonTests.swift */; };
 		20E7EF701A44645700D69CE2 /* Polygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E7EF6F1A44645700D69CE2 /* Polygon.swift */; };
@@ -56,6 +57,7 @@
 		2076906A1A374EF600E17463 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		2076906C1A374FE100E17463 /* MultiPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPoint.swift; sourceTree = "<group>"; };
 		2076906E1A37505500E17463 /* LineString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineString.swift; sourceTree = "<group>"; };
+		208DDDDD1A5D9A86002B0A57 /* GeoJSONEncodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoJSONEncodable.swift; sourceTree = "<group>"; };
 		20B1C0B61A360DF4002B46A5 /* MultiPointTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPointTests.swift; sourceTree = "<group>"; };
 		20E7EF6D1A4463BF00D69CE2 /* PolygonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolygonTests.swift; sourceTree = "<group>"; };
 		20E7EF6F1A44645700D69CE2 /* Polygon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Polygon.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				64FC94841A24A59400E83F60 /* GeoJSON.h */,
 				2049007A1A275B6D0001E4AC /* GeoJSON.swift */,
 				64FC94821A24A59400E83F60 /* Supporting Files */,
+				208DDDDD1A5D9A86002B0A57 /* GeoJSONEncodable.swift */,
 			);
 			path = GeoJSON;
 			sourceTree = "<group>";
@@ -326,6 +329,7 @@
 				28DD687B1A4DC1B500FD1701 /* FeatureCollection.swift in Sources */,
 				2076906D1A374FE100E17463 /* MultiPoint.swift in Sources */,
 				204900B31A27865D0001E4AC /* SwiftyJSON.swift in Sources */,
+				208DDDDE1A5D9A86002B0A57 /* GeoJSONEncodable.swift in Sources */,
 				2049007B1A275B6D0001E4AC /* GeoJSON.swift in Sources */,
 				2076906B1A374EF600E17463 /* Point.swift in Sources */,
 				2076906F1A37505500E17463 /* LineString.swift in Sources */,

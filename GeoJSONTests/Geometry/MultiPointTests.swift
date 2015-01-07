@@ -42,14 +42,15 @@ class MultiPointTests: XCTestCase {
 		super.tearDown()
 	}
 	
-	// MARK: Nominal cases
+	// MARK: - Nominal cases
 	
+	// MARK: Decoding
 	func testBasicMultiPointShouldBeRecognisedAsSuch() {
 		XCTAssertEqual(geoJSON.type, GeoJSONType.MultiPoint)
 	}
     
     func testMultiPointShouldBeAGeometry() {
-        XCTAssertTrue(geoJSON.isGeometry)
+        XCTAssertTrue(geoJSON.isGeometry())
     }
 	
 	func testEmptyMultiPointShouldBeParsedCorrectly() {
@@ -75,8 +76,53 @@ class MultiPointTests: XCTestCase {
 		}
 	}
 	
-	// MARK: Error cases
+	// MARK: Encoding
 	
+	func testBasicPointShouldBeEncoded() {
+		
+		let firstPoint = Point(coordinates:[0.0, 0.0])!
+		let secondPoint = Point(coordinates:[1.0, 1.0])!
+		
+		let multiPoint = MultiPoint(points:[firstPoint,secondPoint])
+		
+		XCTAssertNotNil(multiPoint,"Valid Point should be encoded properly")
+		
+		if let jsonString = stringFromJSON(multiPoint!.json()) {
+			XCTAssertEqual(jsonString, "[[0,0],[1,1]]")
+		} else {
+			XCTFail("Valid MultiPoint should be encoded properly")
+		}
+	}
+	
+	func testPointShouldHaveTheRightPrefix() {
+		
+		let firstPoint = Point(coordinates:[0.0, 0.0])!
+		let secondPoint = Point(coordinates:[1.0, 1.0])!
+		
+		let multiPoint = MultiPoint(points:[firstPoint,secondPoint])!
+		
+		XCTAssertEqual(multiPoint.prefix,"coordinates")
+	}
+	
+	func testBasicMultiPointInGeoJSONShouldBeEncoded() {
+		
+		let firstPoint = Point(coordinates:[0.0, 0.0])!
+		let secondPoint = Point(coordinates:[1.0, 1.0])!
+		
+		let multiPoint = MultiPoint(points:[firstPoint,secondPoint])
+		
+		let geoJSON = GeoJSON(multiPoint: multiPoint!)
+		
+		if let jsonString = stringFromJSON(geoJSON.json()) {
+			XCTAssertEqual(jsonString, "{\"coordinates\":[[0,0],[1,1]],\"type\":\"MultiPoint\"}")
+		} else {
+			XCTFail("Valid MultiPoint in GeoJSON  should be encoded properly")
+		}
+	}
+
+	// MARK: - Error cases
+	
+	// MARK: Decoding
 	func testMultiPointWithoutCoordinatesShouldRaiseAnError() {
 		geoJSON = geoJSONfromString("{ \"type\": \"MultiPoint\" }")
 		

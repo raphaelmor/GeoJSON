@@ -49,7 +49,7 @@ class GeometryCollectionTests: XCTestCase {
     }
     
     func testGeometryCollectionShouldBeAGeometry() {
-        XCTAssertTrue(geoJSON.isGeometry)
+        XCTAssertTrue(geoJSON.isGeometry())
     }
     
     func testBasicGeometryCollectionShouldBeParsedCorrectly() {

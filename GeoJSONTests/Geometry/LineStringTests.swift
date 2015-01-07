@@ -49,7 +49,7 @@ class LineStringTests: XCTestCase {
 	}
     
     func testLineStringShouldBeAGeometry() {
-        XCTAssertTrue(geoJSON.isGeometry)
+        XCTAssertTrue(geoJSON.isGeometry())
     }
 	
 	func testBasicLineStringShouldBeParsedCorrectly() {

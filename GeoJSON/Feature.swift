@@ -24,7 +24,7 @@
 
 import Foundation
 
-public final class Feature {
+public final class Feature : GeoJSONEncodable {
     
     /// Private geometry
 	private var _geometry: GeoJSON? = nil
@@ -54,12 +54,14 @@ public final class Feature {
         } else {
             _geometry = GeoJSON(json: jsonGeometry)
             if _geometry?.error != nil { return nil }
-            if _geometry?.isGeometry == false { return nil }
+            if _geometry?.isGeometry() == false { return nil }
         }
         
         let jsonIdentifier = json["id"]
         identifier = jsonIdentifier.string
     }
+	public var prefix : String { return "" }
+	public func json() -> AnyObject { return "" }
 }
 
 public extension GeoJSON {
