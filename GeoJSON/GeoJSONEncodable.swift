@@ -1,4 +1,4 @@
-// MultiLineString.swift
+// GeoJSONEncodable.swift
 //
 // The MIT License (MIT)
 //
@@ -24,59 +24,14 @@
 
 import Foundation
 
-public final class MultiLineString : GeoJSONEncodable {
-	
-	/// Private lineStrings
-	private var _lineStrings: [LineString] = []
-	
-	/// Public lineStrings
-	public var lineStrings: [LineString] { return _lineStrings }
-	
-	public init?(json: JSON) {
-		if let jsonLineStrings =  json.array {
-
-			for jsonLineString in jsonLineStrings {
-				if let lineString = LineString(json: jsonLineString) {
-					_lineStrings.append(lineString)
-				}
-				else {
-					return nil
-				}
-			}
-		}
-		else {
-			return nil
-		}
-	}
-	public var prefix : String { return "" }
-	public func json() -> AnyObject { return "" }
+public protocol GeoJSONEncodable {
+	var prefix: String { get }
+	func json() -> AnyObject
 }
 
-/// Array forwarding methods
-public extension MultiLineString {
-	
-	public var count : Int { return lineStrings.count }
-	
-	public subscript(index: Int) -> LineString {
-		get { return _lineStrings[index] }
-		set(newValue) { _lineStrings[index] = newValue }
-	}
-}
-
-public extension GeoJSON {
-	
-	/// Optional MultiLineString
-	public var multiLineString: MultiLineString? {
-		get {
-			switch type {
-			case .MultiLineString:
-				return object as? MultiLineString
-			default:
-				return nil
-			}
-		}
-		set {
-			_object = newValue ?? NSNull()
-		}
+extension NSNull : GeoJSONEncodable {
+	public var prefix: String { return "" }
+	public func json() -> AnyObject {
+		return NSNull()
 	}
 }

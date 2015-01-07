@@ -24,7 +24,7 @@
 
 import Foundation
 
-public final class Polygon {
+public final class Polygon : GeoJSONEncodable {
 	
 	/// Private linearRings
 	private var _linearRings: [LineString] = []
@@ -49,6 +49,8 @@ public final class Polygon {
 			return nil
 		}
 	}
+	public var prefix : String { return "" }
+	public func json() -> AnyObject { return "" }
 }
 
 public extension GeoJSON {

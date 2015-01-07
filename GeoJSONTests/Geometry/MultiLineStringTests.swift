@@ -49,7 +49,7 @@ class MultiLineStringTests: XCTestCase {
 	}
     
     func testMultiLineStringShouldBeAGeometry() {
-        XCTAssertTrue(geoJSON.isGeometry)
+        XCTAssertTrue(geoJSON.isGeometry())
     }
 	
 	func testEmptyMultiLineStringShouldBeParsedCorrectly() {

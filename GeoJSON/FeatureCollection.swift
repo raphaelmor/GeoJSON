@@ -24,7 +24,7 @@
 
 import Foundation
 
-public final class FeatureCollection {
+public final class FeatureCollection : GeoJSONEncodable {
     
     /// Private var to store features
     private var _features: [GeoJSON] = []
@@ -50,6 +50,8 @@ public final class FeatureCollection {
             return nil
         }
     }
+	public var prefix : String { return "" }
+	public func json() -> AnyObject { return "" }
 }
 
 /// Array forwarding methods

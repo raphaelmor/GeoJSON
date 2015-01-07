@@ -42,14 +42,15 @@ class MultiPointTests: XCTestCase {
 		super.tearDown()
 	}
 	
-	// MARK: Nominal cases
+	// MARK: - Nominal cases
 	
+	// MARK: Decoding
 	func testBasicMultiPointShouldBeRecognisedAsSuch() {
 		XCTAssertEqual(geoJSON.type, GeoJSONType.MultiPoint)
 	}
     
     func testMultiPointShouldBeAGeometry() {
-        XCTAssertTrue(geoJSON.isGeometry)
+        XCTAssertTrue(geoJSON.isGeometry())
     }
 	
 	func testEmptyMultiPointShouldBeParsedCorrectly() {
@@ -75,8 +76,11 @@ class MultiPointTests: XCTestCase {
 		}
 	}
 	
-	// MARK: Error cases
+	// MARK: Encoding
+
+	// MARK: - Error cases
 	
+	// MARK: Decoding
 	func testMultiPointWithoutCoordinatesShouldRaiseAnError() {
 		geoJSON = geoJSONfromString("{ \"type\": \"MultiPoint\" }")
 		
@@ -112,4 +116,6 @@ class MultiPointTests: XCTestCase {
 			XCTFail("Invalid MultiPoint should raise an invalid object error")
 		}
 	}
+	
+	// MARK: Encoding
 }

@@ -24,7 +24,7 @@
 
 import Foundation
 
-public final class LineString {
+public final class LineString : GeoJSONEncodable {
 	
 	/// Private coordinates
 	private var _points: [Point] = []
@@ -52,6 +52,8 @@ public final class LineString {
 			return nil
 		}
 	}
+	public var prefix : String { return "" }
+	public func json() -> AnyObject { return "" }
 }
 
 /// Array forwarding methods

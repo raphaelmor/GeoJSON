@@ -24,7 +24,7 @@
 
 import Foundation
 
-public final class MultiPoint {
+public final class MultiPoint : GeoJSONEncodable {
 	
 	/// Private coordinates
 	private var _points: [Point] = []
@@ -47,6 +47,9 @@ public final class MultiPoint {
 			return nil
 		}
 	}
+	
+	public var prefix : String { return "" }
+	public func json() -> AnyObject { return "" }
 }
 
 /// Array forwarding methods

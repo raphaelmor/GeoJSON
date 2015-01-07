@@ -49,7 +49,7 @@ class FeatureTests: XCTestCase {
     }
     
     func testFeatureShouldNotBeAGeometry() {
-        XCTAssertFalse(geoJSON.isGeometry)
+        XCTAssertFalse(geoJSON.isGeometry())
     }
     
     func testBasicFeatureShouldBeParsedCorrectly() {

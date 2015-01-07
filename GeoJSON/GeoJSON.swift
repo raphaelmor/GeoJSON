@@ -56,7 +56,7 @@ public final class GeoJSON {
 	public var type: GeoJSONType { return _type }
 	
 	/// Object
-	public var object: AnyObject {
+	public var object: GeoJSONEncodable {
 		get {
 			return _object
 		}
@@ -94,7 +94,7 @@ public final class GeoJSON {
 	/// Internal type
 	var _type: GeoJSONType = .Unknown
 	/// Internal object
-	var _object: AnyObject = NSNull()
+	var _object: GeoJSONEncodable = NSNull()
 	/// Internal error
 	var _error: NSError?
 	
@@ -155,7 +155,7 @@ public final class GeoJSON {
 
 	:returns: True if the contained object is of the Geometry type, false otherwise.
 	*/
-	public var isGeometry: Bool {
+	public func isGeometry() -> Bool {
 		switch type {
 		case .Point,.MultiPoint,.LineString,.MultiLineString,.Polygon,.MultiPolygon,.GeometryCollection:
 			return true
@@ -163,6 +163,21 @@ public final class GeoJSON {
 			return false
 		}
 	}
+	
+	/**
+	Build a object that can be serialized to JSON
+	
+	:returns: Representation of the GeoJSON Object
+	*/
+	public func json() -> AnyObject {
+		let dictionary = [
+			"type" : _type.rawValue,
+			_object.prefix : _object.json()
+		]
+		
+		return dictionary
+	}
+
 	
 	/**
 	Creates an empty GeoJSON object

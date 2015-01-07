@@ -70,7 +70,7 @@ func geoJSONfromString(string: String) -> GeoJSON {
 	return GeoJSON(json:json)
 }
 
-func stringFromJSON(json: [String:AnyObject]) -> String? {
+func stringFromJSON(json: AnyObject) -> String? {
 	if let data = NSJSONSerialization.dataWithJSONObject(json, options:nil , error:nil){
 		return NSString(data: data, encoding: NSUTF8StringEncoding)
 	}else {

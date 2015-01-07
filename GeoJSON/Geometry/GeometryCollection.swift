@@ -24,7 +24,7 @@
 
 import Foundation
 
-public final class GeometryCollection {
+public final class GeometryCollection : GeoJSONEncodable {
     
     /// Private var to store geometries
     private var _geometries: [GeoJSON] = []
@@ -49,6 +49,8 @@ public final class GeometryCollection {
             return nil
         }
     }
+	public var prefix : String { return "" }
+	public func json() -> AnyObject { return "" }
 }
 
 /// Array forwarding methods
