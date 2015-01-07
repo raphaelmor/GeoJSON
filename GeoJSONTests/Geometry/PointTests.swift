@@ -42,8 +42,9 @@ class PointTests: XCTestCase {
 		super.tearDown()
 	}
 	
-	// MARK: Nominal cases
+	// MARK: - Nominal cases
 	
+	// MARK: Decoding
 	func testBasicPointShouldBeRecognisedAsSuch() {
 		XCTAssertEqual(geoJSON.type, GeoJSONType.Point)
 	}
@@ -89,6 +90,21 @@ class PointTests: XCTestCase {
 		}
 	}
 	
+	// MARK: Encoding 
+	func testBasicPointShouldBeEncoded() {
+		
+		if let point = Point(coordinates:[0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
+		{
+			if let jsonString = stringFromJSON(point.json()) {
+				XCTAssertEqual(jsonString, "{\"coordinates\":[0,1,2,3,4,5,6],\"type\":\"Point\"}")
+			} else {
+				XCTFail("Valid Point should be encoded properly")
+			}
+		} else {
+			XCTFail("Valid Point should be encoded properly")
+		}
+	}
+	
 	// MARK: Point Equality
 	
 	func testTwoPointsWithEqualCoordinatesShouldBeEqual() {
@@ -112,8 +128,9 @@ class PointTests: XCTestCase {
 		XCTAssertNotEqual(lhs.point!,rhs.point!)
 	}
 	
-	// MARK: Error cases
+	// MARK: - Error cases
 	
+	// MARK: Decoding
 	func testBasicPointShouldNotHaveAltitude() {
 		if let geoPoint = geoJSON.point {
 			XCTAssertEqual(geoPoint.count, 2)
@@ -135,7 +152,6 @@ class PointTests: XCTestCase {
 		}
 	}
 	
-	
 	func testPointWithLessThanTwoCoordinatesShouldRaiseAnError() {
 		geoJSON = geoJSONfromString("{ \"type\": \"Point\", \"coordinates\": [0.0] }")
 		
@@ -146,5 +162,20 @@ class PointTests: XCTestCase {
 		else {
 			XCTFail("Invalid Point should raise an invalid object error")
 		}
+	}
+	
+	// MARK: Encoding
+	func testEncodingPointWithoutCoordinatesShouldRaiseAnError() {
+		
+		let point = Point(coordinates:[])
+		
+		XCTAssertNil(point, "Invalid Point should not be encoded")
+	}
+	
+	func testEncodingPointWithLessThanTwoCoordinatesShouldRaiseAnError() {
+		
+		let point = Point(coordinates:[0.0])
+		
+		XCTAssertNil(point, "Invalid Point should not be encoded")
 	}
 }
