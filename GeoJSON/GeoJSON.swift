@@ -48,21 +48,14 @@ public enum GeoJSONType: String {
 
 public typealias PositionList = [[Double]]
 
-// MARK: - GeoJSON Base
+// MARK: - GeoJSON
 
 public final class GeoJSON {
 	
-	/// Internal type
-	var _type: GeoJSONType = .Unknown
-	/// Internal object
-	var _object: AnyObject = NSNull()
-	/// Internal error
-	var _error: NSError?
-	
-	/// GeoJSON object type
+	/// Object type
 	public var type: GeoJSONType { return _type }
 	
-	/// GeoJSON Object
+	/// Object
 	public var object: AnyObject {
 		get {
 			return _object
@@ -94,19 +87,23 @@ public final class GeoJSON {
 		}
 	}
 	
-	/// Error in GeoJSON
+	/// Error
 	public var error: NSError? { return _error }
-    
-    /// is Geometry
-    public var isGeometry: Bool {
-        switch type {
-        case .Point,.MultiPoint,.LineString,.MultiLineString,.Polygon,.MultiPolygon,.GeometryCollection:
-            return true
-        default :
-            return false
-        }
-    }
 	
+	
+	/// Internal type
+	var _type: GeoJSONType = .Unknown
+	/// Internal object
+	var _object: AnyObject = NSNull()
+	/// Internal error
+	var _error: NSError?
+	
+	/**
+	Creates a GeoJSON object from a SwiftyJSON Object
+	
+	:param: json The SwiftyJSON object from which to create the GeoJSON Object.
+	:returns: a GeoJSON object
+	*/
 	public init(json: JSON) {
 		
 		if let typeString = json["type"].string {
@@ -152,4 +149,27 @@ public final class GeoJSON {
             _error = NSError(domain: GeoJSONErrorDomain, code: GeoJSONErrorInvalidGeoJSONObject, userInfo: [NSLocalizedDescriptionKey: "GeoJSON Object is invalid"])
         }
     }
+	
+	/**
+	Checks if the object is a Geometric type
+
+	:returns: True if the contained object is of the Geometry type, false otherwise.
+	*/
+	public var isGeometry: Bool {
+		switch type {
+		case .Point,.MultiPoint,.LineString,.MultiLineString,.Polygon,.MultiPolygon,.GeometryCollection:
+			return true
+		default :
+			return false
+		}
+	}
+	
+	/**
+	Creates an empty GeoJSON object
+	
+	:returns: an empty GeoJSON object
+	*/
+	init() { }
+	
+	
 }

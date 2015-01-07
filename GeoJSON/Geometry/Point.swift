@@ -27,25 +27,30 @@ import Foundation
 public final class Point : Equatable {
 	
 	/// Private var to store coordinates
-	private var coordinates : [Double] = [0.0, 0.0]
+	private var _coordinates: [Double] = [0.0, 0.0]
 	
 	/// Shortcut property to latitude
-	public var latitude: Double { return coordinates[1] }
+	public var latitude: Double { return _coordinates[1] }
 	/// Shortcut property to northing
-	public var northing: Double { return coordinates[1] }
+	public var northing: Double { return _coordinates[1] }
 	/// Shortcut property to longitude
-	public var longitude: Double { return coordinates[0] }
+	public var longitude: Double { return _coordinates[0] }
 	/// Shortcut property to easting
-	public var easting: Double { return coordinates[0] }
+	public var easting: Double { return _coordinates[0] }
 	/// Shortcut property to altitude
-	public var altitude: Double { return coordinates[2] }
+	public var altitude: Double { return _coordinates[2] }
 	
+	/**
+	Designated initializer for creating a Point from a SwiftyJSON object
 	
+	:param: json The SwiftyJSON Object.
+	:returns: The created Point object.
+	*/
 	public init?(json: JSON) {
 		if let jsonCoordinates =  json.array {
 			if jsonCoordinates.count < 2 { return nil }
 			
-			coordinates = jsonCoordinates.map {
+			_coordinates = jsonCoordinates.map {
 				Double($0.doubleValue)
 			}
 		}
@@ -53,16 +58,36 @@ public final class Point : Equatable {
 			return nil
 		}
 	}
+
+	/**
+	Designated initializer for creating a Point from coordinates
+	
+	:param: coordinates The coordinate array.
+	:returns: The created Point object.
+	*/
+	public init?(coordinates: [Double]) {
+		if coordinates.count < 2 { return nil }
+		_coordinates = coordinates
+	}
+	
+	public func json() -> [String:AnyObject] {
+		let json = [
+			"type" : GeoJSONType.Point.rawValue,
+			"coordinates" : _coordinates as AnyObject
+		]
+		
+		return json
+	}
 }
 
 /// Array forwarding methods
 public extension Point {
 	
-	public var count : Int { return coordinates.count }
+	public var count : Int { return _coordinates.count }
 	
 	public subscript(index: Int) -> Double {
-		get { return coordinates[index] }
-		set(newValue) { coordinates[index] = newValue }
+		get { return _coordinates[index] }
+		set(newValue) { _coordinates[index] = newValue }
 	}
 }
 
@@ -89,5 +114,10 @@ public extension GeoJSON {
 		default:
 			return nil
 		}
+	}
+	
+	convenience public init(point: Point) {
+		self.init()
+		object = point
 	}
 }
