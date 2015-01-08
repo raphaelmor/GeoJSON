@@ -26,16 +26,21 @@ import Foundation
 
 public final class LineString : GeoJSONEncodable {
 	
-	/// Private coordinates
-	private var _points: [Point] = []
-	
 	/// Public coordinates
 	public var points: [Point] { return _points }
 	
-	/// LinearRing
-	public var isLinearRing : Bool { return (self.count >= 4) && (self.points.first == self.points.last) }
+	/// Prefix used for GeoJSON Encoding
+	public var prefix: String { return "coordinates" }
 	
+	/// Private coordinates
+	private var _points: [Point] = []
 	
+	/**
+	Designated initializer for creating a LineString from a SwiftyJSON object
+	
+	:param: json The SwiftyJSON Object.
+	:returns: The created LineString object.
+	*/
 	public init?(json: JSON) {
 		if let jsonPoints =  json.array {
 			if jsonPoints.count < 2 { return nil }
@@ -52,21 +57,49 @@ public final class LineString : GeoJSONEncodable {
 			return nil
 		}
 	}
-	public var prefix : String { return "" }
-	public func json() -> AnyObject { return "" }
+
+	/**
+	Designated initializer for creating a MultiPoint from [Point]
+	
+	:param: points The Point array (must have at least 2 points).
+	:returns: The created MultiPoint object.
+	*/
+	public init?(points: [Point]) {
+		if points.count < 2 { return nil }
+		_points = points
+	}
+	
+	/**
+	Checks if the LineString is a LinearRing (at least 4 points, and last point is the same as first)
+	
+	:returns: True if the LineString is a LinearRing, false otherwise.
+	*/
+	public func isLinearRing() -> Bool { return (self.count >= 4) && (self.points.first == self.points.last) }
+	
+	/**
+	Build a object that can be serialized to JSON
+	
+	:returns: Representation of the LineString Object
+	*/
+	public func json() -> AnyObject {
+		return points.map { $0.json() }
+	}
 }
 
 /// Array forwarding methods
 public extension LineString {
 	
-	public var count : Int { return points.count }
+	/// number of points
+	public var count: Int { return points.count }
 	
+	/// subscript to access the Nth Point
 	public subscript(index: Int) -> Point {
 		get { return _points[index] }
 		set(newValue) { _points[index] = newValue }
 	}
 }
 
+/// LineString related methods on GeoJSON
 public extension GeoJSON {
 	
 	/// Optional LineString
@@ -82,5 +115,16 @@ public extension GeoJSON {
 		set {
 			_object = newValue ?? NSNull()
 		}
+	}
+
+	/**
+	Convenience initializer for creating a GeoJSON Object from a LineString
+	
+	:param: lineString The LineString object.
+	:returns: The created GeoJSON object.
+	*/
+	convenience public init(lineString: LineString) {
+		self.init()
+		object = lineString
 	}
 }

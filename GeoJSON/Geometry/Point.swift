@@ -41,7 +41,7 @@ public final class Point : Equatable, GeoJSONEncodable {
 	public var altitude: Double { return _coordinates[2] }
 	
 	/// Prefix used for GeoJSON Encoding
-	public var prefix : String { return "coordinates" }
+	public var prefix: String { return "coordinates" }
 	
 	/**
 	Designated initializer for creating a Point from a SwiftyJSON object
@@ -74,7 +74,7 @@ public final class Point : Equatable, GeoJSONEncodable {
 	}
 	
 	/**
-	Build a object that can be serialized to JSON
+	Returns an object that can be serialized to JSON
 	
 	:returns: Representation of the Point Object
 	*/
@@ -83,11 +83,11 @@ public final class Point : Equatable, GeoJSONEncodable {
 	}
 }
 
-/// Array forwarding methods
+/// Array forwarding methods on Point
 public extension Point {
 	
 	/// number of coordinates
-	public var count : Int { return _coordinates.count }
+	public var count: Int { return _coordinates.count }
 
 	/// subscript to access the Nth coordinates
 	public subscript(index: Int) -> Double {
@@ -114,6 +114,7 @@ public func ==(lhs: Point, rhs: Point) -> Bool {
 	return true
 }
 
+/// Point related methods on GeoJSON
 public extension GeoJSON {
 	
 	/// Optional Point
@@ -126,6 +127,12 @@ public extension GeoJSON {
 		}
 	}
 	
+	/**
+	Convenience initializer for creating a GeoJSON Object from a Point
+	
+	:param: point The Point object.
+	:returns: The created GeoJSON object.
+	*/
 	convenience public init(point: Point) {
 		self.init()
 		object = point

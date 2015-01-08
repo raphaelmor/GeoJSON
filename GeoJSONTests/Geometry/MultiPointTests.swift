@@ -29,15 +29,22 @@ import GeoJSON
 class MultiPointTests: XCTestCase {
 	
 	var geoJSON: GeoJSON!
+	var twoPointMultiPoint: MultiPoint!
 	
 	override func setUp() {
 		super.setUp()
 		
 		geoJSON = geoJSONfromString("{ \"type\": \"MultiPoint\", \"coordinates\": [] }")
+
+		let firstPoint = Point(coordinates:[0.0, 0.0])!
+		let secondPoint = Point(coordinates:[1.0, 1.0])!
+		
+		twoPointMultiPoint = MultiPoint(points:[firstPoint,secondPoint])
 	}
 	
 	override func tearDown() {
 		geoJSON = nil
+		twoPointMultiPoint = nil
 		
 		super.tearDown()
 	}
@@ -78,40 +85,25 @@ class MultiPointTests: XCTestCase {
 	
 	// MARK: Encoding
 	
-	func testBasicPointShouldBeEncoded() {
+	func testBasicMultiPointShouldBeEncoded() {
+
+		XCTAssertNotNil(twoPointMultiPoint,"Valid MultiPoint should be encoded properly")
 		
-		let firstPoint = Point(coordinates:[0.0, 0.0])!
-		let secondPoint = Point(coordinates:[1.0, 1.0])!
-		
-		let multiPoint = MultiPoint(points:[firstPoint,secondPoint])
-		
-		XCTAssertNotNil(multiPoint,"Valid Point should be encoded properly")
-		
-		if let jsonString = stringFromJSON(multiPoint!.json()) {
+		if let jsonString = stringFromJSON(twoPointMultiPoint.json()) {
 			XCTAssertEqual(jsonString, "[[0,0],[1,1]]")
 		} else {
 			XCTFail("Valid MultiPoint should be encoded properly")
 		}
 	}
 	
-	func testPointShouldHaveTheRightPrefix() {
+	func testMultiPointShouldHaveTheRightPrefix() {
 		
-		let firstPoint = Point(coordinates:[0.0, 0.0])!
-		let secondPoint = Point(coordinates:[1.0, 1.0])!
-		
-		let multiPoint = MultiPoint(points:[firstPoint,secondPoint])!
-		
-		XCTAssertEqual(multiPoint.prefix,"coordinates")
+		XCTAssertEqual(twoPointMultiPoint.prefix,"coordinates")
 	}
 	
 	func testBasicMultiPointInGeoJSONShouldBeEncoded() {
 		
-		let firstPoint = Point(coordinates:[0.0, 0.0])!
-		let secondPoint = Point(coordinates:[1.0, 1.0])!
-		
-		let multiPoint = MultiPoint(points:[firstPoint,secondPoint])
-		
-		let geoJSON = GeoJSON(multiPoint: multiPoint!)
+		let geoJSON = GeoJSON(multiPoint: twoPointMultiPoint)
 		
 		if let jsonString = stringFromJSON(geoJSON.json()) {
 			

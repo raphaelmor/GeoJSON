@@ -48,14 +48,14 @@ public final class MultiPolygon : GeoJSONEncodable {
 			return nil
 		}
 	}
-	public var prefix : String { return "" }
+	public var prefix: String { return "" }
 	public func json() -> AnyObject { return "" }
 }
 
 /// Array forwarding methods
 public extension MultiPolygon {
 	
-	public var count : Int { return polygons.count }
+	public var count: Int { return polygons.count }
 	
 	public subscript(index: Int) -> Polygon {
 		get { return _polygons[index] }

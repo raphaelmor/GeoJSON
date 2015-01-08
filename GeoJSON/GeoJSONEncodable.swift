@@ -29,7 +29,7 @@ public protocol GeoJSONEncodable {
 	func json() -> AnyObject
 }
 
-extension NSNull : GeoJSONEncodable {
+extension NSNull: GeoJSONEncodable {
 	public var prefix: String { return "" }
 	public func json() -> AnyObject {
 		return NSNull()

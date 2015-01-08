@@ -130,7 +130,7 @@ public final class GeoJSON {
                     object = Feature(json: json) ?? NSNull()
                 case .FeatureCollection:
                     object = FeatureCollection(json: json["features"]) ?? NSNull()
-				default :
+				default:
 					println("foo")
 				}
 				
@@ -159,7 +159,7 @@ public final class GeoJSON {
 		switch type {
 		case .Point,.MultiPoint,.LineString,.MultiLineString,.Polygon,.MultiPolygon,.GeometryCollection:
 			return true
-		default :
+		default:
 			return false
 		}
 	}
@@ -172,7 +172,7 @@ public final class GeoJSON {
 	public func json() -> AnyObject {
 		let dictionary = [
 			"type" : _type.rawValue,
-			_object.prefix : _object.json()
+			_object.prefix: _object.json()
 		]
 		
 		return dictionary

@@ -50,14 +50,14 @@ public final class FeatureCollection : GeoJSONEncodable {
             return nil
         }
     }
-	public var prefix : String { return "" }
+	public var prefix: String { return "" }
 	public func json() -> AnyObject { return "" }
 }
 
 /// Array forwarding methods
 public extension FeatureCollection {
     
-    public var count : Int { return features.count }
+    public var count: Int { return features.count }
     
     public subscript(index: Int) -> GeoJSON {
         get { return features[index] }

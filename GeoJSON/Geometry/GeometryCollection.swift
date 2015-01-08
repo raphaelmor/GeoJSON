@@ -49,14 +49,14 @@ public final class GeometryCollection : GeoJSONEncodable {
             return nil
         }
     }
-	public var prefix : String { return "" }
+	public var prefix: String { return "" }
 	public func json() -> AnyObject { return "" }
 }
 
 /// Array forwarding methods
 public extension GeometryCollection {
     
-    public var count : Int { return geometries.count }
+    public var count: Int { return geometries.count }
     
     public subscript(index: Int) -> GeoJSON {
         get { return geometries[index] }

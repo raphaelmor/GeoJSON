@@ -26,14 +26,21 @@ import Foundation
 
 public final class MultiPoint : GeoJSONEncodable {
 	
-	/// Public coordinates
+	/// Public points
 	public var points: [Point] { return _points }
 	
-	public var prefix : String { return "coordinates" }
+	/// Prefix used for GeoJSON Encoding
+	public var prefix: String { return "coordinates" }
 	
-	/// Private coordinates
+	/// Private points
 	private var _points: [Point] = []
 	
+	/**
+	Designated initializer for creating a MultiPoint from a SwiftyJSON object
+	
+	:param: json The SwiftyJSON Object.
+	:returns: The created MultiPoint object.
+	*/
 	public init?(json: JSON) {
 		if let jsonPoints =  json.array {
 			for jsonPoint in jsonPoints {
@@ -50,6 +57,12 @@ public final class MultiPoint : GeoJSONEncodable {
 		}
 	}
 	
+	/**
+	Designated initializer for creating a MultiPoint from [Point]
+	
+	:param: points The Point array.
+	:returns: The created MultiPoint object.
+	*/
 	public init?(points: [Point]) {
 		_points = points
 	}
@@ -57,7 +70,7 @@ public final class MultiPoint : GeoJSONEncodable {
 	/**
 	Build a object that can be serialized to JSON
 	
-	:returns: Representation of the Point Object
+	:returns: Representation of the MultiPoint Object
 	*/
 	public func json() -> AnyObject {
 		return points.map { $0.json() }
@@ -67,14 +80,17 @@ public final class MultiPoint : GeoJSONEncodable {
 /// Array forwarding methods
 public extension MultiPoint {
 	
-	public var count : Int { return points.count }
+	/// number of points
+	public var count: Int { return points.count }
 	
+	/// subscript to access the Nth Point
 	public subscript(index: Int) -> Point {
 		get { return _points[index] }
 		set(newValue) { _points[index] = newValue }
 	}
 }
 
+/// MultiPoint related methods on GeoJSON
 public extension GeoJSON {
 	
 	/// Optional MultiPoint
@@ -92,6 +108,12 @@ public extension GeoJSON {
 		}
 	}
 	
+	/**
+	Convenience initializer for creating a GeoJSON Object from a MultiPoint
+	
+	:param: multiPoint The MultiPoint object.
+	:returns: The created GeoJSON object.
+	*/
 	convenience public init(multiPoint: MultiPoint) {
 		self.init()
 		object = multiPoint

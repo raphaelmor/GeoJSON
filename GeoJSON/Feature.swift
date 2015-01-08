@@ -60,7 +60,7 @@ public final class Feature : GeoJSONEncodable {
         let jsonIdentifier = json["id"]
         identifier = jsonIdentifier.string
     }
-	public var prefix : String { return "" }
+	public var prefix: String { return "" }
 	public func json() -> AnyObject { return "" }
 }
 

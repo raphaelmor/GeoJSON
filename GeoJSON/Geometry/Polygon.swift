@@ -36,7 +36,7 @@ public final class Polygon : GeoJSONEncodable {
 		if let jsonLineStrings =  json.array {
 			for jsonLineString in jsonLineStrings {
 				if let lineString = LineString(json: jsonLineString) {
-					if lineString.isLinearRing {
+					if lineString.isLinearRing() {
 						_linearRings.append(lineString)
 					} else {
 						return nil
@@ -49,7 +49,7 @@ public final class Polygon : GeoJSONEncodable {
 			return nil
 		}
 	}
-	public var prefix : String { return "" }
+	public var prefix: String { return "" }
 	public func json() -> AnyObject { return "" }
 }
 
