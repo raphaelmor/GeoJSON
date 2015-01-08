@@ -29,21 +29,39 @@ import GeoJSON
 class PolygonTests: XCTestCase {
 	
 	var geoJSON: GeoJSON!
+	var twoRingPolygon: Polygon!
 	
 	override func setUp() {
 		super.setUp()
 		
 		geoJSON = geoJSONfromString("{ \"type\": \"Polygon\", \"coordinates\": [ [[0.0, 0.0], [1.0, 1.0], [2.0, 2.0], [0.0, 0.0]] ] }")
+		
+		let firstRing = LineString(points:[
+			Point(coordinates:[0.0,0.0])!,
+			Point(coordinates:[1.0,1.0])!,
+			Point(coordinates:[2.0,2.0])!,
+			Point(coordinates:[0.0,0.0])!
+			])!
+	
+		let secondRing = LineString(points: [
+			Point(coordinates:[10.0,10.0])!,
+			Point(coordinates:[11.0,11.0])!,
+			Point(coordinates:[12.0,12.0])!,
+			Point(coordinates:[10.0,10.0])!
+			])!
+		
+		twoRingPolygon = Polygon(linearRings:[firstRing,secondRing])
 	}
 	
 	override func tearDown() {
 		geoJSON = nil
+		twoRingPolygon = nil
 		
 		super.tearDown()
 	}
 	
-	// MARK: Nominal cases
-	
+	// MARK: - Nominal cases
+	// MARK: Decoding
 	func testBasicPolygonShouldBeRecognisedAsSuch() {
 		XCTAssertEqual(geoJSON.type, GeoJSONType.Polygon)
 	}
@@ -53,7 +71,6 @@ class PolygonTests: XCTestCase {
     }
 	
 	func testEmptyPolygonShouldBeParsedCorrectly() {
-		
 		geoJSON = geoJSONfromString("{ \"type\": \"Polygon\", \"coordinates\": [] }")
 		
 		if let geoPolygon = geoJSON.polygon {
@@ -64,7 +81,6 @@ class PolygonTests: XCTestCase {
 	}
 	
 	func testBasicPolygonShouldBeParsedCorrectly() {
-		
 		if let geoPolygon = geoJSON.polygon {
 			XCTAssertEqual(geoPolygon.linearRings.count, 1)
 			XCTAssertTrue(geoPolygon.linearRings[0].isLinearRing())
@@ -82,8 +98,45 @@ class PolygonTests: XCTestCase {
 		}
 	}
 	
-	// MARK: Error cases
+	// MARK: Encoding
+	func testBasicPolygonShouldBeEncoded() {
+		XCTAssertNotNil(twoRingPolygon,"Valid Polygon should be encoded properly")
+		
+		if let jsonString = stringFromJSON(twoRingPolygon.json()) {
+			XCTAssertEqual(jsonString, "[[[0,0],[1,1],[2,2],[0,0]],[[10,10],[11,11],[12,12],[10,10]]]")
+		} else {
+			XCTFail("Valid Polygon should be encoded properly")
+		}
+	}
+
+	func testZeroRingPolygonShouldBeValid() {
+		let zeroRingPolygon = Polygon(linearRings:[])!
+
+		if let jsonString = stringFromJSON(zeroRingPolygon.json()) {
+			XCTAssertEqual(jsonString, "[]")
+		}else {
+			XCTFail("Empty Polygon should be encoded properly")
+		}
+	}
 	
+	func testMultiLineStringShouldHaveTheRightPrefix() {
+		XCTAssertEqual(twoRingPolygon.prefix,"coordinates")
+	}
+	
+	func testBasicPolygonInGeoJSONShouldBeEncoded() {
+		let geoJSON = GeoJSON(polygon: twoRingPolygon)
+		
+		if let jsonString = stringFromJSON(geoJSON.json()) {
+			
+			checkForSubstring("\"coordinates\":[[[0,0],[1,1],[2,2],[0,0]],[[10,10],[11,11],[12,12],[10,10]]]", jsonString)
+			checkForSubstring("\"type\":\"Polygon\"", jsonString)
+		} else {
+			XCTFail("Valid MultiLineString in GeoJSON  should be encoded properly")
+		}
+	}
+
+	// MARK: - Error cases
+	// MARK: Decoding
 	func testPolygonWithoutCoordinatesShouldRaiseAnError() {
 		geoJSON = geoJSONfromString("{ \"type\": \"Polygon\"}")
 		
@@ -119,4 +172,5 @@ class PolygonTests: XCTestCase {
 			XCTFail("Invalid Polygon should raise an invalid object error")
 		}
 	}
+	// MARK: Encoding
 }

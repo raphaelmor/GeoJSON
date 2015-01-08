@@ -50,7 +50,6 @@ class MultiPointTests: XCTestCase {
 	}
 	
 	// MARK: - Nominal cases
-	
 	// MARK: Decoding
 	func testBasicMultiPointShouldBeRecognisedAsSuch() {
 		XCTAssertEqual(geoJSON.type, GeoJSONType.MultiPoint)
@@ -69,7 +68,6 @@ class MultiPointTests: XCTestCase {
 	}
 	
 	func testBasicMultiPointShouldBeParsedCorrectly() {
-		
 		geoJSON = geoJSONfromString("{ \"type\": \"MultiPoint\", \"coordinates\": [ [1.0 , 2.0], [3.0 , 4.0] ] }")
 		
 		if let geoMultiPoint = geoJSON.multiPoint {
@@ -86,7 +84,6 @@ class MultiPointTests: XCTestCase {
 	// MARK: Encoding
 	
 	func testBasicMultiPointShouldBeEncoded() {
-
 		XCTAssertNotNil(twoPointMultiPoint,"Valid MultiPoint should be encoded properly")
 		
 		if let jsonString = stringFromJSON(twoPointMultiPoint.json()) {
@@ -106,12 +103,10 @@ class MultiPointTests: XCTestCase {
 	}
 	
 	func testMultiPointShouldHaveTheRightPrefix() {
-		
 		XCTAssertEqual(twoPointMultiPoint.prefix,"coordinates")
 	}
 	
 	func testBasicMultiPointInGeoJSONShouldBeEncoded() {
-		
 		let geoJSON = GeoJSON(multiPoint: twoPointMultiPoint)
 		
 		if let jsonString = stringFromJSON(geoJSON.json()) {
@@ -124,7 +119,6 @@ class MultiPointTests: XCTestCase {
 	}
 
 	// MARK: - Error cases
-	
 	// MARK: Decoding
 	func testMultiPointWithoutCoordinatesShouldRaiseAnError() {
 		geoJSON = geoJSONfromString("{ \"type\": \"MultiPoint\" }")
