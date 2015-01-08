@@ -26,12 +26,21 @@ import Foundation
 
 public final class MultiLineString : GeoJSONEncodable {
 	
+	/// Public lineStrings
+	public var lineStrings: [LineString] { return _lineStrings }
+
+	/// Prefix used for GeoJSON Encoding
+	public var prefix: String { return "coordinates" }
+	
 	/// Private lineStrings
 	private var _lineStrings: [LineString] = []
 	
-	/// Public lineStrings
-	public var lineStrings: [LineString] { return _lineStrings }
+	/**
+	Designated initializer for creating a MultiLineString from a SwiftyJSON object
 	
+	:param: json The SwiftyJSON Object.
+	:returns: The created MultiLineString object.
+	*/
 	public init?(json: JSON) {
 		if let jsonLineStrings =  json.array {
 
@@ -48,21 +57,41 @@ public final class MultiLineString : GeoJSONEncodable {
 			return nil
 		}
 	}
-	public var prefix: String { return "" }
-	public func json() -> AnyObject { return "" }
+	
+	/**
+	Designated initializer for creating a MultiLineString from [LineString]
+	
+	:param: lineStrings The LineString array.
+	:returns: The created MultiLineString object.
+	*/
+	public init?(lineStrings: [LineString]) {
+		_lineStrings = lineStrings
+	}
+	
+	/**
+	Build a object that can be serialized to JSON
+	
+	:returns: Representation of the LineString Object
+	*/
+	public func json() -> AnyObject {
+		return _lineStrings.map { $0.json() }
+ 	}
 }
 
 /// Array forwarding methods
 public extension MultiLineString {
 	
+	/// number of lineStrings
 	public var count: Int { return lineStrings.count }
-	
+
+	/// subscript to access the Nth LineString
 	public subscript(index: Int) -> LineString {
 		get { return _lineStrings[index] }
 		set(newValue) { _lineStrings[index] = newValue }
 	}
 }
 
+/// MultiLineString related methods on GeoJSON
 public extension GeoJSON {
 	
 	/// Optional MultiLineString
@@ -78,5 +107,16 @@ public extension GeoJSON {
 		set {
 			_object = newValue ?? NSNull()
 		}
+	}
+	
+	/**
+	Convenience initializer for creating a GeoJSON Object from a MultiLineString
+	
+	:param: multiLineString The MultiLineString object.
+	:returns: The created GeoJSON object.
+	*/
+	convenience public init(multiLineString: MultiLineString) {
+		self.init()
+		object = multiLineString
 	}
 }

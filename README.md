@@ -11,7 +11,7 @@ GeoJSON Parser in swift
 
 - Decode a `GeoJSON` string to `Swift` classes
 - Support for `Point`, `MultiPoint`, `LineString`, `MultiLineString`, `Polygon`, `MultiPolygon`, `GeometryCollection`, `Feature` and `FeatureCollection`
-- Encode a `Point`, `MultiPoint`, `LineString`
+- Encode a `Point`, `MultiPoint`, `LineString`, `MultiLineString`
 - Continuous integration with [Travis CI](http://travis-ci.org)
 
 ### Planned for 1.0.0 Release
