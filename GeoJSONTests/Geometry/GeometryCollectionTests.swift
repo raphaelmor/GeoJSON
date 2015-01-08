@@ -29,21 +29,27 @@ import GeoJSON
 class GeometryCollectionTests: XCTestCase {
     
     var geoJSON: GeoJSON!
+	var basicGeometryCollection: GeometryCollection!
     
     override func setUp() {
         super.setUp()
         
         geoJSON = geoJSONfromString("{ \"type\": \"GeometryCollection\", \"geometries\": [ { \"type\": \"Point\", \"coordinates\": [0.0, 0.0] } , { \"type\": \"LineString\", \"coordinates\": [ [1.0 , 2.0], [3.0 , 4.0] ] } ] }")
+        
+        let point = GeoJSON(point: Point(coordinates: [0.0,0.0])!)
+        let lineString = GeoJSON(lineString: LineString(points: [Point(coordinates: [1.0,2.0])!,Point(coordinates: [3.0,4.0])!])!)
+        
+        basicGeometryCollection = GeometryCollection(geometries: [point, lineString])!
     }
     
     override func tearDown() {
         geoJSON = nil
-        
+        basicGeometryCollection = nil
         super.tearDown()
     }
     
-    // MARK: Nominal cases
-    
+    // MARK: - Nominal cases
+    // MARK: Decoding
     func testBasicGeometryCollectionShouldBeRecognisedAsSuch() {
         XCTAssertEqual(geoJSON.type, GeoJSONType.GeometryCollection)
     }
@@ -63,8 +69,53 @@ class GeometryCollectionTests: XCTestCase {
         }
     }
     
-    // MARK: Error cases
+    // MARK: Encoding
+    func testBasicGeometryCollectionShouldBeEncoded() {
+        XCTAssertNotNil(basicGeometryCollection,"Valid GeometryCollection should be encoded properly")
+        
+        if let jsonString = stringFromJSON(basicGeometryCollection.json()) {
+            checkForSubstring("\"type\":\"Point\"", jsonString)
+            checkForSubstring("\"coordinates\":[0,0]", jsonString)
+            checkForSubstring("\"type\":\"LineString\"", jsonString)
+            checkForSubstring("\"coordinates\":[[1,2],[3,4]]", jsonString)
+            
+        } else {
+            XCTFail("Valid GeometryCollection should be encoded properly")
+        }
+    }
     
+    func testEmptyGeometryCollectionShouldBeValid() {
+        let emptyGeometryCollection = GeometryCollection(geometries: [])!
+        
+        if let jsonString = stringFromJSON(emptyGeometryCollection.json()) {
+            XCTAssertEqual(jsonString, "[]")
+        }else {
+            XCTFail("Empty GeometryCollection should be encoded properly")
+        }
+    }
+    
+    func testGeometryCollectionShouldHaveTheRightPrefix() {
+        XCTAssertEqual(basicGeometryCollection.prefix,"geometries")
+    }
+    
+    func testBasicGeometryCollectionInGeoJSONShouldBeEncoded() {
+        let geoJSON = GeoJSON(geometryCollection: basicGeometryCollection)
+        
+        if let jsonString = stringFromJSON(geoJSON.json()) {
+            checkForSubstring("\"type\":\"GeometryCollection\"", jsonString)
+            checkForSubstring("\"geometries\":", jsonString)
+            
+            checkForSubstring("\"type\":\"Point\"", jsonString)
+            checkForSubstring("\"coordinates\":[0,0]", jsonString)
+            checkForSubstring("\"type\":\"LineString\"", jsonString)
+            checkForSubstring("\"coordinates\":[[1,2],[3,4]]", jsonString)
+        } else {
+            XCTFail("Valid MultiPolygon in GeoJSON  should be encoded properly")
+        }
+    }
+    
+    // MARK: - Error cases
+    // MARK: Decoding
     func testGeometryCollectionWithoutGeometryShouldRaiseAnError() {
         geoJSON = geoJSONfromString("{ \"type\": \"GeometryCollection\" }")
         
@@ -88,5 +139,4 @@ class GeometryCollectionTests: XCTestCase {
             XCTFail("Invalid GeometryCollection should raise an invalid object error")
         }
     }
-
 }

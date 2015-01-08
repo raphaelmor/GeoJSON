@@ -26,12 +26,21 @@ import Foundation
 
 public final class GeometryCollection : GeoJSONEncodable {
     
-    /// Private var to store geometries
-    private var _geometries: [GeoJSON] = []
-
     /// Public geometries
     public var geometries: [GeoJSON] { return _geometries }
     
+   	/// Prefix used for GeoJSON Encoding
+    public var prefix: String { return "geometries" }
+    
+    /// Private var to store geometries
+    private var _geometries: [GeoJSON] = []
+    
+    /**
+    Designated initializer for creating a GeometryCollection from a SwiftyJSON object
+    
+    :param: json The SwiftyJSON Object.
+    :returns: The created GeometryCollection object.
+    */
     public init?(json: JSON) {
         if let jsonGeometries =  json.array {
             _geometries = jsonGeometries.map { jsonObject in
@@ -49,24 +58,44 @@ public final class GeometryCollection : GeoJSONEncodable {
             return nil
         }
     }
-	public var prefix: String { return "" }
-	public func json() -> AnyObject { return "" }
+    
+    /**
+    Designated initializer for creating a GeometryCollection from [GeoJSON]
+    
+    :param: lineStrings The LineString array.
+    :returns: The created MultiLineString object.
+    */
+    public init?(geometries: [GeoJSON]) {
+        _geometries = geometries
+    }
+    
+    /**
+    Build a object that can be serialized to JSON
+    
+    :returns: Representation of the GeometryCollection Object
+    */
+    public func json() -> AnyObject {
+        return _geometries.map { $0.json() }
+    }
 }
 
 /// Array forwarding methods
 public extension GeometryCollection {
     
+    /// number of GeoJSON objects
     public var count: Int { return geometries.count }
     
+	/// subscript to access the Nth GeoJSON
     public subscript(index: Int) -> GeoJSON {
         get { return geometries[index] }
         set(newValue) { _geometries[index] = newValue }
     }
 }
 
+/// GeometryCollection related methods on GeoJSON
 public extension GeoJSON {
     
-    /// Optional MultiPolygon
+    /// Optional GeometryCollection
     public var geometryCollection: GeometryCollection? {
         get {
             switch type {
@@ -79,5 +108,16 @@ public extension GeoJSON {
         set {
             _object = newValue ?? NSNull()
         }
+    }
+    
+    /**
+    Convenience initializer for creating a GeoJSON Object from a GeometryCollection
+    
+    :param: geometryCollection The GeometryCollection object.
+    :returns: The created GeoJSON object.
+    */
+    convenience public init(geometryCollection: GeometryCollection) {
+        self.init()
+        object = geometryCollection
     }
 }

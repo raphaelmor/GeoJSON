@@ -90,7 +90,7 @@ public extension MultiPolygon {
 	}
 }
 
-/// Polygon related methods on GeoJSON
+/// MultiPolygon related methods on GeoJSON
 public extension GeoJSON {
 	
 	/// Optional MultiPolygon
