@@ -77,3 +77,8 @@ func stringFromJSON(json: AnyObject) -> String? {
 		return nil
 	}
 }
+
+func checkForSubstring(substring:String, inString: String) {
+	let containsString = inString.rangeOfString(substring) != nil
+	XCTAssertTrue(containsString)
+}
