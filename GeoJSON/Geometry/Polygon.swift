@@ -72,7 +72,7 @@ public final class Polygon : GeoJSONEncodable {
 	/**
 	Build a object that can be serialized to JSON
 	
-	:returns: Representation of the LineString Object
+	:returns: Representation of the Polygon Object
 	*/
 	public func json() -> AnyObject {
 		return _linearRings.map { $0.json() }

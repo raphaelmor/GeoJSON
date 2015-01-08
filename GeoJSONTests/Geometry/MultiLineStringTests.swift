@@ -174,5 +174,4 @@ class MultiLineStringTests: XCTestCase {
 			XCTFail("Invalid MultiLineString should raise an invalid object error")
 		}
 	}
-	// MARK: Encoding
 }

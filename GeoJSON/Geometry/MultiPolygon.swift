@@ -26,15 +26,23 @@ import Foundation
 
 public final class MultiPolygon : GeoJSONEncodable {
 	
-	/// Private polygons
+    /// Public polygons
+    public var polygons: [Polygon] { return _polygons }
+
+   	/// Prefix used for GeoJSON Encoding
+    public var prefix: String { return "coordinates" }
+    
+    /// Private polygons
 	private var _polygons: [Polygon] = []
 	
-	/// Public polygons
-	public var polygons: [Polygon] { return _polygons }
-
+    /**
+    Designated initializer for creating a MultiPolygon from a SwiftyJSON object
+    
+    :param: json The SwiftyJSON Object.
+    :returns: The created MultiPolygon object.
+    */
 	public init?(json: JSON) {
 		if let jsonPolygons =  json.array {
-			
 			for jsonPolygon in jsonPolygons {
 				if let polygon = Polygon(json: jsonPolygon) {
 					_polygons.append(polygon)
@@ -48,21 +56,41 @@ public final class MultiPolygon : GeoJSONEncodable {
 			return nil
 		}
 	}
-	public var prefix: String { return "" }
-	public func json() -> AnyObject { return "" }
+    
+    /**
+    Designated initializer for creating a MultiLineString from [LineString]
+    
+    :param: lineStrings The LineString array.
+    :returns: The created MultiLineString object.
+    */
+    public init?(polygons: [Polygon]) {
+        _polygons = polygons
+    }
+    
+    /**
+    Build a object that can be serialized to JSON
+    
+    :returns: Representation of the MultiPolygon Object
+    */
+	public func json() -> AnyObject {
+        return _polygons.map { $0.json() }
+    }
 }
 
 /// Array forwarding methods
 public extension MultiPolygon {
 	
+    /// number of polygons
 	public var count: Int { return polygons.count }
 	
+	/// subscript to access the Nth polygon
 	public subscript(index: Int) -> Polygon {
 		get { return _polygons[index] }
 		set(newValue) { _polygons[index] = newValue }
 	}
 }
 
+/// Polygon related methods on GeoJSON
 public extension GeoJSON {
 	
 	/// Optional MultiPolygon
@@ -79,4 +107,15 @@ public extension GeoJSON {
 			_object = newValue ?? NSNull()
 		}
 	}
+    
+    /**
+    Convenience initializer for creating a GeoJSON Object from a MultiPolygon
+    
+    :param: polygon The MultiPolygon object.
+    :returns: The created GeoJSON object.
+    */
+    convenience public init(multiPolygon: MultiPolygon) {
+        self.init()
+        object = multiPolygon
+    }
 }

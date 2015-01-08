@@ -50,7 +50,7 @@ class PolygonTests: XCTestCase {
 			Point(coordinates:[10.0,10.0])!
 			])!
 		
-		twoRingPolygon = Polygon(linearRings:[firstRing,secondRing])
+		twoRingPolygon = Polygon(linearRings: [firstRing, secondRing])
 	}
 	
 	override func tearDown() {
@@ -119,7 +119,7 @@ class PolygonTests: XCTestCase {
 		}
 	}
 	
-	func testMultiLineStringShouldHaveTheRightPrefix() {
+	func testPolygonShouldHaveTheRightPrefix() {
 		XCTAssertEqual(twoRingPolygon.prefix,"coordinates")
 	}
 	
@@ -131,7 +131,7 @@ class PolygonTests: XCTestCase {
 			checkForSubstring("\"coordinates\":[[[0,0],[1,1],[2,2],[0,0]],[[10,10],[11,11],[12,12],[10,10]]]", jsonString)
 			checkForSubstring("\"type\":\"Polygon\"", jsonString)
 		} else {
-			XCTFail("Valid MultiLineString in GeoJSON  should be encoded properly")
+			XCTFail("Valid Polygon in GeoJSON  should be encoded properly")
 		}
 	}
 

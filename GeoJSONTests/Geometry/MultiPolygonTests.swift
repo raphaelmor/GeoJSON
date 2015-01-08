@@ -29,21 +29,41 @@ import GeoJSON
 class MultiPolygonTests: XCTestCase {
 	
 	var geoJSON: GeoJSON!
-	
+    var twoPolygonMultiPolygon: MultiPolygon!
 	override func setUp() {
 		super.setUp()
 		
 		geoJSON = geoJSONfromString("{ \"type\": \"MultiPolygon\", \"coordinates\": [ [[[0.0, 0.0], [1.0, 1.0], [2.0, 2.0], [0.0, 0.0]]], [[[10.0, 10.0], [11.0, 11.0], [12.0, 12.0], [10.0, 10.0]]] ] }")
+        
+        let firstRing = LineString(points:[
+            Point(coordinates:[0.0,0.0])!,
+            Point(coordinates:[1.0,1.0])!,
+            Point(coordinates:[2.0,2.0])!,
+            Point(coordinates:[0.0,0.0])!
+            ])!
+        
+        let secondRing = LineString(points: [
+            Point(coordinates:[10.0,10.0])!,
+            Point(coordinates:[11.0,11.0])!,
+            Point(coordinates:[12.0,12.0])!,
+            Point(coordinates:[10.0,10.0])!
+            ])!
+        
+        let firstPolygon = Polygon(linearRings: [firstRing])!
+        let secondPolygon = Polygon(linearRings: [secondRing])!
+        
+        twoPolygonMultiPolygon = MultiPolygon(polygons: [firstPolygon, secondPolygon])
 	}
 	
 	override func tearDown() {
 		geoJSON = nil
+        twoPolygonMultiPolygon = nil
 		
 		super.tearDown()
 	}
 	
-	// MARK: Nominal cases
-	
+	// MARK: - Nominal cases
+	// MARK: Decoding
 	func testBasicMultiPolygonShouldBeRecognisedAsSuch() {
 		XCTAssertEqual(geoJSON.type, GeoJSONType.MultiPolygon)
 	}
@@ -101,9 +121,46 @@ class MultiPolygonTests: XCTestCase {
 			XCTFail("MultiPolygon not parsed Properly")
 		}
 	}
-	
-	// MARK: Error cases
-	
+    
+    // MARK: Encoding
+    func testBasicMultiPolygonShouldBeEncoded() {
+        XCTAssertNotNil(twoPolygonMultiPolygon,"Valid MultiPolygon should be encoded properly")
+        
+        if let jsonString = stringFromJSON(twoPolygonMultiPolygon.json()) {
+            XCTAssertEqual(jsonString, "[[[[0,0],[1,1],[2,2],[0,0]]],[[[10,10],[11,11],[12,12],[10,10]]]]")
+        } else {
+            XCTFail("Valid MultiPolygon should be encoded properly")
+        }
+    }
+    
+    func testEmptyMultiPolygonShouldBeValid() {
+        let emptyMultiPolygon = MultiPolygon(polygons: [])!
+        
+        if let jsonString = stringFromJSON(emptyMultiPolygon.json()) {
+            XCTAssertEqual(jsonString, "[]")
+        }else {
+            XCTFail("Empty MultiPolygon should be encoded properly")
+        }
+    }
+    
+    func testMultiPolygonShouldHaveTheRightPrefix() {
+        XCTAssertEqual(twoPolygonMultiPolygon.prefix,"coordinates")
+    }
+    
+    func testBasicMultiPolygonInGeoJSONShouldBeEncoded() {
+        let geoJSON = GeoJSON(multiPolygon: twoPolygonMultiPolygon)
+        
+        if let jsonString = stringFromJSON(geoJSON.json()) {
+            
+            checkForSubstring("\"coordinates\":[[[[0,0],[1,1],[2,2],[0,0]]],[[[10,10],[11,11],[12,12],[10,10]]]]", jsonString)
+            checkForSubstring("\"type\":\"MultiPolygon\"", jsonString)
+        } else {
+            XCTFail("Valid MultiPolygon in GeoJSON  should be encoded properly")
+        }
+    }
+    
+	// MARK: - Error cases
+    // MARK: Decoding
 	func testMultiPolygonWithoutCoordinatesShouldRaiseAnError() {
 		geoJSON = geoJSONfromString("{ \"type\": \"MultiPolygon\"}")
 		
@@ -139,5 +196,4 @@ class MultiPolygonTests: XCTestCase {
 			XCTFail("Invalid MultiPolygon should raise an invalid object error")
 		}
 	}
-
 }
