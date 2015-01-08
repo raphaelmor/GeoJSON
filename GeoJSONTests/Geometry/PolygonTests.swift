@@ -67,7 +67,7 @@ class PolygonTests: XCTestCase {
 		
 		if let geoPolygon = geoJSON.polygon {
 			XCTAssertEqual(geoPolygon.linearRings.count, 1)
-			XCTAssertTrue(geoPolygon.linearRings[0].isLinearRing)
+			XCTAssertTrue(geoPolygon.linearRings[0].isLinearRing())
 			
 			XCTAssertEqualWithAccuracy(geoPolygon.linearRings[0][0].longitude, 0.0, 0.000001)
 			XCTAssertEqualWithAccuracy(geoPolygon.linearRings[0][0].latitude, 0.0, 0.000001)

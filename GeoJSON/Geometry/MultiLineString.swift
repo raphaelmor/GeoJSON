@@ -48,14 +48,14 @@ public final class MultiLineString : GeoJSONEncodable {
 			return nil
 		}
 	}
-	public var prefix : String { return "" }
+	public var prefix: String { return "" }
 	public func json() -> AnyObject { return "" }
 }
 
 /// Array forwarding methods
 public extension MultiLineString {
 	
-	public var count : Int { return lineStrings.count }
+	public var count: Int { return lineStrings.count }
 	
 	public subscript(index: Int) -> LineString {
 		get { return _lineStrings[index] }
