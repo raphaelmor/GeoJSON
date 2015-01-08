@@ -60,7 +60,6 @@ class LineStringTests: XCTestCase {
     }
 	
 	func testBasicLineStringShouldBeParsedCorrectly() {
-		
 		if let lineString = geoJSON.lineString {
 			XCTAssertEqual(lineString.count, 2)
 			XCTAssertEqualWithAccuracy(lineString.points[0][0], 1.0, 0.000001)
@@ -73,7 +72,6 @@ class LineStringTests: XCTestCase {
 	}
 	
 	func testLinearRingShouldBeRecognized() {
-		
 		geoJSON = geoJSONfromString("{ \"type\": \"LineString\", \"coordinates\": [ [0.0 , 0.0], [1.0 , 1.0], [2.0 , 2.0], [0.0 , 0.0] ] }")
 		
 		if let lineString = geoJSON.lineString {
@@ -84,7 +82,6 @@ class LineStringTests: XCTestCase {
 	}
 	
 	func testNonLinearRingShouldBeRecognized() {
-		
 		if let lineString = geoJSON.lineString {
 			XCTAssertFalse(lineString.isLinearRing())
 		} else {
@@ -93,7 +90,6 @@ class LineStringTests: XCTestCase {
 	}
 	// MARK: Encoding
 	func testBasicLineStringShouldBeEncoded() {
-		
 		XCTAssertNotNil(twoPointLineString,"Valid LineString should be encoded properly")
 		
 		if let jsonString = stringFromJSON(twoPointLineString.json()) {
@@ -104,12 +100,10 @@ class LineStringTests: XCTestCase {
 	}
 	
 	func testLineStringShouldHaveTheRightPrefix() {
-		
 		XCTAssertEqual(twoPointLineString.prefix,"coordinates")
 	}
 	
 	func testBasicLineStringInGeoJSONShouldBeEncoded() {
-		
 		let geoJSON = GeoJSON(lineString: twoPointLineString)
 		
 		if let jsonString = stringFromJSON(geoJSON.json()) {
@@ -134,7 +128,6 @@ class LineStringTests: XCTestCase {
 			XCTFail("Invalid LineString should raise an invalid object error")
 		}
 	}
-	
 	
 	func testLineStringWithOnePointShouldRaiseAnError() {
 		geoJSON = geoJSONfromString("{ \"type\": \"LineString\", \"coordinates\": [ [0.0, 1.0] ] }")
@@ -171,6 +164,7 @@ class LineStringTests: XCTestCase {
 			XCTFail("Invalid LineString should raise an invalid object error")
 		}
 	}
+	
 	// MARK: Encoding
 	func testZeroPointLineStringShouldBeInvalid() {
 		let zeroPointLineString = LineString(points:[])

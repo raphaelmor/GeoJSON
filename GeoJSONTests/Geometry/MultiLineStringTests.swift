@@ -64,7 +64,6 @@ class MultiLineStringTests: XCTestCase {
     }
 	
 	func testEmptyMultiLineStringShouldBeParsedCorrectly() {
-		
 		geoJSON = geoJSONfromString("{ \"type\": \"MultiLineString\", \"coordinates\": [] }")
 		
 		if let geoMultiLineString = geoJSON.multiLineString {
@@ -75,7 +74,6 @@ class MultiLineStringTests: XCTestCase {
 	}
 	
 	func testBasicMultiLineStringShouldBeParsedCorrectly() {
-		
 		if let geoMultiLineString = geoJSON.multiLineString {
 			XCTAssertEqual(geoMultiLineString.lineStrings.count, 2)
 			XCTAssertEqualWithAccuracy(geoMultiLineString.lineStrings[0][0].longitude, 0.0, 0.000001)
@@ -91,8 +89,7 @@ class MultiLineStringTests: XCTestCase {
 		}
 	}
 	
-	func testNonhomogeneousMultiLineStringShouldBeParsedCorrectly() {
-		
+	func testNonHomogeneousMultiLineStringShouldBeParsedCorrectly() {
 		geoJSON = geoJSONfromString("{ \"type\": \"MultiLineString\", \"coordinates\": [ [[0.0, 0.0], [0.0, 1.0], [0.0, 2.0]], [[1.0, 0.0], [1.0, 1.0]] ] }")
 		
 		if let geoMultiLineString = geoJSON.multiLineString {
@@ -103,10 +100,9 @@ class MultiLineStringTests: XCTestCase {
 			XCTFail("MultiLineString not parsed Properly")
 		}
 	}
-	// MARK: Encoding
 	
+	// MARK: Encoding
 	func testBasicMultiLineStringShouldBeEncoded() {
-		
 		XCTAssertNotNil(twoLineMultiLineString,"Valid MultiPoint should be encoded properly")
 		
 		if let jsonString = stringFromJSON(twoLineMultiLineString.json()) {
@@ -126,12 +122,10 @@ class MultiLineStringTests: XCTestCase {
 	}
 	
 	func testMultiLineStringShouldHaveTheRightPrefix() {
-		
 		XCTAssertEqual(twoLineMultiLineString.prefix,"coordinates")
 	}
 	
 	func testBasicMultiLineStringInGeoJSONShouldBeEncoded() {
-		
 		let geoJSON = GeoJSON(multiLineString: twoLineMultiLineString)
 		
 		if let jsonString = stringFromJSON(geoJSON.json()) {
