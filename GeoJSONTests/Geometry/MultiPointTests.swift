@@ -114,7 +114,9 @@ class MultiPointTests: XCTestCase {
 		let geoJSON = GeoJSON(multiPoint: multiPoint!)
 		
 		if let jsonString = stringFromJSON(geoJSON.json()) {
-			XCTAssertEqual(jsonString, "{\"coordinates\":[[0,0],[1,1]],\"type\":\"MultiPoint\"}")
+			
+			checkForSubstring("\"coordinates\":[[0,0],[1,1]]", jsonString)
+			checkForSubstring("\"type\":\"MultiPoint\"", jsonString)
 		} else {
 			XCTFail("Valid MultiPoint in GeoJSON  should be encoded properly")
 		}

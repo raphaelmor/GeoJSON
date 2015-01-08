@@ -117,7 +117,8 @@ class PointTests: XCTestCase {
 		let geoJSON = GeoJSON(point: point!)
 		
 		if let jsonString = stringFromJSON(geoJSON.json()) {
-			XCTAssertEqual(jsonString, "{\"coordinates\":[0,1,2,3,4,5,6],\"type\":\"Point\"}")
+			checkForSubstring("\"coordinates\":[0,1,2,3,4,5,6]", jsonString)
+			checkForSubstring("\"type\":\"Point\"", jsonString)
 		} else {
 			XCTFail("Valid Point in GeoJSON  should be encoded properly")
 		}
