@@ -26,13 +26,13 @@ import Foundation
 
 public final class LineString : GeoJSONEncodable {
 	
-	/// Public coordinates
+	/// Public points
 	public var points: [Point] { return _points }
 	
 	/// Prefix used for GeoJSON Encoding
 	public var prefix: String { return "coordinates" }
 	
-	/// Private coordinates
+	/// Private points
 	private var _points: [Point] = []
 	
 	/**

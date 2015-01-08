@@ -172,6 +172,11 @@ class LineStringTests: XCTestCase {
 		}
 	}
 	// MARK: Encoding
+	func testZeroPointLineStringShouldBeInvalid() {
+		let zeroPointLineString = LineString(points:[])
+		
+		XCTAssertNil(zeroPointLineString, "LineString should have at least two points")
+	}
 	
 	func testOnePointLineStringShouldBeInvalid() {
 		let firstPoint = Point(coordinates:[0.0, 0.0])!

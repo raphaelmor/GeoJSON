@@ -96,6 +96,15 @@ class MultiPointTests: XCTestCase {
 		}
 	}
 	
+	func testEmptyMultiPointShouldBeEncoded() {
+		let emptyMultiPoint = MultiPoint(points:[])!
+		if let jsonString = stringFromJSON(emptyMultiPoint.json()) {
+			XCTAssertEqual(jsonString, "[]")
+		} else {
+			XCTFail("Valid MultiPoint should be encoded properly")
+		}
+	}
+	
 	func testMultiPointShouldHaveTheRightPrefix() {
 		
 		XCTAssertEqual(twoPointMultiPoint.prefix,"coordinates")
