@@ -42,8 +42,8 @@ class FeatureCollectionTests: XCTestCase {
         super.tearDown()
     }
     
-    // MARK: Nominal cases
-    
+    // MARK: - Nominal cases
+    // MARK: Decoding
     func testBasicFeatureCollectionShouldBeRecognisedAsSuch() {
         XCTAssertEqual(geoJSON.type, GeoJSONType.FeatureCollection)
     }
@@ -65,9 +65,32 @@ class FeatureCollectionTests: XCTestCase {
             XCTFail("FeatureCollection not parsed properly")
         }
     }
-    
-    // MARK: Error Cases
-    
+	
+	// MARK: Encoding
+	func testBasicFeatureCollectionShouldBeEncoded() {
+		
+		var first = Feature(identifier: "id1")!
+		let second = Feature(identifier: "id2")!
+
+		let geoJSONFeatureArray = [first,second].map { GeoJSON(feature: $0) }
+		let featureCollection = FeatureCollection(features: geoJSONFeatureArray)
+		
+		XCTAssertNotNil(featureCollection,"Valid GeometryCollection should be encoded properly")
+		
+		if let jsonString = stringFromJSON(featureCollection!.json()) {
+			checkForSubstring("\"type\":\"FeatureCollection\"", jsonString)
+			checkForSubstring("\"id\":\"id1\"", jsonString)
+			checkForSubstring("\"properties\":null", jsonString)
+			checkForSubstring("\"type\":\"Feature\"", jsonString)
+			checkForSubstring("\"id\":\"id2\"", jsonString)
+			checkForSubstring("\"geometry\":null", jsonString)
+		} else {
+			XCTFail("Valid GeometryCollection should be encoded properly")
+		}
+	}
+	
+    // MARK: - Error Cases
+	// MARK: Decoding
     func testFeatureCollectionShouldOnlyContainFeatures() {
         
         geoJSON = geoJSONfromString("{ \"type\": \"FeatureCollection\", \"features\" : [ { \"type\": \"Point\", \"coordinates\": [0.0, 0.0] } ] }")
@@ -104,5 +127,5 @@ class FeatureCollectionTests: XCTestCase {
             XCTFail("Invalid FeatureCollection should raise an invalid object error")
         }
     }
-    
+    // MARK: Encoding    
 }

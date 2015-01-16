@@ -25,14 +25,22 @@
 import Foundation
 
 public final class FeatureCollection : GeoJSONEncodable {
-    
-    /// Private var to store features
-    private var _features: [GeoJSON] = []
-    
+
     /// Public features
     public var features: [GeoJSON] { return _features }
-    
-    
+
+	/// Prefix used for GeoJSON Encoding
+	public var prefix: String { return "" }
+	
+	/// Private var to store features
+	private var _features: [GeoJSON] = []
+
+	/**
+	Designated initializer for creating a FeatureCollection from a SwiftyJSON object
+	
+	:param: json The SwiftyJSON Object.
+	:returns: The created FeatureCollection object.
+	*/
     public init?(json: JSON) {
         if let jsonFeatures =  json.array {
             _features = jsonFeatures.map { jsonObject in
@@ -50,15 +58,41 @@ public final class FeatureCollection : GeoJSONEncodable {
             return nil
         }
     }
-	public var prefix: String { return "" }
-	public func json() -> AnyObject { return "" }
+	
+	/**
+	Designated initializer for creating a Feature from a objects
+	
+	:param: coordinates The coordinate array.
+	:returns: The created Point object.
+	*/
+	public init?(features: [GeoJSON]) {
+		_features = features
+		
+		let containsOnlyFeatures = features.map { $0.type == .Feature }.reduce(true) { $0 && $1 }
+		if !containsOnlyFeatures { return nil }
+	}
+	
+	/**
+	Returns an object that can be serialized to JSON
+	
+	:returns: Representation of the Feature Object
+	*/
+	public func json() -> AnyObject {
+		var resultDict = [
+			"type" : "FeatureCollection",
+			"features" : _features.map { $0.json() },
+		]
+		return resultDict
+	}
 }
 
 /// Array forwarding methods
 public extension FeatureCollection {
-    
+	
+	/// number of Feature objects
     public var count: Int { return features.count }
-    
+	
+	/// subscript to access the Nth GeoJSON
     public subscript(index: Int) -> GeoJSON {
         get { return features[index] }
         set(newValue) { _features[index] = newValue }
@@ -81,4 +115,16 @@ public extension GeoJSON {
             _object = newValue ?? NSNull()
         }
     }
+	
+	/**
+	Convenience initializer for creating a GeoJSON Object from a FeatureCollection
+	
+	:param: geometryCollection The FeatureCollection object.
+	:returns: The created GeoJSON object.
+	*/
+	convenience public init(featureCollection: FeatureCollection) {
+		self.init()
+		object = featureCollection
+	}
+
 }
