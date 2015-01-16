@@ -170,12 +170,20 @@ public final class GeoJSON {
 	:returns: Representation of the GeoJSON Object
 	*/
 	public func json() -> AnyObject {
-		let dictionary = [
-			"type" : _type.rawValue,
-			_object.prefix: _object.json()
-		]
 		
-		return dictionary
+		var JSONObject : AnyObject
+		
+		switch _type {
+		case .Feature, .FeatureCollection:
+			JSONObject = _object.json()
+		default:
+			JSONObject = [
+				"type" : _type.rawValue,
+				_object.prefix: _object.json()
+			]
+		}
+		
+		return JSONObject
 	}
 
 	
