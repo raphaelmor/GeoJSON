@@ -26,9 +26,6 @@ import Foundation
 
 public final class Point : Equatable, GeoJSONEncodable {
 	
-	/// Private var to store coordinates
-	private var _coordinates: [Double] = [0.0, 0.0]
-	
 	/// Shortcut property to latitude
 	public var latitude: Double { return _coordinates[1] }
 	/// Shortcut property to northing
@@ -42,6 +39,9 @@ public final class Point : Equatable, GeoJSONEncodable {
 	
 	/// Prefix used for GeoJSON Encoding
 	public var prefix: String { return "coordinates" }
+	
+	/// Private var to store coordinates
+	private var _coordinates: [Double] = [0.0, 0.0]
 	
 	/**
 	Designated initializer for creating a Point from a SwiftyJSON object

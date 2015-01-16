@@ -78,6 +78,13 @@ func stringFromJSON(json: AnyObject) -> String? {
 	}
 }
 
+func JSONfromString(string: String) -> JSON {
+	let nsString = NSString(string:string)
+	let data = nsString.dataUsingEncoding(NSUTF8StringEncoding)!
+	let json = JSON(data:data)
+	return json
+}
+
 func checkForSubstring(substring:String, inString: String) {
 	let containsString = inString.rangeOfString(substring) != nil
 	XCTAssertTrue(containsString)

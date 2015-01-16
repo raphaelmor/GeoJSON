@@ -111,7 +111,7 @@ public extension GeoJSON {
     /**
     Convenience initializer for creating a GeoJSON Object from a MultiPolygon
     
-    :param: polygon The MultiPolygon object.
+    :param: multiPolygon The MultiPolygon object.
     :returns: The created GeoJSON object.
     */
     convenience public init(multiPolygon: MultiPolygon) {

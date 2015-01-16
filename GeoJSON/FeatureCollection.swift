@@ -67,7 +67,7 @@ public extension FeatureCollection {
 
 public extension GeoJSON {
     
-    /// Optional Polygon
+    /// Optional FeatureCollection
     public var featureCollection: FeatureCollection? {
         get {
             switch type {

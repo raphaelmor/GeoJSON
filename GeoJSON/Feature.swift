@@ -25,23 +25,35 @@
 import Foundation
 
 public final class Feature : GeoJSONEncodable {
-    
+	
+	/// Public geometry
+	public var geometry: GeoJSON? { return _geometry }
+	
+	/// Public identifier
+	public var identifier: String? { return _identifier }
+	
+	/// Public properties
+	public var properties: JSON { return _properties }
+	
+	/// Prefix used for GeoJSON Encoding
+	public var prefix: String { return "" }
+	
     /// Private geometry
 	private var _geometry: GeoJSON? = nil
-    
-    /// Public geometry
-    public var geometry: GeoJSON? { return _geometry }
-    
-    /// Public identifier
-    public var identifier: String? = nil
-    
+
     /// Private properties
     private var _properties: JSON
-    
-    /// Public properties
-    public var properties: JSON { return _properties }
-    
-     public init?(json: JSON) {
+
+	/// Private identifier
+	public var _identifier: String?
+	
+	/**
+	Designated initializer for creating a Feature from a SwiftyJSON object
+	
+	:param: json The SwiftyJSON Object.
+	:returns: The created Feature object.
+	*/
+	public init?(json: JSON) {
         
         _properties = json["properties"]
         if _properties.error != nil { return nil }
@@ -58,15 +70,57 @@ public final class Feature : GeoJSONEncodable {
         }
         
         let jsonIdentifier = json["id"]
-        identifier = jsonIdentifier.string
+        _identifier = jsonIdentifier.string
     }
-	public var prefix: String { return "" }
-	public func json() -> AnyObject { return "" }
+	
+	/**
+	Designated initializer for creating a Feature from a objects
+	
+	:param: coordinates The coordinate array.
+	:returns: The created Point object.
+	*/
+	public init?(geometry: GeoJSON? = nil, properties: JSON? = nil, identifier: String? = nil) {
+		
+		if let _ = properties {
+			_properties = properties!
+			if properties!.error != nil { return nil }
+		} else {
+			_properties = JSON.nullJSON
+		}
+		
+		_geometry = geometry
+		if _geometry?.error != nil { return nil }
+		if _geometry?.isGeometry() == false { return nil }
+		
+		_identifier = identifier
+	}
+
+	/**
+	Returns an object that can be serialized to JSON
+	
+	:returns: Representation of the Feature Object
+	*/
+	public func json() -> AnyObject {
+	
+		var geometryJSON : AnyObject = self.geometry?.json() ?? NSNull()
+		
+		var resultDict = [
+			"type" : "Feature",
+			"properties" : self.properties.object,
+			"geometry" : geometryJSON,
+		]
+		
+		if let id = _identifier {
+			resultDict["id"] = identifier
+		}
+		
+		return resultDict
+	}
 }
 
 public extension GeoJSON {
     
-    /// Optional Polygon
+    /// Optional Feature
     public var feature: Feature? {
         get {
             switch type {
@@ -80,4 +134,15 @@ public extension GeoJSON {
             _object = newValue ?? NSNull()
         }
     }
+	
+	/**
+	Convenience initializer for creating a GeoJSON Object from a Feature
+	
+	:param: feature The Feature object.
+	:returns: The created GeoJSON object.
+	*/
+	convenience public init(feature: Feature) {
+		self.init()
+		object = feature
+	}
 }
