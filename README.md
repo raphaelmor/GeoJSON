@@ -1,3 +1,6 @@
+This project is unfinished/unmaintained
+
+
 <p align="center" >
   <img src="https://raw.githubusercontent.com/raphaelmor/GeoJSON/assets/GeoJSON.png" title="GeoJSON logo" float=left>
 </p>
